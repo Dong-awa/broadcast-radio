@@ -1,0 +1,19 @@
+{
+  "item.broadcast_radio.test": "測試",
+  "item.broadcast_radio.copper_conductive_slice": "銅製導電片",
+  "item.broadcast_radio.copper_conductive_slice.desc": "無線電基礎導電構件，由銅錠加工製成，是所有無線電設備的核心原物料",
+  "item.broadcast_radio.insulated_rubber": "絕緣橡膠",
+  "item.broadcast_radio.insulated_rubber.desc": "無線電設備絕緣配件，防止電路漏電、訊號干擾",
+  "itemGroup.broadcast_radio": "廣播電台",
+  "item.broadcast_radio.portable_walkie_talkie": "攜帶型對講機",
+  "item.broadcast_radio.portable_walkie_talkie.desc": "基礎手持文字通訊工具，短距離頻段通訊核心，是前期小隊集結、礦坑協作的必備道具，僅支援文字收發，沒電則無法使用，貼合原版生存節奏。",
+  "item.broadcast_radio.pcb_board": "印刷電路板",
+  "item.broadcast_radio.walkie_talkie.no_power": "攜帶型對講機已沒電！無法使用",
+  "item.broadcast_radio.walkie_talkie.power_low": "攜帶型對講機電量不足！",
+  "item.broadcast_radio.walkie_talkie.input_hint": "請輸入對講機訊息（傳送至同頻段）：",
+  "item.broadcast_radio.walkie_talkie.frequency": "目前頻段：%d",
+  "item.broadcast_radio.walkie_talkie.power": "剩餘電量：%d/100",
+  "item.broadcast_radio.walkie_talkie.encrypted": "已加密（僅同密碼可見）",
+  "item.broadcast_radio.walkie_talkie.message": "[對講機-%d] %s：%s",
+  "item.broadcast_radio.walkie_talkie.freq_switch": "已切換至頻道：%d"
+}

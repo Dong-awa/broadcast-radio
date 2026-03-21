@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    { "item": "minecraft:copper_ingot" },
+    { "item": "minecraft:redstone" }
+  ],
+  "result": {
+    "item": "broadcast_radio:copper_conductive_slice",
+    "count": 2
+  }
+}

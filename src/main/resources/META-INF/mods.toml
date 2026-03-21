@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[47,)"
+license="MIT"
+showAsResourcePack=false
+
+[[mods]]
+modId="broadcast_radio"
+version="0.0.2"
+displayName="Broadcast Radio"
+authors="Dong_awa"
+description='''
+TESTING...TESTING...
+'''
+
+# Forge依赖
+[[dependencies.broadcast_radio]]
+modId="forge"
+mandatory=true
+versionRange="[47,)"
+ordering="NONE"
+side="BOTH"
+
+# MC版本依赖
+[[dependencies.broadcast_radio]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.20.1,)"
+ordering="NONE"
+side="BOTH"

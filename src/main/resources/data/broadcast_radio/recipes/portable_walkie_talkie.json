@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CR ",
+    "IR ",
+    "CWC"
+  ],
+  "key": {
+    "C": { "item": "broadcast_radio:copper_conductive_slice" },
+    "R": { "item": "minecraft:redstone" },
+    "I": { "item": "minecraft:iron_ingot" },
+    "W": { "item": "minecraft:stick" },
+    " ": { "item": "minecraft:air" },
+    "B": { "item": "minecraft:oak_planks" } // 木板（任意木板可替换）
+  },
+  "result": {
+    "item": "broadcast_radio:portable_walkie_talkie",
+    "count": 1
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "broadcast_radio:item/portable_walkie_talkie"
+  }
+}

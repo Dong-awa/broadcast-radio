@@ -1,0 +1,19 @@
+{
+  "item.broadcast_radio.test": "测试",
+  "item.broadcast_radio.copper_conductive_slice": "铜制导电片",
+  "item.broadcast_radio.copper_conductive_slice.desc": "无线电基础导电构件，由铜锭加工制成，是所有无线电设备的核心原材料",
+  "item.broadcast_radio.insulated_rubber": "绝缘橡胶",
+  "item.broadcast_radio.insulated_rubber.desc": "无线电设备绝缘配件，防止电路漏电、信号干扰",
+  "itemGroup.broadcast_radio": "广播电台",
+  "item.broadcast_radio.portable_walkie_talkie": "便携对讲机",
+  "item.broadcast_radio.portable_walkie_talkie.desc": "基础手持文字通讯工具，短距离频段通讯核心，是前期小队抱团、矿井协作的必备道具，仅支持文字收发，没电则无法使用，贴合原版生存节奏。",
+  "item.broadcast_radio.pcb_board": "PCB板",
+  "item.broadcast_radio.walkie_talkie.no_power": "便携对讲机已没电！无法使用",
+  "item.broadcast_radio.walkie_talkie.power_low": "便携对讲机电量不足！",
+  "item.broadcast_radio.walkie_talkie.input_hint": "请输入对讲机消息（发送至同频段）：",
+  "item.broadcast_radio.walkie_talkie.frequency": "当前频段：%d",
+  "item.broadcast_radio.walkie_talkie.power": "剩余电量：%d/100",
+  "item.broadcast_radio.walkie_talkie.encrypted": "已加密（仅同密码可见）",
+  "item.broadcast_radio.walkie_talkie.message": "[对讲机-%d] %s：%s",
+  "item.broadcast_radio.walkie_talkie.freq_switch": "已切换至频道：%d"
+}
