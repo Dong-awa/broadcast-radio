@@ -1,0 +1,24 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "pattern": [
+    "C",
+    "b",
+    "G"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "b": {
+      "item": "broadcast_radio:insulated_rubber"
+    },
+    "C": {
+      "item": "broadcast_radio:copper_conductive_slice"
+    }
+  },
+  "result": {
+    "item": "broadcast_radio:pcb_board",
+    "count": 4
+  }
+}

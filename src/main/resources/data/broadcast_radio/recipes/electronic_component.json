@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "R ",
+    "NI"
+  ],
+  "key": {
+    "R": { "item": "minecraft:redstone" },
+    "N": { "item": "broadcast_radio:copper_conductive_slice" },
+    "I": { "item": "minecraft:iron_ingot" }
+  },
+  "result": {
+    "item": "broadcast_radio:electronic_component",
+    "count": 1
+  }
+}

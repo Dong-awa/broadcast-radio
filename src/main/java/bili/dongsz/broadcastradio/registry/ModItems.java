@@ -2,7 +2,6 @@ package bili.dongsz.broadcastradio.registry;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.world.item.CreativeModeTabs;
 import bili.dongsz.broadcastradio.BroadcastRadio;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
@@ -11,8 +10,6 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
-
-import static com.ibm.icu.util.LocalePriorityList.add;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
@@ -31,7 +28,7 @@ public class ModItems {
     );
     public static final RegistryObject<Item> INSULATED_RUBBER = ITEMS.register("insulated_rubber",
             () -> new Item(new Item.Properties().
-                    stacksTo(64)
+                    stacksTo(8)
             )
     );
     public static final RegistryObject<Item> PCB_BOARD = ITEMS.register("pcb_board",
@@ -39,9 +36,29 @@ public class ModItems {
                     stacksTo(64)
             )
     );
+    public static final RegistryObject<Item> ELECTRONIC_COMPONENT = ITEMS.register("electronic_component",
+            () -> new Item(new Item.Properties().
+                    stacksTo(64)
+            )
+    );
+    public static final RegistryObject<Item> RADIO_MODULE = ITEMS.register("radio_module",
+            () -> new Item(new Item.Properties().
+                    stacksTo(64)
+            )
+    );
+    public static final RegistryObject<Item> ANTENNA = ITEMS.register("antenna",
+            () -> new Item(new Item.Properties().
+                    stacksTo(64)
+            )
+    );
+    public static final RegistryObject<Item> CIRCUIT_BOARD = ITEMS.register("circuit_board",
+            () -> new Item(new Item.Properties().
+                    stacksTo(64)
+            )
+    );
     public static final RegistryObject<Item> PORTABLE_WALKIE_TALKIE = ITEMS.register("portable_walkie_talkie",
             () -> new bili.dongsz.broadcastradio.item.PortableWalkieTalkieItem(new Item.Properties()
-                    .stacksTo(1) // 只能堆叠1个
+                    .stacksTo(1)
                     .durability(100)
                     .rarity(Rarity.COMMON)));
 

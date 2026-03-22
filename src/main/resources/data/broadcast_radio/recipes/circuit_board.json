@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "V",
+    "N"
+  ],
+  "key": {
+    "V": { "item": "broadcast_radio:electronic_component" },
+    "N": { "item": "broadcast_radio:pcb_board" }
+  },
+  "result": {
+    "item": "broadcast_radio:circuit_board",
+    "count": 1
+  }
+}

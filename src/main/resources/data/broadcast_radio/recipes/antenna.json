@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "V",
+    "N",
+    "N"
+  ],
+  "key": {
+    "V": { "item": "minecraft:lightning_rod" },
+    "N": { "item": "broadcast_radio:copper_conductive_slice" }
+  },
+  "result": {
+    "item": "broadcast_radio:antenna",
+    "count": 1
+  }
+}

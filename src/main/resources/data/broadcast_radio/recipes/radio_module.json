@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AEA",
+    " B "
+  ],
+  "key": {
+    "A": {"item": "minecraft:lightning_rod"},
+    "E": {"item": "broadcast_radio:electronic_component"},
+    "B": {"item": "minecraft:redstone_block"}
+  },
+  "result": {
+    "item": "broadcast_radio:radio_module",
+    "count": 1
+  }
+}

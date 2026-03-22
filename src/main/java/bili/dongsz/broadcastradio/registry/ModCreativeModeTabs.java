@@ -21,6 +21,10 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.COPPER_CONDUCTIVE_SLICE.get());
                         output.accept(ModItems.INSULATED_RUBBER.get());
                         output.accept(ModItems.PCB_BOARD.get());
+                        output.accept(ModItems.ELECTRONIC_COMPONENT.get());
+                        output.accept(ModItems.RADIO_MODULE.get());
+                        output.accept(ModItems.ANTENNA.get());
+                        output.accept(ModItems.CIRCUIT_BOARD.get());
 
                         output.accept(ModItems.PORTABLE_WALKIE_TALKIE.get());
                     })

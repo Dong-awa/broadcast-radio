@@ -5,12 +5,12 @@
     " R "
   ],
   "key": {
-    "V": { "item": "minecraft:vine" },
+    "V": { "item": "minecraft:oak_log" },
     "N": { "item": "minecraft:slime_ball" },
     "R": { "item": "minecraft:redstone" }
   },
   "result": {
     "item": "broadcast_radio:insulated_rubber",
-    "count": 1
+    "count": 2
   }
 }

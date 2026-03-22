@@ -6,14 +6,22 @@
   "item.broadcast_radio.insulated_rubber.desc": "Insulating accessory for radio equipment, prevents circuit leakage and signal interference",
   "itemGroup.broadcast_radio": "Broadcast Radio",
   "item.broadcast_radio.portable_walkie_talkie": "Portable Walkie-Talkie",
-  "item.broadcast_radio.portable_walkie_talkie.desc": "Basic handheld text communication tool, core of short-range frequency communication. Essential for early team cooperation and mine coordination, only supports text sending/receiving, unusable when out of power, fits vanilla survival rhythm.",
+  "item.broadcast_radio.portable_walkie_talkie.desc": "Basic handheld text communication tool, core of short-range frequency communication. Essential for early team cooperation and mine coordination, only supports text sending/receiving, unusable when out of power, fits vanilla survival rhythm",
   "item.broadcast_radio.pcb_board": "PCB Board",
+  "item.broadcast_radio.electronic_component": "Electronic Component",
+  "item.broadcast_radio.radio_module": "Radio Module",
+  "item.broadcast_radio.antenna": "Antenna",
+  "item.broadcast_radio.circuit_board": "Circuit Board",
+
   "item.broadcast_radio.walkie_talkie.no_power": "Portable Walkie-Talkie is out of power! Unusable",
   "item.broadcast_radio.walkie_talkie.power_low": "Portable Walkie-Talkie low power!",
   "item.broadcast_radio.walkie_talkie.input_hint": "Enter walkie-talkie message (sent to current frequency):",
-  "item.broadcast_radio.walkie_talkie.frequency": "Current Frequency: %d",
+  "item.broadcast_radio.walkie_talkie.frequency": "Current Frequency: %.1f MHz",
   "item.broadcast_radio.walkie_talkie.power": "Remaining Power: %d/100",
-  "item.broadcast_radio.walkie_talkie.encrypted": "Encrypted (visible only with same password)",
-  "item.broadcast_radio.walkie_talkie.message": "[Walkie-Talkie-%d] %s: %s",
-  "item.broadcast_radio.walkie_talkie.freq_switch": "Switched to Channel: %d"
+  "item.broadcast_radio.walkie_talkie.message": "[FROM-%.1f MHz] %s: %s",
+  "item.broadcast_radio.walkie_talkie.freq_adjust": "Frequency adjusted to: %.1f MHz",
+
+  "item.broadcast_radio.walkie_talkie.garbage_message": "[%s][%.1f MHz]：%s",
+  "item.broadcast_radio.walkie_talkie.self_message": "[%.1f MHz] Me: %s",
+  "item.broadcast_radio.walkie_talkie.new_operate_hint": "Right Click: Send Message | Shift/Ctrl+Right Click: Tune +/-5MHz | Shift+Ctrl+Right Click: +0.1MHz"
 }
