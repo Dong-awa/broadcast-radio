@@ -17,14 +17,14 @@ A lightweight Minecraft Forge mod (1.20.1) that adds portable walkie-talkies for
 
 ### Steps
 1. Install Minecraft Forge for 1.20.1
-2. Download the mod JAR file from [Releases](https://github.com/Dong-awa/broadcast-radio/releases)
+2. Download the mod JAR file from [发布](https://github.com/Dong-awa/broadcast-radio/releases)
 3. Put the JAR file into your `.minecraft/mods` folder
 4. Launch the game with Forge profile
 
 ## 🕹️ Usage
 1. Craft the Portable Walkie-Talkie
 2. **Normal Right Click**: Trigger message input (type `your message` in chat to send)
-3. **Shift + Right Click**: Switch channels (1-10 cycle, visual feedback in chat)
+3. Custom frequency from 1 to 999
 4. Check remaining power by hovering over the walkie-talkie in inventory
 5. Messages will appear in chat as `[Walkie-Talkie-X] Player: Message`
 
