@@ -5,12 +5,13 @@ showAsResourcePack=false
 
 [[mods]]
 modId="broadcast_radio"
-version="0.1.0"
+version="0.1.2"
 displayName="Broadcast Radio"
 authors="Dong_awa"
 description='''
 TESTING...TESTING...
 '''
+logoFile="icon.png"
 
 # Forge依赖
 [[dependencies.broadcast_radio]]

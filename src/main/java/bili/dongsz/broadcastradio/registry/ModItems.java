@@ -10,6 +10,8 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.level.block.Block;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
@@ -46,6 +48,11 @@ public class ModItems {
                     stacksTo(64)
             )
     );
+    public static final RegistryObject<Item> RADIO_COMPONENTS = ITEMS.register("radio_components",
+            () -> new Item(new Item.Properties().
+                    stacksTo(64)
+            )
+    );
     public static final RegistryObject<Item> ANTENNA = ITEMS.register("antenna",
             () -> new Item(new Item.Properties().
                     stacksTo(64)
@@ -60,6 +67,15 @@ public class ModItems {
             () -> new bili.dongsz.broadcastradio.item.PortableWalkieTalkieItem(new Item.Properties()
                     .stacksTo(1)
                     .durability(100)
+                    .rarity(Rarity.COMMON)));
+    public static final RegistryObject<Item> ENCRYPTED_WALKIE_TALKIE = ITEMS.register("encrypted_walkie_talkie",
+            () -> new bili.dongsz.broadcastradio.item.EncryptedWalkieTalkieItem(new Item.Properties()
+                    .stacksTo(1)
+                    .durability(100)
+                    .rarity(Rarity.UNCOMMON)));
+    public static final RegistryObject<Item> SIMPLE_RADIO = ITEMS.register("simple_radio_block",
+            () -> new BlockItem(ModBlocks.SIMPLE_RADIO_BLOCK.get(), new Item.Properties()
+                    .stacksTo(1)
                     .rarity(Rarity.COMMON)));
 
     @SubscribeEvent

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WGW",
+    "RCR",
+    " W "
+  ],
+  "key": {
+    "W": {
+      "tag": "minecraft:planks"
+    },
+    "G": {
+      "item": "broadcast_radio:pcb_board"
+    },
+    "R": {
+      "item": "broadcast_radio:electronic_component"
+    },
+    "C": {
+      "item": "broadcast_radio:copper_conductive_slice"
+    }
+  },
+  "result": {
+    "item": "broadcast_radio:simple_radio"
+  }
+}
