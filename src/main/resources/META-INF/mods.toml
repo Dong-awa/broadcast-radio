@@ -5,11 +5,12 @@ showAsResourcePack=false
 
 [[mods]]
 modId="broadcast_radio"
-version="0.1.2"
+version="0.2.0"
 displayName="Broadcast Radio"
 authors="Dong_awa"
 description='''
-TESTING...TESTING...
+广播无线电模组为Minecraft带来了完整的无线电通信系统！
+让Minecraft世界充满真实的无线电通信体验！
 '''
 logoFile="icon.png"
 
@@ -25,6 +26,6 @@ side="BOTH"
 [[dependencies.broadcast_radio]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.20.1,)"
+versionRange="[1.20.1,1.20.6)"
 ordering="NONE"
 side="BOTH"

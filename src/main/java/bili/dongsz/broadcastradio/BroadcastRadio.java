@@ -1,6 +1,7 @@
 package bili.dongsz.broadcastradio;
 
 import bili.dongsz.broadcastradio.network.UpdateFrequencyPacket;
+import bili.dongsz.broadcastradio.network.UpdateRadioBaseStationPacket;
 import bili.dongsz.broadcastradio.network.UpdateEncryptedWalkieTalkiePacket;
 import bili.dongsz.broadcastradio.registry.ModBlocks;
 import bili.dongsz.broadcastradio.registry.ModBlockEntities;
@@ -35,13 +36,25 @@ public class BroadcastRadio {
 
         // Register network messages
         NETWORK.registerMessage(0, UpdateFrequencyPacket.class, UpdateFrequencyPacket::encode, UpdateFrequencyPacket::decode, UpdateFrequencyPacket::handle);
-        NETWORK.registerMessage(1, bili.dongsz.broadcastradio.network.UpdateWalkieTalkieFrequencyPacket.class, 
-            bili.dongsz.broadcastradio.network.UpdateWalkieTalkieFrequencyPacket::encode, 
-            bili.dongsz.broadcastradio.network.UpdateWalkieTalkieFrequencyPacket::decode, 
+        NETWORK.registerMessage(1, bili.dongsz.broadcastradio.network.UpdateWalkieTalkieFrequencyPacket.class,
+            bili.dongsz.broadcastradio.network.UpdateWalkieTalkieFrequencyPacket::encode,
+            bili.dongsz.broadcastradio.network.UpdateWalkieTalkieFrequencyPacket::decode,
             bili.dongsz.broadcastradio.network.UpdateWalkieTalkieFrequencyPacket::handle);
-        NETWORK.registerMessage(2, UpdateEncryptedWalkieTalkiePacket.class, 
-            UpdateEncryptedWalkieTalkiePacket::encode, 
-            UpdateEncryptedWalkieTalkiePacket::decode, 
+        NETWORK.registerMessage(2, UpdateEncryptedWalkieTalkiePacket.class,
+            UpdateEncryptedWalkieTalkiePacket::encode,
+            UpdateEncryptedWalkieTalkiePacket::decode,
             UpdateEncryptedWalkieTalkiePacket::handle);
+        NETWORK.registerMessage(3, UpdateRadioBaseStationPacket.class,
+            UpdateRadioBaseStationPacket::encode,
+            UpdateRadioBaseStationPacket::decode,
+            UpdateRadioBaseStationPacket::handle);
+        NETWORK.registerMessage(4, bili.dongsz.broadcastradio.network.SendSMSPacket.class,
+            bili.dongsz.broadcastradio.network.SendSMSPacket::encode,
+            bili.dongsz.broadcastradio.network.SendSMSPacket::decode,
+            bili.dongsz.broadcastradio.network.SendSMSPacket::handle);
+        NETWORK.registerMessage(5, bili.dongsz.broadcastradio.network.ReceiveSMSPacket.class,
+            bili.dongsz.broadcastradio.network.ReceiveSMSPacket::encode,
+            bili.dongsz.broadcastradio.network.ReceiveSMSPacket::decode,
+            bili.dongsz.broadcastradio.network.ReceiveSMSPacket::handle);
     }
 }

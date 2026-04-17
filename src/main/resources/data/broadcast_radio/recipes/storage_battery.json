@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "CBC",
+    "BBB",
+    "BBB"
+  ],
+  "key": {
+    "C": {
+      "item": "broadcast_radio:copper_conductive_slice"
+    },
+    "B": {
+      "item": "broadcast_radio:radio_battery"
+    }
+  },
+  "result": {
+    "item": "broadcast_radio:storage_battery",
+    "count": 1
+  }
+}

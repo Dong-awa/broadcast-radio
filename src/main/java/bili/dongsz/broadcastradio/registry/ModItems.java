@@ -77,6 +77,41 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.SIMPLE_RADIO_BLOCK.get(), new Item.Properties()
                     .stacksTo(1)
                     .rarity(Rarity.COMMON)));
+    public static final RegistryObject<Item> RADIO_BATTERY = ITEMS.register("radio_battery",
+            () -> new bili.dongsz.broadcastradio.item.RadioBatteryItem(new Item.Properties()
+                    .stacksTo(64)
+                    .rarity(Rarity.COMMON)));
+
+    public static final RegistryObject<Item> RADIO_BASE_STATION = ITEMS.register("radio_base_station",
+            () -> new BlockItem(ModBlocks.RADIO_BASE_STATION_BLOCK.get(), new Item.Properties()
+                    .stacksTo(1)
+                    .rarity(Rarity.UNCOMMON)));
+
+    public static final RegistryObject<Item> TWO_G_UNIVERSAL = ITEMS.register("two_g_universal",
+            () -> new Item(new Item.Properties()
+                    .stacksTo(1)
+                    .rarity(Rarity.COMMON)));
+
+    public static final RegistryObject<Item> THREE_G_UNIVERSAL = ITEMS.register("three_g_universal",
+            () -> new Item(new Item.Properties()
+                    .stacksTo(1)
+                    .rarity(Rarity.UNCOMMON)));
+
+    public static final RegistryObject<Item> FOUR_G_UNIVERSAL = ITEMS.register("four_g_universal",
+            () -> new Item(new Item.Properties()
+                    .stacksTo(1)
+                    .rarity(Rarity.RARE)));
+
+    public static final RegistryObject<Item> RADIO_TERMINAL = ITEMS.register("radio_terminal",
+            () -> new bili.dongsz.broadcastradio.item.RadioTerminalItem(new Item.Properties()
+                    .stacksTo(1)
+                    .rarity(Rarity.UNCOMMON)));
+
+    public static final RegistryObject<Item> STORAGE_BATTERY = ITEMS.register("storage_battery",
+            () -> new bili.dongsz.broadcastradio.item.BatteryItem(new Item.Properties()
+                    .stacksTo(64)
+                    .rarity(Rarity.UNCOMMON)
+                    .durability(700))); // 蓄电池最大耐久度700
 
     @SubscribeEvent
     public void onItemTooltip(ItemTooltipEvent event) {

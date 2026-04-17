@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " N ",
+    "T3T",
+    " N "
+  ],
+  "key": {
+    "N": {
+      "item": "minecraft:netherite_ingot"
+    },
+    "3": {
+      "item": "broadcast_radio:three_g_universal"
+    },
+    "T": {
+      "item": "broadcast_radio:electronic_component"
+    }
+  },
+  "result": {
+    "item": "broadcast_radio:four_g_universal"
+  }
+}

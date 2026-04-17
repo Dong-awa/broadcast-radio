@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " RA",
+    "PCP",
+    "EBE"
+  ],
+  "key": {
+    "R": {
+      "item": "broadcast_radio:radio_component"
+    },
+    "P": {
+      "item": "broadcast_radio:pcb_board"
+    },
+    "C": {
+      "item": "broadcast_radio:circuit_board"
+    },
+    "B": {
+      "item": "broadcast_radio:radio_battery"
+    },
+    "A": {
+      "item": "broadcast_radio:antenna"
+    },
+    "E": {
+      "item": "broadcast_radio:electronic_component"
+    }
+  },
+  "result": {
+    "item": "broadcast_radio:encrypted_walkie_talkie"
+  }
+}

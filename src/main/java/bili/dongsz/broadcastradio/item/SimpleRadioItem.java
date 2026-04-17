@@ -94,6 +94,5 @@ public class SimpleRadioItem extends BlockItem {
         tooltip.add(Component.empty());
         tooltip.add(Component.translatable("item.broadcast_radio.simple_radio_block.frequency", String.format("%.1f", frequency)).withStyle(ChatFormatting.BLUE));
         tooltip.add(Component.translatable("item.broadcast_radio.simple_radio_block.desc").withStyle(ChatFormatting.GRAY));
-        tooltip.add(Component.translatable("item.broadcast_radio.simple_radio_block.tooltip").withStyle(ChatFormatting.GRAY));
     }
 }

@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ABA",
+    "BCB",
+    " D "
+  ],
+  "key": {
+    "A": { "item": "broadcast_radio:copper_conductive_slice" },
+    "B": { "item": "minecraft:redstone" },
+    "C": { "item": "minecraft:potato" },
+    "D": { "item": "minecraft:iron_nugget" }
+  },
+  "result": {
+    "item": "broadcast_radio:radio_battery",
+    "count": 1
+  }
+}

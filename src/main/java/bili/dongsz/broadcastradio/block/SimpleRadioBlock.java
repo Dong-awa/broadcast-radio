@@ -88,12 +88,12 @@ public class SimpleRadioBlock extends Block implements EntityBlock {
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         }
-        
+
         BlockEntity blockEntity = level.getBlockEntity(pos);
         if (blockEntity instanceof SimpleRadioBlockEntity) {
             // 打开调频GUI
             NetworkHooks.openScreen((net.minecraft.server.level.ServerPlayer) player, new SimpleMenuProvider(
-                (containerId, playerInventory, playerEntity) -> 
+                (containerId, playerInventory, playerEntity) ->
                     new bili.dongsz.broadcastradio.menu.SimpleRadioMenu(containerId, playerInventory, (SimpleRadioBlockEntity) blockEntity),
                 Component.translatable("item.broadcast_radio.simple_radio_block.gui_title")
             ), buf -> buf.writeBlockPos(pos));

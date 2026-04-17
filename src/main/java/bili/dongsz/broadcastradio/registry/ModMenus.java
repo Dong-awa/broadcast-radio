@@ -1,6 +1,9 @@
 package bili.dongsz.broadcastradio.registry;
 
 import bili.dongsz.broadcastradio.BroadcastRadio;
+import bili.dongsz.broadcastradio.menu.RadioBaseStationMenu;
+import bili.dongsz.broadcastradio.menu.RadioTerminalMenu;
+import bili.dongsz.broadcastradio.menu.RadioTerminalQuickMenu;
 import bili.dongsz.broadcastradio.menu.SimpleRadioMenu;
 import bili.dongsz.broadcastradio.menu.WalkieTalkieMenu;
 import bili.dongsz.broadcastradio.menu.EncryptedWalkieTalkieMenu;
@@ -22,4 +25,13 @@ public class ModMenus {
 
     public static final RegistryObject<MenuType<EncryptedWalkieTalkieMenu>> ENCRYPTED_WALKIE_TALKIE_MENU = MENUS.register("encrypted_walkie_talkie_menu",
             () -> IForgeMenuType.create(EncryptedWalkieTalkieMenu::new));
+
+    public static final RegistryObject<MenuType<RadioBaseStationMenu>> RADIO_BASE_STATION_MENU = MENUS.register("radio_base_station_menu",
+            () -> IForgeMenuType.create(RadioBaseStationMenu::new));
+
+    public static final RegistryObject<MenuType<RadioTerminalMenu>> RADIO_TERMINAL_MENU = MENUS.register("radio_terminal_menu",
+            () -> IForgeMenuType.create(RadioTerminalMenu::new));
+
+    public static final RegistryObject<MenuType<RadioTerminalQuickMenu>> RADIO_TERMINAL_QUICK_MENU = MENUS.register("radio_terminal_quick_menu",
+            () -> IForgeMenuType.create(RadioTerminalQuickMenu::new));
 }

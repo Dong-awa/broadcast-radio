@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " R",
+    "CP",
+    " D"
+  ],
+  "key": {
+    "R": {
+      "item": "broadcast_radio:electronic_component"
+    },
+    "C": {
+      "item": "broadcast_radio:copper_conductive_slice"
+    },
+    "P": {
+      "item": "broadcast_radio:circuit_board"
+    },
+    "D": {
+      "item": "broadcast_radio:radio_module"
+    }
+  },
+  "result": {
+    "item": "broadcast_radio:radio_components"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "ARA",
+    "CBC",
+    "ARA"
+  ],
+  "key": {
+    "A": {
+      "item": "broadcast_radio:antenna"
+    },
+    "R": {
+      "item": "broadcast_radio:radio_module"
+    },
+    "C": {
+      "item": "broadcast_radio:circuit_board"
+    },
+    "B": {
+      "item": "minecraft:iron_block"
+    }
+  },
+  "result": {
+    "item": "broadcast_radio:radio_base_station"
+  }
+}

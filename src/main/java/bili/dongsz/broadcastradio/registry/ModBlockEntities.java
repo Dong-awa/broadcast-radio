@@ -1,6 +1,7 @@
 package bili.dongsz.broadcastradio.registry;
 
 import bili.dongsz.broadcastradio.BroadcastRadio;
+import bili.dongsz.broadcastradio.block.entity.RadioBaseStationBlockEntity;
 import bili.dongsz.broadcastradio.block.entity.SimpleRadioBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -15,4 +16,9 @@ public class ModBlockEntities {
             BLOCK_ENTITIES.register("simple_radio_block_entity", 
                     () -> BlockEntityType.Builder.of(SimpleRadioBlockEntity::new, 
                             ModBlocks.SIMPLE_RADIO_BLOCK.get()).build(null));
+    
+    public static final RegistryObject<BlockEntityType<RadioBaseStationBlockEntity>> RADIO_BASE_STATION_BLOCK_ENTITY = 
+            BLOCK_ENTITIES.register("radio_base_station_block_entity", 
+                    () -> BlockEntityType.Builder.of(RadioBaseStationBlockEntity::new, 
+                            ModBlocks.RADIO_BASE_STATION_BLOCK.get()).build(null));
 }

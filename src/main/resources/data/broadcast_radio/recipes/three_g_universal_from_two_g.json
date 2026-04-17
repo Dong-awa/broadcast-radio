@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " D ",
+    "T2T",
+    " D "
+  ],
+  "key": {
+    "D": {
+      "item": "minecraft:diamond"
+    },
+    "2": {
+      "item": "broadcast_radio:two_g_universal"
+    },
+    "T": {
+      "item": "broadcast_radio:electronic_component"
+    }
+  },
+  "result": {
+    "item": "broadcast_radio:three_g_universal"
+  }
+}

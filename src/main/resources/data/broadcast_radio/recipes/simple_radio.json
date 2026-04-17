@@ -1,9 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    "WGW",
+    " GA",
     "RCR",
-    " W "
+    "WWW"
   ],
   "key": {
     "W": {
@@ -13,13 +13,17 @@
       "item": "broadcast_radio:pcb_board"
     },
     "R": {
-      "item": "broadcast_radio:electronic_component"
+      "item": "broadcast_radio:circuit_board"
     },
     "C": {
-      "item": "broadcast_radio:copper_conductive_slice"
+      "item": "broadcast_radio:radio_components"
+    },
+    "A": {
+      "item": "broadcast_radio:antenna"
     }
   },
   "result": {
-    "item": "broadcast_radio:simple_radio"
+    "item": "broadcast_radio:simple_radio_block",
+    "count": 1
   }
 }

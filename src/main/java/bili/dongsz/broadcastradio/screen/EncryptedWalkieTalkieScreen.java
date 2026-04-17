@@ -1,5 +1,6 @@
 package bili.dongsz.broadcastradio.screen;
 
+import bili.dongsz.broadcastradio.item.RadioBatteryItem;
 import bili.dongsz.broadcastradio.menu.EncryptedWalkieTalkieMenu;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -7,18 +8,43 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
 public class EncryptedWalkieTalkieScreen extends AbstractContainerScreen<EncryptedWalkieTalkieMenu> {
     private float currentFrequency;
     private EditBox passwordBox;
     private String currentPassword;
+    private int startX;
+    private int buttonY;
+    private int buttonWidth;
+    private int buttonHeight;
+    private int spacing;
 
     public EncryptedWalkieTalkieScreen(EncryptedWalkieTalkieMenu menu, Inventory inventory, Component title) {
         super(menu, inventory, title);
         this.imageWidth = 176;
-        this.imageHeight = 140;
+        this.imageHeight = 222;
         this.currentFrequency = menu.getWalkieStack().getOrCreateTag().getFloat("Frequency");
         this.currentPassword = menu.getWalkieStack().getOrCreateTag().getString("Password");
+        
+        // 修正物品栏文字位置
+        this.inventoryLabelX = 8; // 左边距，默认值
+        this.inventoryLabelY = this.imageHeight - 94; // 底部物品栏上方的标准位置
+    }
+
+    @Override
+    public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
+        // E键也可以关闭界面
+        if (keyCode == 69 || keyCode == 256) { // 69是E键，256是ESC键
+            this.onClose();
+            return true;
+        }
+        return super.keyPressed(keyCode, scanCode, modifiers);
+    }
+
+    @Override
+    public boolean isPauseScreen() {
+        return false; // 打开时不暂停游戏
     }
 
     @Override
@@ -27,28 +53,34 @@ public class EncryptedWalkieTalkieScreen extends AbstractContainerScreen<Encrypt
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
 
-        // +5MHz 按钮
-        this.addRenderableWidget(Button.builder(Component.literal("+5MHz"), button -> {
-            adjustFrequency(5.0f);
-        }).bounds(x + 10, y + 20, 60, 20).build());
+        buttonWidth = 35;
+        buttonHeight = 20;
+        startX = x + 10;
+        buttonY = y + 20;
+        spacing = 5;
 
         // -5MHz 按钮
-        this.addRenderableWidget(Button.builder(Component.literal("-5MHz"), button -> {
+        this.addRenderableWidget(Button.builder(Component.translatable("item.broadcast_radio.walkie_talkie.decrease_5"), button -> {
             adjustFrequency(-5.0f);
-        }).bounds(x + 10, y + 45, 60, 20).build());
+        }).bounds(startX, buttonY, buttonWidth, buttonHeight).build());
 
-        // +0.1MHz 按钮
-        this.addRenderableWidget(Button.builder(Component.literal("+0.1MHz"), button -> {
-            adjustFrequency(0.1f);
-        }).bounds(x + 80, y + 20, 70, 20).build());
+        // -0.5MHz 按钮
+        this.addRenderableWidget(Button.builder(Component.translatable("item.broadcast_radio.walkie_talkie.decrease_0_5"), button -> {
+            adjustFrequency(-0.5f);
+        }).bounds(startX + buttonWidth + spacing, buttonY, buttonWidth, buttonHeight).build());
 
-        // -0.1MHz 按钮
-        this.addRenderableWidget(Button.builder(Component.literal("-0.1MHz"), button -> {
-            adjustFrequency(-0.1f);
-        }).bounds(x + 80, y + 45, 70, 20).build());
+        // +0.5MHz 按钮
+        this.addRenderableWidget(Button.builder(Component.translatable("item.broadcast_radio.walkie_talkie.increase_0_5"), button -> {
+            adjustFrequency(0.5f);
+        }).bounds(startX + buttonWidth * 2 + spacing * 2, buttonY, buttonWidth, buttonHeight).build());
 
-        // 密码输入框
-        this.passwordBox = new EditBox(this.font, x + 10, y + 80, 156, 20, Component.literal("Password"));
+        // +5MHz 按钮
+        this.addRenderableWidget(Button.builder(Component.translatable("item.broadcast_radio.walkie_talkie.increase_5"), button -> {
+            adjustFrequency(5.0f);
+        }).bounds(startX + buttonWidth * 3 + spacing * 3, buttonY, buttonWidth, buttonHeight).build());
+
+        // 密码输入框 - 调整y坐标到100左右，位于电量显示下方
+        this.passwordBox = new EditBox(this.font, x + 10, y + 100, 156, 20, Component.translatable("item.broadcast_radio.walkie_talkie.password"));
         this.passwordBox.setMaxLength(2);
         this.passwordBox.setValue(currentPassword);
         this.passwordBox.setResponder(text -> {
@@ -83,16 +115,45 @@ public class EncryptedWalkieTalkieScreen extends AbstractContainerScreen<Encrypt
         
         guiGraphics.drawString(this.font, this.title.getString(), x + 8, y + 6, 0x404040);
         
-        guiGraphics.drawString(this.font, "Frequency: " + String.format("%.1f", currentFrequency) + " MHz", x + 10, y + 105, 0xFFFFFF);
-        
+        // 渲染按钮
         this.renderables.forEach(widget -> widget.render(guiGraphics, mouseX, mouseY, partialTick));
+        
+        // 显示当前频率
+        String freqText = String.format("%.1f", currentFrequency) + " MHz";
+        int freqTextWidth = this.font.width(freqText);
+        guiGraphics.drawString(this.font, freqText, startX + buttonWidth * 2 + spacing * 2 - freqTextWidth / 2, buttonY + buttonHeight + 8, 0xFFFFFF);
+        
+        // 显示电量
+        int power = 0;
+        ItemStack battery = menu.getBattery();
+        if (!battery.isEmpty() && battery.getItem() instanceof RadioBatteryItem) {
+            power = RadioBatteryItem.getPower(battery);
+        }
+        String powerText = Component.translatable("item.broadcast_radio.walkie_talkie.power", power).getString();
+        int powerTextWidth = this.font.width(powerText);
+        guiGraphics.drawString(this.font, powerText, x + 10, buttonY + buttonHeight + 25, 0xFFFFFF);
+        
+        // 渲染电池槽标签
+        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.walkie_talkie.battery_label"), x + 20 + powerTextWidth + 24, buttonY + buttonHeight + 25, 0x404040);
+        
+        // 渲染电池槽背景
+        int batterySlotX = x + 157;
+        guiGraphics.fill(batterySlotX, buttonY + buttonHeight + 20, batterySlotX + 16, buttonY + buttonHeight + 36, 0xFF8B8B8B);
+        guiGraphics.fill(batterySlotX, buttonY + buttonHeight + 20, batterySlotX + 1, buttonY + buttonHeight + 36, 0xFF333333);
+        guiGraphics.fill(batterySlotX, buttonY + buttonHeight + 20, batterySlotX + 16, buttonY + buttonHeight + 21, 0xFF333333);
+        guiGraphics.fill(batterySlotX, buttonY + buttonHeight + 35, batterySlotX + 16, buttonY + buttonHeight + 36, 0xFF333333);
+        guiGraphics.fill(batterySlotX + 15, buttonY + buttonHeight + 20, batterySlotX + 16, buttonY + buttonHeight + 36, 0xFF333333);
+
+        // 添加"加密密钥"文本 - 位于输入框左上角
+        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.encrypted_walkie_talkie.encryption_key"), x + 10, y + 88, 0x404040);
+
+        super.render(guiGraphics, mouseX, mouseY, partialTick);
         
         this.renderTooltip(guiGraphics, mouseX, mouseY);
     }
 
     @Override
     public void onClose() {
-        // 发送频率和密码到服务器
         bili.dongsz.broadcastradio.BroadcastRadio.NETWORK.sendToServer(new bili.dongsz.broadcastradio.network.UpdateEncryptedWalkieTalkiePacket(currentFrequency, currentPassword));
         super.onClose();
     }

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " G ",
+    "RMR",
+    " G "
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:gold_ingot"
+    },
+    "R": {
+      "item": "broadcast_radio:electronic_component"
+    },
+    "M": {
+      "item": "broadcast_radio:radio_component"
+    }
+  },
+  "result": {
+    "item": "broadcast_radio:two_g_universal"
+  }
+}

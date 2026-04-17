@@ -1,0 +1,31 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "GLA",
+    "GRB",
+    "GCC"
+  ],
+  "key": {
+    "G": {
+      "item": "minecraft:glass_pane"
+    },
+    "L": {
+      "item": "minecraft:light_weighted_pressure_plate"
+    },
+    "R": {
+      "item": "broadcast_radio:radio_module"
+    },
+    "B": {
+      "item": "broadcast_radio:radio_battery"
+    },
+    "C": {
+      "item": "broadcast_radio:circuit_board"
+    },
+    "A": {
+      "item": "broadcast_radio:antenna"
+    }
+  },
+  "result": {
+    "item": "broadcast_radio:radio_terminal"
+  }
+}

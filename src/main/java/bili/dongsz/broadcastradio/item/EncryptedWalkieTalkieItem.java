@@ -33,10 +33,13 @@ public class EncryptedWalkieTalkieItem extends Item {
     public static final String TAG_FREQUENCY = "Frequency";
     public static final String TAG_PASSWORD = "Password";
     public static final String TAG_INTERFERENCE = "Interference";
+    public static final String TAG_LAST_CONSUME_TIME = "LastConsumeTime";
     public static final float DEFAULT_FREQUENCY = 433.0f;
     public static final int DEFAULT_INTERFERENCE = 0;
     public static final int POWER_CONSUMPTION_SEND = 1;
     public static final float POWER_CONSUMPTION_STANDBY = 0.5f;
+    public static final int STANDBY_CONSUME_INTERVAL = 90;
+    public static final int STANDBY_CONSUME_AMOUNT = 1;
     public static final float MIN_FREQ = 1.0f;
     public static final float MAX_FREQ = 999.9f;
     public static final float FREQ_STEP_LARGE = 5.0f;
@@ -46,6 +49,50 @@ public class EncryptedWalkieTalkieItem extends Item {
 
     public EncryptedWalkieTalkieItem(Properties pProperties) {
         super(pProperties);
+    }
+    
+    @Override
+    public boolean isBarVisible(ItemStack stack) {
+        CompoundTag tag = stack.getOrCreateTag();
+        if (tag.contains("Battery")) {
+            CompoundTag batteryTag = tag.getCompound("Battery");
+            ItemStack battery = ItemStack.of(batteryTag);
+            if (!battery.isEmpty() && battery.getItem() instanceof RadioBatteryItem) {
+                int power = RadioBatteryItem.getPower(battery);
+                return power < RadioBatteryItem.MAX_POWER;
+            }
+        }
+        return false;
+    }
+    
+    @Override
+    public int getBarWidth(ItemStack stack) {
+        CompoundTag tag = stack.getOrCreateTag();
+        if (tag.contains("Battery")) {
+            CompoundTag batteryTag = tag.getCompound("Battery");
+            ItemStack battery = ItemStack.of(batteryTag);
+            if (!battery.isEmpty() && battery.getItem() instanceof RadioBatteryItem) {
+                int power = RadioBatteryItem.getPower(battery);
+                return (int) (13.0 * power / RadioBatteryItem.MAX_POWER);
+            }
+        }
+        return 0;
+    }
+    
+    @Override
+    public int getBarColor(ItemStack stack) {
+        CompoundTag tag = stack.getOrCreateTag();
+        if (tag.contains("Battery")) {
+            CompoundTag batteryTag = tag.getCompound("Battery");
+            ItemStack battery = ItemStack.of(batteryTag);
+            if (!battery.isEmpty() && battery.getItem() instanceof RadioBatteryItem) {
+                int power = RadioBatteryItem.getPower(battery);
+                if (power > 60) return 0x4CAF50;
+                if (power > 30) return 0xFFC107;
+                return 0xF44336;
+            }
+        }
+        return 0x4CAF50;
     }
 
     @Override
@@ -73,10 +120,15 @@ public class EncryptedWalkieTalkieItem extends Item {
     public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand hand) {
         ItemStack stack = player.getItemInHand(hand);
         initNBT(stack);
-
-        if (stack.getDamageValue() >= stack.getMaxDamage()) {
-            player.sendSystemMessage(Component.translatable("item.broadcast_radio.walkie_talkie.no_power").withStyle(ChatFormatting.RED));
-            return InteractionResultHolder.fail(stack);
+        
+        CompoundTag tag = stack.getOrCreateTag();
+        long currentTime = level.getGameTime();
+        long lastConsumeTime = tag.getLong(TAG_LAST_CONSUME_TIME);
+        
+        if (currentTime - lastConsumeTime >= STANDBY_CONSUME_INTERVAL * 20) {
+            consumePower(stack, STANDBY_CONSUME_AMOUNT, player);
+            tag.putLong(TAG_LAST_CONSUME_TIME, currentTime);
+            stack.setTag(tag);
         }
 
         if (player.isShiftKeyDown()) {
@@ -85,40 +137,89 @@ public class EncryptedWalkieTalkieItem extends Item {
                     (containerId, playerInventory, playerEntity) -> new EncryptedWalkieTalkieMenu(containerId, playerInventory, stack),
                     Component.translatable("item.broadcast_radio.encrypted_walkie_talkie.gui_title")
                 ));
-                consumePower(stack, POWER_CONSUMPTION_SWITCH, player);
             }
             return InteractionResultHolder.success(stack);
         }
 
         if (!level.isClientSide && player instanceof ServerPlayer serverPlayer) {
-            CompoundTag tag = stack.getOrCreateTag();
             serverPlayer.sendSystemMessage(Component.translatable("item.broadcast_radio.walkie_talkie.input_hint").withStyle(ChatFormatting.YELLOW));
             serverPlayer.getPersistentData().putBoolean(BroadcastRadio.MOD_ID + "_using_encrypted_walkie", true);
-            consumePower(stack, POWER_CONSUMPTION_STANDBY, player);
-
         }
         return InteractionResultHolder.success(stack);
     }
 
     public static void consumePower(ItemStack stack, float amount, Player player) {
-        int currentDamage = stack.getDamageValue();
-        float newDamage = currentDamage + amount;
-        
-        boolean wasEmpty = (currentDamage >= stack.getMaxDamage());
-        
-        if (newDamage <= stack.getMaxDamage()) {
-            stack.setDamageValue((int) newDamage);
+        ItemStack batteryStack = ItemStack.EMPTY;
+        if (player.containerMenu instanceof EncryptedWalkieTalkieMenu) {
+            EncryptedWalkieTalkieMenu menu = (EncryptedWalkieTalkieMenu) player.containerMenu;
+            batteryStack = menu.getBattery();
         } else {
-            stack.setDamageValue(stack.getMaxDamage());
+            CompoundTag tag = stack.getOrCreateTag();
+            if (tag.contains("Battery")) {
+                CompoundTag batteryTag = tag.getCompound("Battery");
+                batteryStack = ItemStack.of(batteryTag);
+            }
         }
         
-        boolean isEmpty = (stack.getDamageValue() >= stack.getMaxDamage());
-        
-        if (!wasEmpty && isEmpty) {
-            player.sendSystemMessage(Component.translatable("item.broadcast_radio.walkie_talkie.no_power").withStyle(ChatFormatting.RED));
-        } else if (!wasEmpty && !isEmpty && newDamage > stack.getMaxDamage() * 0.8 && currentDamage <= stack.getMaxDamage() * 0.8) {
-            player.sendSystemMessage(Component.translatable("item.broadcast_radio.walkie_talkie.power_low").withStyle(ChatFormatting.YELLOW));
+        if (!batteryStack.isEmpty() && batteryStack.getItem() instanceof RadioBatteryItem) {
+            int currentPower = RadioBatteryItem.getPower(batteryStack);
+            boolean wasEmpty = (currentPower == 0);
+            
+            RadioBatteryItem.consumePower(batteryStack, (int) amount);
+            
+            int newPower = RadioBatteryItem.getPower(batteryStack);
+            boolean isEmpty = (newPower == 0);
+            
+            if (!wasEmpty && isEmpty) {
+                player.sendSystemMessage(Component.translatable("item.broadcast_radio.walkie_talkie.no_power").withStyle(ChatFormatting.RED));
+            } else if (!wasEmpty && !isEmpty && newPower <= 20 && currentPower > 20) {
+                player.sendSystemMessage(Component.translatable("item.broadcast_radio.walkie_talkie.power_low").withStyle(ChatFormatting.YELLOW));
+            }
+            
+            if (newPower == 0) {
+                if (player.containerMenu instanceof EncryptedWalkieTalkieMenu) {
+                    EncryptedWalkieTalkieMenu menu = (EncryptedWalkieTalkieMenu) player.containerMenu;
+                    menu.getBattery().shrink(1);
+                } else {
+                    CompoundTag tag = stack.getOrCreateTag();
+                    tag.remove("Battery");
+                    stack.setTag(tag);
+                }
+            } else {
+                if (!(player.containerMenu instanceof EncryptedWalkieTalkieMenu)) {
+                    CompoundTag tag = stack.getOrCreateTag();
+                    CompoundTag batteryTag = new CompoundTag();
+                    batteryStack.save(batteryTag);
+                    tag.put("Battery", batteryTag);
+                    stack.setTag(tag);
+                }
+            }
         }
+    }
+    
+    public static boolean hasBatteryPower(Player player) {
+        if (player.containerMenu instanceof EncryptedWalkieTalkieMenu) {
+            EncryptedWalkieTalkieMenu menu = (EncryptedWalkieTalkieMenu) player.containerMenu;
+            ItemStack batteryStack = menu.getBattery();
+            if (!batteryStack.isEmpty() && batteryStack.getItem() instanceof RadioBatteryItem) {
+                return RadioBatteryItem.getPower(batteryStack) > 0;
+            }
+        } else {
+            for (InteractionHand hand : InteractionHand.values()) {
+                ItemStack stack = player.getItemInHand(hand);
+                if (stack.getItem() instanceof EncryptedWalkieTalkieItem) {
+                    CompoundTag tag = stack.getOrCreateTag();
+                    if (tag.contains("Battery")) {
+                        CompoundTag batteryTag = tag.getCompound("Battery");
+                        ItemStack battery = ItemStack.of(batteryTag);
+                        if (!battery.isEmpty() && battery.getItem() instanceof RadioBatteryItem) {
+                            return RadioBatteryItem.getPower(battery) > 0;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     @Override
@@ -129,19 +230,19 @@ public class EncryptedWalkieTalkieItem extends Item {
         CompoundTag tag = stack.getTag();
         float frequency = tag.getFloat(TAG_FREQUENCY);
         String password = tag.getString(TAG_PASSWORD);
-        int power = stack.getMaxDamage() - stack.getDamageValue();
+        
+        int power = 0;
+        if (tag.contains("Battery")) {
+            CompoundTag batteryTag = tag.getCompound("Battery");
+            ItemStack battery = ItemStack.of(batteryTag);
+            if (!battery.isEmpty() && battery.getItem() instanceof RadioBatteryItem) {
+                power = RadioBatteryItem.getPower(battery);
+            }
+        }
 
         tooltip.add(Component.empty());
         tooltip.add(Component.translatable("item.broadcast_radio.walkie_talkie.frequency", String.format("%.1f", frequency)).withStyle(ChatFormatting.BLUE));
         tooltip.add(Component.translatable("item.broadcast_radio.walkie_talkie.power", power).withStyle(ChatFormatting.GREEN));
-        if (!password.isEmpty()) {
-            tooltip.add(Component.translatable("item.broadcast_radio.walkie_talkie.encrypted", password).withStyle(ChatFormatting.RED));
-        } else {
-            tooltip.add(Component.translatable("item.broadcast_radio.walkie_talkie.no_encryption").withStyle(ChatFormatting.GRAY));
-        }
-
-        tooltip.add(Component.translatable("item.broadcast_radio.walkie_talkie.new_operate_hint")
-                .withStyle(ChatFormatting.GRAY));
         tooltip.add(Component.translatable("item.broadcast_radio.encrypted_walkie_talkie.desc")
                 .withStyle(ChatFormatting.GRAY));
     }
@@ -165,6 +266,13 @@ public class EncryptedWalkieTalkieItem extends Item {
                 }
             }
             if (walkieStack == null) {
+                sender.getPersistentData().remove(BroadcastRadio.MOD_ID + "_using_encrypted_walkie");
+                return;
+            }
+
+            // ÃƒÂ¦Ã‚Â£Ã¢â€šÂ¬ÃƒÂ¦Ã…Â¸Ã‚Â¥ÃƒÂ¦Ã‹Å“Ã‚Â¯ÃƒÂ¥Ã‚ÂÃ‚Â¦ÃƒÂ¦Ã…â€œÃ¢â‚¬Â°ÃƒÂ§Ã¢â‚¬ÂÃ‚ÂµÃƒÂ¦Ã‚Â±Ã‚Â ÃƒÂ¤Ã‚Â¾Ã¢â‚¬ÂºÃƒÂ§Ã¢â‚¬ÂÃ‚Âµ
+            if (!hasBatteryPower(sender)) {
+                sender.sendSystemMessage(Component.translatable("item.broadcast_radio.walkie_talkie.no_power").withStyle(ChatFormatting.RED));
                 sender.getPersistentData().remove(BroadcastRadio.MOD_ID + "_using_encrypted_walkie");
                 return;
             }
@@ -257,7 +365,6 @@ public class EncryptedWalkieTalkieItem extends Item {
                     int totalInterference = Math.max(senderInterference, targetInterference);
                     displayMessage = CommunicationUtils.applyInterference(displayMessage, totalInterference, level);
                     CommunicationUtils.sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
-                    consumePower(stack, POWER_CONSUMPTION_STANDBY, target);
                     return true;
                 }
             }

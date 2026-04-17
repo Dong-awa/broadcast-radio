@@ -1,6 +1,7 @@
 package bili.dongsz.broadcastradio.registry;
 
 import bili.dongsz.broadcastradio.BroadcastRadio;
+import bili.dongsz.broadcastradio.block.RadioBaseStationBlock;
 import bili.dongsz.broadcastradio.block.SimpleRadioBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
@@ -19,6 +20,16 @@ public class ModBlocks {
                     .sound(SoundType.METAL)
                     .requiresCorrectToolForDrops()
                     .isViewBlocking((state, world, pos) -> false)
+            )
+    );
+
+    public static final RegistryObject<Block> RADIO_BASE_STATION_BLOCK = BLOCKS.register("radio_base_station",
+            () -> new RadioBaseStationBlock(Block.Properties.of()
+                    .noOcclusion()
+                    .strength(3.5f)
+                    .sound(SoundType.METAL)
+                    .requiresCorrectToolForDrops()
+                    .isViewBlocking((state, world, pos) -> true)
             )
     );
 }

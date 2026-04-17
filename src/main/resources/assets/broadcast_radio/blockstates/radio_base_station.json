@@ -1,0 +1,5 @@
+{
+  "variants": {
+    "": { "model": "broadcast_radio:block/radio_base_station" }
+  }
+}
