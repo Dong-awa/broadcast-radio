@@ -2,13 +2,18 @@ package bili.dongsz.broadcastradio.screen;
 
 import bili.dongsz.broadcastradio.BroadcastRadio;
 import bili.dongsz.broadcastradio.network.SendSMSPacket;
+import bili.dongsz.broadcastradio.utils.SignalSearchManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +25,22 @@ public class RadioTerminalSMSScreen extends Screen {
     private List<Player> onlinePlayers;
     private Player selectedPlayer;
     
+    // NOTE: global service availability is provided by BroadcastRadio.HAS_VALID_SERVICE
+
     public RadioTerminalSMSScreen(Screen parentScreen, Player currentPlayer) {
         super(Component.translatable("item.broadcast_radio.radio_terminal.sms_title"));
         this.parentScreen = parentScreen;
         this.currentPlayer = currentPlayer;
         this.onlinePlayers = new ArrayList<>();
+        
+        // 确保后台扫描已启动
+        bili.dongsz.broadcastradio.utils.SignalSearchManager searchManager = 
+            bili.dongsz.broadcastradio.utils.SignalSearchManager.getInstance();
+        if (!searchManager.isRunning()) {
+            searchManager.startSignalSearch();
+        }
+        // 立即触发一次信号检测
+        searchManager.forceSignalSearch();
     }
 
     @Override
@@ -46,55 +62,147 @@ public class RadioTerminalSMSScreen extends Screen {
     protected void init() {
         super.init();
         
-        // 获取在线玩家列表（排除自己）
-        onlinePlayers.clear();
-        if (Minecraft.getInstance().level != null) {
-            for (Player player : Minecraft.getInstance().level.players()) {
-                if (!player.getUUID().equals(currentPlayer.getUUID())) {
-                    onlinePlayers.add(player);
-                }
-            }
-        }
-        
         int x = (this.width - 200) / 2;
         int y = (this.height - 180) / 2;
-        
+
         // 在线玩家标题
         this.addRenderableWidget(Button.builder(
             Component.translatable("item.broadcast_radio.radio_terminal.sms_online_players"), 
             button -> {}
         ).bounds(x, y, 200, 20).build()).active = false;
-        
-        // 玩家列表按钮
-        int playerButtonY = y + 25;
-        for (int i = 0; i < onlinePlayers.size(); i++) {
-            Player player = onlinePlayers.get(i);
-            final int playerIndex = i;
-            
-            this.addRenderableWidget(Button.builder(
-                Component.literal(player.getScoreboardName()),
-                button -> {
-                    selectedPlayer = onlinePlayers.get(playerIndex);
-                    openMessageInputScreen();
-                }
-            ).bounds(x, playerButtonY, 200, 20).build());
-            
-            playerButtonY += 25;
+
+        // 检查发送端自身是否有效
+        boolean isSenderValid = BroadcastRadio.HAS_VALID_SERVICE;
+
+        if (!isSenderValid && Minecraft.getInstance().player != null) {
+            isSenderValid = isPlayerValid(Minecraft.getInstance().player, true);
         }
         
-        // 如果没有在线玩家
-        if (onlinePlayers.isEmpty()) {
+        if (!isSenderValid) {
+            // 发送端无效，显示空列表提示
             this.addRenderableWidget(Button.builder(
                 Component.translatable("item.broadcast_radio.radio_terminal.sms_no_players"),
                 button -> {}
             ).bounds(x, y + 25, 200, 20).build()).active = false;
+        } else {
+            // 发送端有效，获取并过滤在线玩家列表
+            onlinePlayers.clear();
+            
+            if (Minecraft.getInstance().level != null) {
+                // 获取所有在线玩家并过滤
+                List<AbstractClientPlayer> allPlayers = Minecraft.getInstance().level.players();
+                for (Player player : allPlayers) {
+                    if (!player.getUUID().equals(Minecraft.getInstance().player.getUUID()) && 
+                        isPlayerValid(player)) {
+                        onlinePlayers.add(player);
+                    }
+                }
+            }
+            
+            // 显示玩家列表按钮
+            int playerButtonY = y + 25;
+            for (int i = 0; i < onlinePlayers.size(); i++) {
+                Player player = onlinePlayers.get(i);
+                final int playerIndex = i;
+                
+                this.addRenderableWidget(Button.builder(
+                    Component.literal(player.getScoreboardName()),
+                    button -> {
+                        selectedPlayer = onlinePlayers.get(playerIndex);
+                        openMessageInputScreen();
+                    }
+                ).bounds(x, playerButtonY, 200, 20).build());
+                
+                playerButtonY += 25;
+            }
+            
+            // 如果没有在线玩家，显示占位文本
+            if (onlinePlayers.isEmpty()) {
+                this.addRenderableWidget(Button.builder(
+                    Component.translatable("item.broadcast_radio.radio_terminal.sms_no_players"),
+                    button -> {}
+                ).bounds(x, y + 25, 200, 20).build()).active = false;
+            }
         }
-        
+
+        // 刷新按钮
+        this.addRenderableWidget(Button.builder(
+            Component.translatable("item.broadcast_radio.radio_terminal.refresh_button"),
+            button -> refreshPlayerList()
+        ).bounds(x, y + 125, 200, 20).build());
+
         // 返回按钮
         this.addRenderableWidget(Button.builder(
-            Component.literal("返回"),
+            Component.translatable("item.broadcast_radio.radio_terminal.return_button"),
             button -> Minecraft.getInstance().setScreen(parentScreen)
         ).bounds(x, y + 150, 200, 20).build());
+    }
+
+
+    /**
+     * 完全清空列表并重新加载符合条件的玩家
+     */
+    private void refreshPlayerList() {
+        // 仅根据全局标志刷新列表：清空所有可渲染组件并重新初始化
+        this.clearWidgets();
+
+        // 清空玩家列表
+        onlinePlayers.clear();
+        selectedPlayer = null;
+
+        // 重新初始化界面组件（init 中会读取 BroadcastRadio.HAS_VALID_SERVICE）
+        this.init();
+    }
+    
+    /**
+     * 判断其他玩家是否处于「可被搜索」的有效状态（不检查信号）
+     */
+    private boolean isPlayerValid(Player player) {
+        return isPlayerValid(player, false);
+    }
+    
+    /**
+     * 判断玩家是否处于「可被搜索」的有效状态
+     * @param player 要检查的玩家
+     * @param checkSignal 是否检查信号状态（发送端需要检查，其他玩家不需要）
+     */
+    private boolean isPlayerValid(Player player, boolean checkSignal) {
+        // 1. 玩家必须在线
+        if (player == null || !player.isAlive()) {
+            return false;
+        }
+        
+        // 2. 遍历背包，检查是否存在符合条件的无线电终端
+        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack stack = player.getInventory().getItem(i);
+            if (stack.is(bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get())) {
+                net.minecraft.nbt.CompoundTag tag = stack.getOrCreateTag();
+                
+                // 3. 终端电池电量 > 0
+                if (bili.dongsz.broadcastradio.item.RadioTerminalItem.hasBattery(stack) && 
+                    bili.dongsz.broadcastradio.item.RadioTerminalItem.getBatteryLevel(stack) > 0) {
+                    
+                    // 4. 终端已插入有效SIM卡
+                    if (tag.contains("SimCard")) {
+                        net.minecraft.nbt.CompoundTag simCardTag = tag.getCompound("SimCard");
+                        net.minecraft.world.item.ItemStack simCard = net.minecraft.world.item.ItemStack.of(simCardTag);
+                        if (!simCard.isEmpty()) {
+                            
+                            // 终端存在有效基站信号（仅发送端需要检查）
+                            if (checkSignal) {
+                                bili.dongsz.broadcastradio.utils.SignalSearchManager searchManager = 
+                                    bili.dongsz.broadcastradio.utils.SignalSearchManager.getInstance();
+                                if (!searchManager.hasValidSignal()) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
     
     private void openMessageInputScreen() {
@@ -152,13 +260,13 @@ public class RadioTerminalSMSScreen extends Screen {
             
             // 发送按钮
             this.addRenderableWidget(Button.builder(
-                Component.literal("发送"),
+                Component.translatable("item.broadcast_radio.radio_terminal.send_button"),
                 button -> sendMessage()
             ).bounds(x, y + 30, 200, 20).build());
             
             // 取消按钮
             this.addRenderableWidget(Button.builder(
-                Component.literal("取消"),
+                Component.translatable("item.broadcast_radio.radio_terminal.cancel_button"),
                 button -> Minecraft.getInstance().setScreen(parentScreen)
             ).bounds(x, y + 60, 200, 20).build());
         }
@@ -227,9 +335,11 @@ public class RadioTerminalSMSScreen extends Screen {
             // 显示目标玩家
             if (targetPlayer != null) {
                 guiGraphics.drawCenteredString(this.font, 
-                    Component.literal("发送给: " + targetPlayer.getScoreboardName()), 
+                    Component.literal("发送给: " + targetPlayer.getScoreboardName()),
                     this.width / 2, 40, 0xFFFFFF);
             }
         }
     }
+    
+    // ...existing code...
 }

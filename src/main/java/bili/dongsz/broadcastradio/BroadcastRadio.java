@@ -16,6 +16,8 @@ import net.minecraftforge.network.simple.SimpleChannel;
 @Mod("broadcast_radio")
 public class BroadcastRadio {
     public static final String MOD_ID = "broadcast_radio";
+    // 全局客户端标志：表示本客户端自身是否满足短信/服务全部条件（终端+电池>0+SIM+有效基站）
+    public static boolean HAS_VALID_SERVICE = false;
 
     // Network channel
     public static final SimpleChannel NETWORK = net.minecraftforge.network.NetworkRegistry.ChannelBuilder

@@ -16,6 +16,8 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.core.NonNullList;
 
+import static net.minecraft.commands.arguments.EntityArgument.getPlayer;
+
 public class WalkieTalkieMenu extends AbstractContainerMenu {
     private final ItemStack walkieStack;
     private final NonNullList<ItemStack> batteryInventory;
@@ -43,8 +45,25 @@ public class WalkieTalkieMenu extends AbstractContainerMenu {
             }
             
             @Override
+            public int getMaxStackSize() {
+                return 1; // 最大堆叠限制为1
+            }
+            
+            @Override
+            public int getMaxStackSize(ItemStack stack) {
+                return 1; // 最大堆叠限制为1
+            }
+            
+            @Override
+            public boolean mayPickup(Player player) {
+                return true;
+            }
+            
+            @Override
             public void set(ItemStack stack) {
-                if (!stack.isEmpty() && stack.is(ModItems.RADIO_BATTERY.get()) && stack.getCount() > 1) {
+                // 简单实现：限制堆叠为1，不处理物品覆盖问题
+                // 物品覆盖问题由Minecraft标准交互逻辑自动处理
+                if (!stack.isEmpty()) {
                     ItemStack singleBattery = stack.copy();
                     singleBattery.setCount(1);
                     super.set(singleBattery);
@@ -54,7 +73,7 @@ public class WalkieTalkieMenu extends AbstractContainerMenu {
             }
         });
         
-        // 玩家物品栏位置调整（向上移动4像素）
+        // 玩家物品栏
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
                 this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 124 + i * 18));

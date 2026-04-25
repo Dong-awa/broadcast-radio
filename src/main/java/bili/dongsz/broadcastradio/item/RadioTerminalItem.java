@@ -3,6 +3,7 @@ package bili.dongsz.broadcastradio.item;
 import bili.dongsz.broadcastradio.menu.RadioTerminalMenu;
 import bili.dongsz.broadcastradio.menu.RadioTerminalQuickMenu;
 import bili.dongsz.broadcastradio.screen.RadioTerminalQuickScreen;
+import bili.dongsz.broadcastradio.utils.SignalSearchManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
@@ -72,9 +73,11 @@ public class RadioTerminalItem extends Item {
             stack.setTag(tag);
         }
 
-        // 只在客户端执行打开GUI的操作
         if (level.isClientSide) {
-            // 直接打开Screen，不要传Menu之类的
+            SignalSearchManager searchManager = SignalSearchManager.getInstance();
+            if (!searchManager.isRunning()) {
+                searchManager.startSignalSearch();
+            }
             Minecraft.getInstance().setScreen(new RadioTerminalQuickScreen());
         }
         return InteractionResultHolder.success(stack);

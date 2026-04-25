@@ -11,6 +11,8 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.core.NonNullList;
 import net.minecraft.nbt.CompoundTag;
 
+import static net.minecraft.commands.arguments.EntityArgument.getPlayer;
+
 public class EncryptedWalkieTalkieMenu extends AbstractContainerMenu {
     private final ItemStack walkieStack;
     private final NonNullList<ItemStack> batteryInventory;
@@ -37,8 +39,25 @@ public class EncryptedWalkieTalkieMenu extends AbstractContainerMenu {
             }
             
             @Override
+            public int getMaxStackSize() {
+                return 1; // 最大堆叠限制为1
+            }
+            
+            @Override
+            public int getMaxStackSize(ItemStack stack) {
+                return 1; // 最大堆叠限制为1
+            }
+            
+            @Override
+            public boolean mayPickup(Player player) {
+                return true;
+            }
+            
+            @Override
             public void set(ItemStack stack) {
-                if (!stack.isEmpty() && stack.is(ModItems.RADIO_BATTERY.get()) && stack.getCount() > 1) {
+                // 简单实现：限制堆叠为1，不处理物品覆盖问题
+                // 物品覆盖问题由Minecraft标准交互逻辑自动处理
+                if (!stack.isEmpty()) {
                     ItemStack singleBattery = stack.copy();
                     singleBattery.setCount(1);
                     super.set(singleBattery);

@@ -35,50 +35,41 @@ public class ReceiveSMSPacket {
     }
     
     /**
-     * 客户端处理 - 本地检查背包终端并显示消息（带延迟效果）
+     * 客户端处理 - 直接显示消息（带延迟效果）
+     * 发送端已完成前置过滤，服务器转发的都是符合条件的消息
      */
     public static void handle(ReceiveSMSPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            // 客户端本地检查背包是否有终端
+            // 发送端已完成前置过滤，直接处理消息
             if (net.minecraft.client.Minecraft.getInstance().player != null) {
-                boolean hasTerminal = false;
-                for (int i = 0; i < net.minecraft.client.Minecraft.getInstance().player.getInventory().getContainerSize(); i++) {
-                    if (net.minecraft.client.Minecraft.getInstance().player.getInventory().getItem(i).getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get()) {
-                        hasTerminal = true;
-                        break;
+                // 获取当前网络频段延迟
+                int delay = bili.dongsz.broadcastradio.utils.SMSDelayUtils.getPlayerCurrentNetworkDelay();
+                
+                // 获取发送者名称
+                final String senderName = getSenderName(packet.senderUUID);
+                final String finalMessage = packet.message;
+                
+                // 启动客户端定时器，延迟显示
+                new Thread(() -> {
+                    try {
+                        Thread.sleep(delay);
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        return;
                     }
-                }
-
-                if (hasTerminal) {
-                    // 获取当前网络频段延迟
-                    int delay = bili.dongsz.broadcastradio.utils.SMSDelayUtils.getPlayerCurrentNetworkDelay();
                     
-                    // 获取发送者名称
-                    final String senderName = getSenderName(packet.senderUUID);
-                    final String finalMessage = packet.message;
-                    
-                    // 启动客户端定时器，延迟显示
-                    new Thread(() -> {
-                        try {
-                            Thread.sleep(delay);
-                        } catch (InterruptedException e) {
-                            Thread.currentThread().interrupt();
-                            return;
-                        }
-                        
-                        // 定时器结束后，在主线程显示短信
-                        net.minecraft.client.Minecraft.getInstance().execute(() -> {
-                            // 显示短信
-                            net.minecraft.client.Minecraft.getInstance().player.sendSystemMessage(
-                                net.minecraft.network.chat.Component.translatable(
-                                    "item.broadcast_radio.radio_terminal.sms_received",
-                                    senderName,
-                                    finalMessage
-                                )
-                            );
-                        });
-                    }).start();
-                }
+                    // 定时器结束后，在主线程显示短信
+                    net.minecraft.client.Minecraft.getInstance().execute(() -> {
+                        // 显示短信
+                        net.minecraft.client.Minecraft.getInstance().player.sendSystemMessage(
+                            net.minecraft.network.chat.Component.translatable(
+                                "item.broadcast_radio.radio_terminal.sms_received",
+                                senderName,
+                                finalMessage
+                            )
+                        );
+                    });
+                }).start();
             }
         });
         ctx.get().setPacketHandled(true);
