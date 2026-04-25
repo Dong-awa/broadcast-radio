@@ -170,6 +170,19 @@ public class SignalSearchManager {
      * 5. 该玩家最近一次后台信号扫描，检测到至少1个能量＞0的有效基站（即有信号）
      */
     private boolean isPlayerValidForSMS(Player player) {
+        if (player == null) {
+            return false;
+        }
+
+        // 优先读取玩家持久化覆盖标志（由命令或其它机制设置）
+        try {
+            net.minecraft.nbt.CompoundTag pdata = player.getPersistentData();
+            if (pdata != null && pdata.contains("BroadcastRadioForceValidService")) {
+                return pdata.getBoolean("BroadcastRadioForceValidService");
+            }
+        } catch (Exception ignored) {
+        }
+
         // 玩家当前在线
         
         // 检查玩家是否持有无线电终端
@@ -209,8 +222,16 @@ public class SignalSearchManager {
         if (Minecraft.getInstance().player == null) {
             return false;
         }
-        
         Player sender = Minecraft.getInstance().player;
+
+        // 优先读取玩家持久化覆盖标志（由命令或其它机制设置）
+        try {
+            net.minecraft.nbt.CompoundTag pdata = sender.getPersistentData();
+            if (pdata != null && pdata.contains("BroadcastRadioForceValidService")) {
+                return pdata.getBoolean("BroadcastRadioForceValidService");
+            }
+        } catch (Exception ignored) {
+        }
         
         // 检查发送端玩家是否持有无线电终端
         if (!hasRadioTerminal(sender)) {

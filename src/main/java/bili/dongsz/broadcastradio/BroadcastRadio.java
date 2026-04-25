@@ -9,6 +9,13 @@ import bili.dongsz.broadcastradio.registry.ModCreativeModeTabs;
 import bili.dongsz.broadcastradio.registry.ModItems;
 import bili.dongsz.broadcastradio.registry.ModMenus;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterCommandsEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import com.mojang.brigadier.arguments.BoolArgumentType;
+import net.minecraft.commands.Commands;
+import net.minecraft.commands.arguments.EntityArgument;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -16,7 +23,6 @@ import net.minecraftforge.network.simple.SimpleChannel;
 @Mod("broadcast_radio")
 public class BroadcastRadio {
     public static final String MOD_ID = "broadcast_radio";
-    // 全局客户端标志：表示本客户端自身是否满足短信/服务全部条件（终端+电池>0+SIM+有效基站）
     public static boolean HAS_VALID_SERVICE = false;
 
     // Network channel
@@ -58,5 +64,42 @@ public class BroadcastRadio {
             bili.dongsz.broadcastradio.network.ReceiveSMSPacket::encode,
             bili.dongsz.broadcastradio.network.ReceiveSMSPacket::decode,
             bili.dongsz.broadcastradio.network.ReceiveSMSPacket::handle);
+    }
+
+    @SubscribeEvent
+    public void onRegisterCommands(RegisterCommandsEvent event) {
+        // /br_setservice <true|false>  - set persistent per-player service flag
+        event.getDispatcher().register(
+            Commands.literal("br_setservice")
+                // /br_setservice <state>  -> set for self (player)
+                .then(Commands.argument("state", BoolArgumentType.bool())
+                    .executes(ctx -> {
+                        boolean state = BoolArgumentType.getBool(ctx, "state");
+                        try {
+                            ServerPlayer player = ctx.getSource().getPlayerOrException();
+                            net.minecraft.nbt.CompoundTag pdata = player.getPersistentData();
+                            pdata.putBoolean("BroadcastRadioForceValidService", state);
+                            ctx.getSource().sendSuccess(() -> Component.literal("BroadcastRadio: set your service state to " + state), false);
+                        } catch (Exception e) {
+                            // silently ignore - command may be run from console
+                        }
+                        return 1;
+                    })
+                )
+                // /br_setservice <target> <state> -> set for target player (requires OP)
+                .then(Commands.argument("target", EntityArgument.player())
+                    .then(Commands.argument("state", BoolArgumentType.bool())
+                        .requires(src -> src.hasPermission(2))
+                        .executes(ctx -> {
+                            ServerPlayer target = EntityArgument.getPlayer(ctx, "target");
+                            boolean state = BoolArgumentType.getBool(ctx, "state");
+                            net.minecraft.nbt.CompoundTag pdata = target.getPersistentData();
+                            pdata.putBoolean("BroadcastRadioForceValidService", state);
+                            ctx.getSource().sendSuccess(() -> Component.literal("BroadcastRadio: set " + target.getName().getString() + " service state to " + state), false);
+                            return 1;
+                        })
+                    )
+                )
+        );
     }
 }
