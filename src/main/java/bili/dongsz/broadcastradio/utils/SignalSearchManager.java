@@ -53,7 +53,7 @@ public class SignalSearchManager {
         
         isRunning = true;
         
-        // 每5秒执行一次信号搜索（100 tick）
+        // 每3秒执行一次信号搜索（60 tick）——同时以此频率更新全局 HAS_VALID_SERVICE
         scheduler.scheduleAtFixedRate(() -> {
             if (Minecraft.getInstance().level == null || Minecraft.getInstance().player == null) {
                 return;
@@ -71,7 +71,7 @@ public class SignalSearchManager {
             // 执行信号搜索逻辑
             performSignalSearch();
             
-        }, 0, 5, TimeUnit.SECONDS); // 初始延迟0秒，每5秒执行一次
+        }, 0, 3, TimeUnit.SECONDS); // 初始延迟0秒，每3秒执行一次
     }
     
     /**
@@ -151,6 +151,7 @@ public class SignalSearchManager {
                                          Math.abs(playerPos.getZ() - stationPos.getZ());
                             int signalRange = station.getSignalRange();
                             if (distance <= signalRange) {
+                                return true;
                             }
                         }
                     }
@@ -170,47 +171,32 @@ public class SignalSearchManager {
      * 5. 该玩家最近一次后台信号扫描，检测到至少1个能量＞0的有效基站（即有信号）
      */
     private boolean isPlayerValidForSMS(Player player) {
-        if (player == null) {
-            return false;
-        }
-
-        // 优先读取玩家持久化覆盖标志（由命令或其它机制设置）
-        try {
-            net.minecraft.nbt.CompoundTag pdata = player.getPersistentData();
-            if (pdata != null && pdata.contains("BroadcastRadioForceValidService")) {
-                return pdata.getBoolean("BroadcastRadioForceValidService");
-            }
-        } catch (Exception ignored) {
-        }
-
-        // 玩家当前在线
-        
         // 检查玩家是否持有无线电终端
         if (!hasRadioTerminal(player)) {
             return false;
         }
-        
+
         // 检查终端电池槽内有电池且电量＞0
         ItemStack terminalStack = findRadioTerminalInInventory(player);
         if (terminalStack.isEmpty()) {
             return false;
         }
-        
+
         if (!bili.dongsz.broadcastradio.item.RadioTerminalItem.hasBattery(terminalStack)) {
             return false;
         }
-        
+
         int batteryLevel = bili.dongsz.broadcastradio.item.RadioTerminalItem.getBatteryLevel(terminalStack);
         if (batteryLevel <= 0) {
             return false;
         }
-        
+
         // 检查终端SIM卡槽内已插入有效SIM卡
         if (!hasValidSIMCard(terminalStack)) {
             return false;
         }
-        
-        // 检查该玩家是否有有效基站信号
+
+        // （注意：信号检查由发送端统一判断，此处不再额外检查）
         return true;
     }
     
@@ -224,41 +210,32 @@ public class SignalSearchManager {
         }
         Player sender = Minecraft.getInstance().player;
 
-        // 优先读取玩家持久化覆盖标志（由命令或其它机制设置）
-        try {
-            net.minecraft.nbt.CompoundTag pdata = sender.getPersistentData();
-            if (pdata != null && pdata.contains("BroadcastRadioForceValidService")) {
-                return pdata.getBoolean("BroadcastRadioForceValidService");
-            }
-        } catch (Exception ignored) {
-        }
-        
         // 检查发送端玩家是否持有无线电终端
         if (!hasRadioTerminal(sender)) {
             return false;
         }
-        
+
         // 检查终端电池槽内有电池且电量＞0
         ItemStack terminalStack = findRadioTerminalInInventory(sender);
         if (terminalStack.isEmpty()) {
             return false;
         }
-        
+
         if (!bili.dongsz.broadcastradio.item.RadioTerminalItem.hasBattery(terminalStack)) {
             return false;
         }
-        
+
         int batteryLevel = bili.dongsz.broadcastradio.item.RadioTerminalItem.getBatteryLevel(terminalStack);
         if (batteryLevel <= 0) {
             return false;
         }
-        
+
         // 检查终端SIM卡槽内已插入有效SIM卡
         if (!hasValidSIMCard(terminalStack)) {
             return false;
         }
-        
-        // 检查发送端玩家是否有有效基站信号
+
+        // 发送端需要同时有有效基站信号
         return hasValidSignal;
     }
     
