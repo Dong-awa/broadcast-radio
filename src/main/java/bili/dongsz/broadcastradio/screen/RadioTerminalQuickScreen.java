@@ -1,6 +1,7 @@
 package bili.dongsz.broadcastradio.screen;
 
 import bili.dongsz.broadcastradio.item.RadioTerminalItem;
+import bili.dongsz.broadcastradio.utils.SignalSearchManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
@@ -39,6 +40,12 @@ public class RadioTerminalQuickScreen extends Screen {
     protected void init() {
         super.init();
         this.lastServiceCheckTime = System.currentTimeMillis();
+        
+        // 初始化时先使用后台缓存的服务名称
+        SignalSearchManager searchManager = SignalSearchManager.getInstance();
+        if (searchManager.isRunning()) {
+            this.cachedServiceName = searchManager.getCachedServiceName();
+        }
         
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
@@ -80,7 +87,7 @@ public class RadioTerminalQuickScreen extends Screen {
         String batteryText = batteryLevel + "%";
         guiGraphics.drawString(this.font, batteryText, x + 5, y + this.imageHeight - 15, 0x404040);
         
-        // 服务名，右下角 - 连续自动检查
+        // 服务名，右下角 - 使用缓存显示，同时独立搜索更新
         String currentServiceName = this.cachedServiceName;
         if (this.minecraft != null && this.minecraft.level != null && this.minecraft.player != null) {
             // 如果不在搜索中，自动开始下一次搜索
@@ -90,7 +97,6 @@ public class RadioTerminalQuickScreen extends Screen {
                 // 异步搜索基站，避免卡顿
                 new Thread(() -> {
                     try {
-                        // 模拟搜索延迟，调整为原先的1/6（约15ms）
                         Thread.sleep(15); // 固定延迟15ms
                         
                         String newServiceName = RadioTerminalItem.getCurrentServiceName(this.minecraft.level, this.minecraft.player);
@@ -99,14 +105,14 @@ public class RadioTerminalQuickScreen extends Screen {
                         if (this.minecraft != null) {
                             this.minecraft.execute(() -> {
                                 this.cachedServiceName = newServiceName;
-                                this.isSearching = false; // 搜索完成，准备下一次
+                                this.isSearching = false;
                                 this.lastServiceCheckTime = System.currentTimeMillis();
                             });
                         }
                     } catch (Exception e) {
                         if (this.minecraft != null) {
                             this.minecraft.execute(() -> {
-                                this.isSearching = false; // 搜索失败，准备下一次
+                                this.isSearching = false;
                                 this.lastServiceCheckTime = System.currentTimeMillis();
                             });
                         }

@@ -27,6 +27,7 @@ public class SignalSearchManager {
     private boolean isRunning = false;
     private List<Player> cachedOnlinePlayers = new ArrayList<>();
     private boolean hasValidSignal = false; // 信号状态：true=有信号，false=无信号
+    private String cachedServiceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString(); // 缓存的基站服务名称
     
     private SignalSearchManager() {
         this.scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
@@ -284,10 +285,22 @@ public class SignalSearchManager {
      * 执行信号搜索逻辑
      */
     private void performSignalSearch() {
-        // 先检测信号状态
-        hasValidSignal = checkSignalStatus();
+        // 直接使用终端搜索方法获取服务名称（包含SIM卡匹配检查）
+        String serviceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString();
+        if (Minecraft.getInstance().player != null && Minecraft.getInstance().level != null) {
+            serviceName = bili.dongsz.broadcastradio.item.RadioTerminalItem.getCurrentServiceName(
+                Minecraft.getInstance().level,
+                Minecraft.getInstance().player
+            );
+        }
         
-        // 检查发送端玩家自身是否满足服务条��
+        // 更新缓存的服务名称
+        this.cachedServiceName = serviceName;
+        
+        // 根据服务名称判断信号状态（有服务名表示有信号）
+        hasValidSignal = !serviceName.equals(Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString());
+        
+        // 检查发送端玩家自身是否满足服务条件
         boolean isSenderValid = isSenderValidForSMS();
 
         if (!isSenderValid) {
@@ -342,5 +355,12 @@ public class SignalSearchManager {
      */
     public boolean isRunning() {
         return isRunning;
+    }
+    
+    /**
+     * 获取缓存的基站服务名称
+     */
+    public String getCachedServiceName() {
+        return cachedServiceName;
     }
 }

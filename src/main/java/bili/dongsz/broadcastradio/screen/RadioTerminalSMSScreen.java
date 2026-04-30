@@ -8,12 +8,8 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.core.BlockPos;
-import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.block.entity.BlockEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,12 +67,8 @@ public class RadioTerminalSMSScreen extends Screen {
             button -> {}
         ).bounds(x, y, 200, 20).build()).active = false;
 
-        // 检查发送端自身是否有效
-        boolean isSenderValid = BroadcastRadio.HAS_VALID_SERVICE;
 
-        if (!isSenderValid && Minecraft.getInstance().player != null) {
-            isSenderValid = isPlayerValid(Minecraft.getInstance().player, true);
-        }
+        boolean isSenderValid = BroadcastRadio.HAS_VALID_SERVICE;
         
         if (!isSenderValid) {
             // 发送端无效，显示空列表提示
@@ -85,19 +77,10 @@ public class RadioTerminalSMSScreen extends Screen {
                 button -> {}
             ).bounds(x, y + 25, 200, 20).build()).active = false;
         } else {
-            // 发送端有效，获取并过滤在线玩家列表
+            // 发送端有效，直接使用 SignalSearchManager 缓存的玩家列表
             onlinePlayers.clear();
-            
-            if (Minecraft.getInstance().level != null) {
-                // 获取所有在线玩家并过滤
-                List<AbstractClientPlayer> allPlayers = Minecraft.getInstance().level.players();
-                for (Player player : allPlayers) {
-                    if (!player.getUUID().equals(Minecraft.getInstance().player.getUUID()) && 
-                        isPlayerValid(player)) {
-                        onlinePlayers.add(player);
-                    }
-                }
-            }
+            SignalSearchManager searchManager = SignalSearchManager.getInstance();
+            onlinePlayers.addAll(searchManager.getCachedOnlinePlayers());
             
             // 显示玩家列表按钮
             int playerButtonY = y + 25;
@@ -154,56 +137,7 @@ public class RadioTerminalSMSScreen extends Screen {
         this.init();
     }
     
-    /**
-     * 判断其他玩家是否处于「可被搜索」的有效状态（不检查信号）
-     */
-    private boolean isPlayerValid(Player player) {
-        return isPlayerValid(player, false);
-    }
     
-    /**
-     * 判断玩家是否处于「可被搜索」的有效状态
-     * @param player 要检查的玩家
-     * @param checkSignal 是否检查信号状态（发送端需要检查，其他玩家不需要）
-     */
-    private boolean isPlayerValid(Player player, boolean checkSignal) {
-        // 1. 玩家必须在线
-        if (player == null || !player.isAlive()) {
-            return false;
-        }
-        
-        // 2. 遍历背包，检查是否存在符合条件的无线电终端
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
-            ItemStack stack = player.getInventory().getItem(i);
-            if (stack.is(bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get())) {
-                net.minecraft.nbt.CompoundTag tag = stack.getOrCreateTag();
-                
-                // 3. 终端电池电量 > 0
-                if (bili.dongsz.broadcastradio.item.RadioTerminalItem.hasBattery(stack) && 
-                    bili.dongsz.broadcastradio.item.RadioTerminalItem.getBatteryLevel(stack) > 0) {
-                    
-                    // 4. 终端已插入有效SIM卡
-                    if (tag.contains("SimCard")) {
-                        net.minecraft.nbt.CompoundTag simCardTag = tag.getCompound("SimCard");
-                        net.minecraft.world.item.ItemStack simCard = net.minecraft.world.item.ItemStack.of(simCardTag);
-                        if (!simCard.isEmpty()) {
-                            
-                            // 终端存在有效基站信号（仅发送端需要检查）
-                            if (checkSignal) {
-                                bili.dongsz.broadcastradio.utils.SignalSearchManager searchManager = 
-                                    bili.dongsz.broadcastradio.utils.SignalSearchManager.getInstance();
-                                if (!searchManager.hasValidSignal()) {
-                                    return false;
-                                }
-                            }
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
-    }
     
     private void openMessageInputScreen() {
         Minecraft.getInstance().setScreen(new MessageInputScreen(this, selectedPlayer));
