@@ -47,7 +47,6 @@ public class SimpleRadioMenu extends AbstractContainerMenu {
         if (radioEntity == null) {
             return false;
         }
-        // 检查方块是否仍然存在
         return player.level().isLoaded(radioEntity.getBlockPos()) && 
                player.distanceToSqr(radioEntity.getBlockPos().getX() + 0.5, 
                                   radioEntity.getBlockPos().getY() + 0.5, 
@@ -61,7 +60,7 @@ public class SimpleRadioMenu extends AbstractContainerMenu {
 
     @Override
     public boolean clickMenuButton(Player player, int buttonId) {
-        // 移除频率切换功能，只保留88.5MHz
+        // 先把换频去了，当然代码上还在，等以后再加回来
         return true;
     }
 }

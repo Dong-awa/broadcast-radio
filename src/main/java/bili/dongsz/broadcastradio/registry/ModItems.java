@@ -17,7 +17,7 @@ public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
             DeferredRegister.create(ForgeRegistries.ITEMS, BroadcastRadio.MOD_ID);
 
-    //下面注册物品
+    //注册物品
     public static final RegistryObject<Item> TEST_ITEM = ITEMS.register("test",
             () -> new Item(new Item.Properties()
                     .stacksTo(64)
@@ -111,7 +111,7 @@ public class ModItems {
             () -> new bili.dongsz.broadcastradio.item.BatteryItem(new Item.Properties()
                     .stacksTo(64)
                     .rarity(Rarity.UNCOMMON)
-                    .durability(700))); // 蓄电池最大耐久度700
+                    .durability(700))); // 最大耐久700
 
     @SubscribeEvent
     public void onItemTooltip(ItemTooltipEvent event) {

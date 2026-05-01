@@ -74,7 +74,7 @@ public class QueryPlayerValidPacket {
             return false;
         }
         
-        // 检查信号状态（必须有信号才能被搜索到）
+        // 检查信号状态
         String serviceName = bili.dongsz.broadcastradio.item.RadioTerminalItem.getCurrentServiceName(player.level(), player);
         return !serviceName.equals(net.minecraft.network.chat.Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString());
     }

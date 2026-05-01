@@ -26,16 +26,13 @@ public class EncryptedWalkieTalkieScreen extends AbstractContainerScreen<Encrypt
         this.imageHeight = 222;
         this.currentFrequency = menu.getWalkieStack().getOrCreateTag().getFloat("Frequency");
         this.currentPassword = menu.getWalkieStack().getOrCreateTag().getString("Password");
-        
-        // 修正物品栏文字位置
-        this.inventoryLabelX = 8; // 左边距，默认值
-        this.inventoryLabelY = this.imageHeight - 94; // 底部物品栏上方的标准位置
+        this.inventoryLabelX = 8;
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        // E键也可以关闭界面
-        if (keyCode == 69 || keyCode == 256) { // 69是E键，256是ESC键
+        if (keyCode == 69 || keyCode == 256) {
             this.onClose();
             return true;
         }
@@ -44,7 +41,7 @@ public class EncryptedWalkieTalkieScreen extends AbstractContainerScreen<Encrypt
 
     @Override
     public boolean isPauseScreen() {
-        return false; // 打开时不暂停游戏
+        return false;
     }
 
     @Override
@@ -79,7 +76,7 @@ public class EncryptedWalkieTalkieScreen extends AbstractContainerScreen<Encrypt
             adjustFrequency(5.0f);
         }).bounds(startX + buttonWidth * 3 + spacing * 3, buttonY, buttonWidth, buttonHeight).build());
 
-        // 密码输入框 - 调整y坐标到100左右，位于电量显示下方
+        // 密码输入框
         this.passwordBox = new EditBox(this.font, x + 10, y + 100, 156, 20, Component.translatable("item.broadcast_radio.walkie_talkie.password"));
         this.passwordBox.setMaxLength(2);
         this.passwordBox.setValue(currentPassword);
@@ -114,8 +111,7 @@ public class EncryptedWalkieTalkieScreen extends AbstractContainerScreen<Encrypt
         this.renderBg(guiGraphics, partialTick, mouseX, mouseY);
         
         guiGraphics.drawString(this.font, this.title.getString(), x + 8, y + 6, 0x404040);
-        
-        // 渲染按钮
+
         this.renderables.forEach(widget -> widget.render(guiGraphics, mouseX, mouseY, partialTick));
         
         // 显示当前频率
@@ -144,7 +140,7 @@ public class EncryptedWalkieTalkieScreen extends AbstractContainerScreen<Encrypt
         guiGraphics.fill(batterySlotX, buttonY + buttonHeight + 35, batterySlotX + 16, buttonY + buttonHeight + 36, 0xFF333333);
         guiGraphics.fill(batterySlotX + 15, buttonY + buttonHeight + 20, batterySlotX + 16, buttonY + buttonHeight + 36, 0xFF333333);
 
-        // 添加"加密密钥"文本 - 位于输入框左上角
+        // 渲染提示文本
         guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.encrypted_walkie_talkie.encryption_key"), x + 10, y + 88, 0x404040);
 
         super.render(guiGraphics, mouseX, mouseY, partialTick);

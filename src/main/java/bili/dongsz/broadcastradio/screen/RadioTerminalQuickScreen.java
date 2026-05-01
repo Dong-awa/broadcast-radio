@@ -23,8 +23,7 @@ public class RadioTerminalQuickScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        // E键也可以关闭界面
-        if (keyCode == 69 || keyCode == 256) { // 69是E键，256是ESC键
+        if (keyCode == 69 || keyCode == 256) {
             this.onClose();
             return true;
         }
@@ -33,7 +32,7 @@ public class RadioTerminalQuickScreen extends Screen {
 
     @Override
     public boolean isPauseScreen() {
-        return false; // 打开时不暂停游戏
+        return false;
     }
 
     @Override
@@ -41,7 +40,7 @@ public class RadioTerminalQuickScreen extends Screen {
         super.init();
         this.lastServiceCheckTime = System.currentTimeMillis();
         
-        // 初始化时先使用后台缓存的服务名称
+        // 使用缓存的服务名称
         SignalSearchManager searchManager = SignalSearchManager.getInstance();
         if (searchManager.isRunning()) {
             this.cachedServiceName = searchManager.getCachedServiceName();
@@ -50,7 +49,7 @@ public class RadioTerminalQuickScreen extends Screen {
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
         
-        // 添加SMS按钮
+        // SMS按钮
         this.addRenderableWidget(Button.builder(
             Component.translatable("item.broadcast_radio.radio_terminal.sms_button"),
             button -> openSMSScreen()
@@ -69,14 +68,14 @@ public class RadioTerminalQuickScreen extends Screen {
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
         
-        // 绘制GUI背景
+        // GUI背景
         guiGraphics.fill(x, y, x + this.imageWidth, y + this.imageHeight, 0xFF8B8B8B);
         guiGraphics.fill(x, y, x + this.imageWidth, y + 1, 0xFF333333);
         guiGraphics.fill(x, y, x + 1, y + this.imageHeight, 0xFF333333);
         guiGraphics.fill(x + this.imageWidth - 1, y, x + this.imageWidth, y + this.imageHeight, 0xFF333333);
         guiGraphics.fill(x, y + this.imageHeight - 1, x + this.imageWidth, y + this.imageHeight, 0xFF333333);
         
-        // 电量，左下角
+        // 电量
         int batteryLevel = 0;
         if (this.minecraft != null && this.minecraft.player != null) {
             ItemStack terminalStack = this.minecraft.player.getMainHandItem();
@@ -87,21 +86,17 @@ public class RadioTerminalQuickScreen extends Screen {
         String batteryText = batteryLevel + "%";
         guiGraphics.drawString(this.font, batteryText, x + 5, y + this.imageHeight - 15, 0x404040);
         
-        // 服务名，右下角 - 使用缓存显示，同时独立搜索更新
+        // 服务名
         String currentServiceName = this.cachedServiceName;
         if (this.minecraft != null && this.minecraft.level != null && this.minecraft.player != null) {
-            // 如果不在搜索中，自动开始下一次搜索
             if (!this.isSearching) {
                 this.isSearching = true;
-                
-                // 异步搜索基站，避免卡顿
+                // 搜索基站
                 new Thread(() -> {
                     try {
-                        Thread.sleep(15); // 固定延迟15ms
+                        Thread.sleep(15);
                         
                         String newServiceName = RadioTerminalItem.getCurrentServiceName(this.minecraft.level, this.minecraft.player);
-                        
-                        // 在主线程中更新结果
                         if (this.minecraft != null) {
                             this.minecraft.execute(() -> {
                                 this.cachedServiceName = newServiceName;

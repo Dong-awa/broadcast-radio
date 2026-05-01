@@ -63,7 +63,6 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
     }
 
     public int getSignalRange() {
-        // 能量为0时，信号范围强制设为0
         if (getTotalEnergy() <= 0) {
             return 0;
         }
@@ -167,7 +166,7 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
 
     public static void tick(Level level, BlockPos pos, BlockState state, RadioBaseStationBlockEntity blockEntity) {
         if (level.isClientSide) {
-            return; // 只在服务端执行
+            return;
         }
         
         blockEntity.tickCounter++;
@@ -182,45 +181,32 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
             }
         }
     }
-    
-    /**
-     * 尝试消耗电量 - 基站本身没有储存电量，只能从电池消耗
-     */
+
     private void tryConsumeEnergy() {
         float consumption = this.getEnergyConsumptionRate();
-        
-        // 检查电池槽是否有可用的电池
+
         ItemStack batteryStack = items.get(0);
         if (!batteryStack.isEmpty()) {
             int currentDurability = getBatteryCurrentDurability(batteryStack);
             
             if (currentDurability > 0) {
-                // 直接消耗电池的耐久度（耐久度与电量同比）
-                int durabilityToConsume = (int)Math.ceil(consumption); // 1电量 = 1耐久度
+                int durabilityToConsume = (int)Math.ceil(consumption); // 1:1
                 int newDurability = Math.max(0, currentDurability - durabilityToConsume);
-                
-                // 设置新的电池耐久度
                 setBatteryDurability(batteryStack, newDurability);
                 this.setChanged();
             }
         }
     }
-    
-    /**
-     * 获取电池的最大耐久度或电力
-     */
+
     private int getBatteryMaxDurability(ItemStack batteryStack) {
         if (batteryStack.getItem() == bili.dongsz.broadcastradio.registry.ModItems.STORAGE_BATTERY.get()) {
-            return 700; // 蓄电池最大耐久度
+            return 700;
         } else if (batteryStack.getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_BATTERY.get()) {
-            return 100; // 无线电电池最大电力
+            return 100;
         }
         return 0;
     }
-    
-    /**
-     * 获取电池的当前耐久度或电力
-     */
+
     private int getBatteryCurrentDurability(ItemStack batteryStack) {
         if (batteryStack.getItem() == bili.dongsz.broadcastradio.registry.ModItems.STORAGE_BATTERY.get()) {
             int maxDurability = getBatteryMaxDurability(batteryStack);
@@ -230,10 +216,7 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
         }
         return 0;
     }
-    
-    /**
-     * 设置电池的耐久度或电力
-     */
+
     private void setBatteryDurability(ItemStack batteryStack, int durability) {
         if (batteryStack.getItem() == bili.dongsz.broadcastradio.registry.ModItems.STORAGE_BATTERY.get()) {
             int maxDurability = getBatteryMaxDurability(batteryStack);
@@ -242,22 +225,14 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
             bili.dongsz.broadcastradio.item.RadioBatteryItem.setPower(batteryStack, durability);
         }
     }
-    
-    /**
-     * 检查基站是否在工作状态
-     */
+
     public boolean isWorking() {
-        // 条件1：电池槽中有耐久度>0的电池
         boolean hasBattery = hasBatteryWithDurability();
-        // 条件2：已配置服务名称
         boolean hasServiceName = serviceName != null && !serviceName.trim().isEmpty();
         
         return hasBattery && hasServiceName;
     }
-    
-    /**
-     * 检查电池槽中是否有耐久度>0的电池
-     */
+
     private boolean hasBatteryWithDurability() {
         ItemStack batteryStack = items.get(0);
         if (!batteryStack.isEmpty()) {
@@ -266,21 +241,17 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
         }
         return false;
     }
-    
-    /**
-     * 获取当前总电量（基站本身没有储存电量，只显示电池剩余电量，耐久度与电量同比）
-     */
+
     public int getTotalEnergy() {
         ItemStack batteryStack = items.get(0);
         if (!batteryStack.isEmpty()) {
             int currentDurability = getBatteryCurrentDurability(batteryStack);
-            return currentDurability; // 1耐久度 = 1电量
+            return currentDurability; // 1:1
         }
         
         return 0;
     }
 
-    // 库存系统实现
     @Override
     public int getContainerSize() {
         return items.size();

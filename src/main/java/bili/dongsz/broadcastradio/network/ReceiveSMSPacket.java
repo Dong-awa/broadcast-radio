@@ -8,9 +8,6 @@ import net.minecraftforge.network.NetworkEvent;
 import java.util.UUID;
 import java.util.function.Supplier;
 
-/**
- * 接收方SMS数据包 - 客户端本地处理所有逻辑
- */
 public class ReceiveSMSPacket {
     private final UUID senderUUID;
     private final String message;
@@ -33,11 +30,6 @@ public class ReceiveSMSPacket {
     public static ReceiveSMSPacket decode(FriendlyByteBuf buf) {
         return new ReceiveSMSPacket(buf);
     }
-    
-    /**
-     * 客户端处理 - 直接显示消息（带延迟效果）
-     * 发送端已完成前置过滤，服务器转发的都是符合条件的消息
-     */
     public static void handle(ReceiveSMSPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             // 发送端已完成前置过滤，直接处理消息
@@ -57,8 +49,7 @@ public class ReceiveSMSPacket {
                         Thread.currentThread().interrupt();
                         return;
                     }
-                    
-                    // 定时器结束后，在主线程显示短信
+
                     net.minecraft.client.Minecraft.getInstance().execute(() -> {
                         // 显示短信
                         net.minecraft.client.Minecraft.getInstance().player.sendSystemMessage(
@@ -75,9 +66,7 @@ public class ReceiveSMSPacket {
         ctx.get().setPacketHandled(true);
     }
     
-    /**
-     * 获取发送者名称
-     */
+    //获取发送者名称
     private static String getSenderName(UUID senderUUID) {
         if (net.minecraft.client.Minecraft.getInstance().level != null) {
             var senderPlayer = net.minecraft.client.Minecraft.getInstance().level.getPlayerByUUID(senderUUID);

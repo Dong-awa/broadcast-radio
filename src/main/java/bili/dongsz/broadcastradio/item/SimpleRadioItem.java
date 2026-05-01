@@ -73,7 +73,7 @@ public class SimpleRadioItem extends BlockItem {
     }
 
     private float getNextPresetFrequency(float current) {
-        // 预设频段：88.5, 92.1, 95.7, 98.3, 101.9, 105.5
+        // 预设频段（虽然暂时搁置）
         float[] presets = {88.5f, 92.1f, 95.7f, 98.3f, 101.9f, 105.5f};
         for (int i = 0; i < presets.length; i++) {
             if (Math.abs(current - presets[i]) < 0.1f) {

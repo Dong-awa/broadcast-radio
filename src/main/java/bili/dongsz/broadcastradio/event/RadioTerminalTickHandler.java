@@ -22,16 +22,11 @@ public class RadioTerminalTickHandler {
             return;
         }
 
-        // 检查玩家手持的终端
         ItemStack mainHandStack = player.getMainHandItem();
         ItemStack offHandStack = player.getOffhandItem();
-
-        // 处理主手的终端
         if (!mainHandStack.isEmpty() && mainHandStack.getItem() instanceof RadioTerminalItem) {
             handleTerminalTick(mainHandStack, player);
         }
-
-        // 处理副手的终端
         if (!offHandStack.isEmpty() && offHandStack.getItem() instanceof RadioTerminalItem) {
             handleTerminalTick(offHandStack, player);
         }
@@ -42,7 +37,7 @@ public class RadioTerminalTickHandler {
             return;
         }
 
-        // 每60秒消耗一次电量
+        // -1/60s
         RadioTerminalItem.consumeBatteryInTick(terminalStack, player);
     }
 }

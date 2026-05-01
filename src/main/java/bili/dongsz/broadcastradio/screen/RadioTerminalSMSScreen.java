@@ -78,11 +78,9 @@ public class RadioTerminalSMSScreen extends Screen {
                 button -> {}
             ).bounds(x, y + 25, 200, 20).build()).active = false;
         } else {
-            // 发送端有效，直接使用 SignalSearchManager 缓存的玩家列表
             onlinePlayers.clear();
             onlinePlayers.addAll(searchManager.getCachedOnlinePlayers());
-            
-            // 显示玩家列表按钮
+
             int playerButtonY = y + 25;
             for (int i = 0; i < onlinePlayers.size(); i++) {
                 Player player = onlinePlayers.get(i);
@@ -98,8 +96,6 @@ public class RadioTerminalSMSScreen extends Screen {
                 
                 playerButtonY += 25;
             }
-            
-            // 如果没有在线玩家，显示占位文本
             if (onlinePlayers.isEmpty()) {
                 this.addRenderableWidget(Button.builder(
                     Component.translatable("item.broadcast_radio.radio_terminal.sms_no_players"),
@@ -121,19 +117,10 @@ public class RadioTerminalSMSScreen extends Screen {
         ).bounds(x, y + 150, 200, 20).build());
     }
 
-
-    /**
-     * 完全清空列表并重新加载符合条件的玩家
-     */
     private void refreshPlayerList() {
-        // 清空所有可渲染组件并重新初始化
         this.clearWidgets();
-
-        // 清空玩家列表
         onlinePlayers.clear();
         selectedPlayer = null;
-
-        // 重新初始化界面组件（init 中会读取 SignalSearchManager 的信号状态）
         this.init();
     }
     
@@ -166,8 +153,7 @@ public class RadioTerminalSMSScreen extends Screen {
         
         @Override
         public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-            // E键也可以关闭界面
-            if (keyCode == 69 || keyCode == 256) { // 69是E键，256是ESC键
+            if (keyCode == 69 || keyCode == 256) {
                 this.onClose();
                 return true;
             }
@@ -176,7 +162,7 @@ public class RadioTerminalSMSScreen extends Screen {
 
         @Override
         public boolean isPauseScreen() {
-            return false; // 打开时不暂停游戏
+            return false;
         }
 
         @Override
@@ -208,7 +194,7 @@ public class RadioTerminalSMSScreen extends Screen {
         private void sendMessage() {
             String message = messageBox.getValue().trim();
             if (!message.isEmpty() && targetPlayer != null) {
-                // 客户端本地检查自己背包是否有终端
+                // 客户端本地检查是否有终端
                 boolean hasTerminal = false;
                 for (int i = 0; i < currentPlayer.getInventory().getContainerSize(); i++) {
                     if (currentPlayer.getInventory().getItem(i).getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get()) {
@@ -218,21 +204,21 @@ public class RadioTerminalSMSScreen extends Screen {
                 }
                 
                 if (!hasTerminal) {
-                    // 本地提示没有终端
                     currentPlayer.sendSystemMessage(
                         net.minecraft.network.chat.Component.translatable("item.broadcast_radio.radio_terminal.no_terminal")
                     );
                     return;
                 }
                 
-                // 显示"正在发送..."提示
+                // "正在发送..."提示
                 currentPlayer.sendSystemMessage(
                     net.minecraft.network.chat.Component.translatable("item.broadcast_radio.radio_terminal.sms_sending")
                 );
                 
+                // 关闭屏幕
+                Minecraft.getInstance().setScreen(null);
                 // 获取当前网络频段延迟
                 int delay = bili.dongsz.broadcastradio.utils.SMSDelayUtils.getPlayerCurrentNetworkDelay();
-                
                 // 启动客户端定时器，延迟发送
                 new Thread(() -> {
                     try {
@@ -244,15 +230,12 @@ public class RadioTerminalSMSScreen extends Screen {
                     
                     // 定时器结束后，在主线程发送数据包
                     net.minecraft.client.Minecraft.getInstance().execute(() -> {
-                        // 检查通过，发送最小数据包给服务器
+                        // 检查通过，发送数据包给服务器
                         BroadcastRadio.NETWORK.sendToServer(new bili.dongsz.broadcastradio.network.SendSMSPacket(
                             targetPlayer.getUUID(),
                             message,
                             currentPlayer.getUUID()
                         ));
-                        
-                        // 关闭屏幕
-                        Minecraft.getInstance().setScreen(null);
                     });
                 }).start();
             }
@@ -274,6 +257,4 @@ public class RadioTerminalSMSScreen extends Screen {
             }
         }
     }
-    
-    // ...existing code...
 }

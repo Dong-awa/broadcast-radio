@@ -23,8 +23,7 @@ public class RadioBaseStationMenu extends AbstractContainerMenu {
         super(ModMenus.RADIO_BASE_STATION_MENU.get(), containerId);
         this.stationEntity = stationEntity;
         this.access = ContainerLevelAccess.NULL;
-        
-        // 添加电池槽 - 只能放入蓄电池，移动到+10按钮正右侧
+
         this.addSlot(new Slot(stationEntity, 0, 152, 95) {
             @Override
             public boolean mayPlace(ItemStack stack) {

@@ -12,16 +12,13 @@ public class RadioTerminalScreen extends AbstractContainerScreen<RadioTerminalMe
         super(menu, inventory, title);
         this.imageWidth = 176;
         this.imageHeight = 166;
-        
-        // 修正物品栏文字位置
-        this.inventoryLabelX = 8; // 左边距，默认值
-        this.inventoryLabelY = this.imageHeight - 94; // 底部物品栏上方的标准位置
+        this.inventoryLabelX = 8;
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        // E键也可以关闭界面
-        if (keyCode == 69 || keyCode == 256) { // 69是E键，256是ESC键
+        if (keyCode == 69 || keyCode == 256) {
             this.onClose();
             return true;
         }
@@ -30,7 +27,7 @@ public class RadioTerminalScreen extends AbstractContainerScreen<RadioTerminalMe
 
     @Override
     public boolean isPauseScreen() {
-        return false; // 打开时不暂停游戏
+        return false;
     }
 
     @Override

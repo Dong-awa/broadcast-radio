@@ -26,8 +26,6 @@ public class WalkieTalkieMenu extends AbstractContainerMenu {
         super(ModMenus.WALKIE_TALKIE_MENU.get(), containerId);
         this.walkieStack = walkieStack;
         this.batteryInventory = NonNullList.withSize(1, ItemStack.EMPTY);
-        
-        // 从对讲机NBT中加载电池
         CompoundTag tag = walkieStack.getOrCreateTag();
         if (tag.contains("Battery")) {
             CompoundTag batteryTag = tag.getCompound("Battery");
@@ -36,8 +34,7 @@ public class WalkieTalkieMenu extends AbstractContainerMenu {
                 batteryInventory.set(0, battery);
             }
         }
-        
-        // 电池槽位置调整到电量右边
+
         addSlot(new Slot(new BatteryContainer(batteryInventory), 0, 157, 60) {
             @Override
             public boolean mayPlace(ItemStack stack) {
@@ -61,8 +58,6 @@ public class WalkieTalkieMenu extends AbstractContainerMenu {
             
             @Override
             public void set(ItemStack stack) {
-                // 简单实现：限制堆叠为1，不处理物品覆盖问题
-                // 物品覆盖问题由Minecraft标准交互逻辑自动处理
                 if (!stack.isEmpty()) {
                     ItemStack singleBattery = stack.copy();
                     singleBattery.setCount(1);
@@ -211,7 +206,7 @@ public class WalkieTalkieMenu extends AbstractContainerMenu {
     @Override
     public void removed(Player player) {
         super.removed(player);
-        // 将电池保存到对讲机NBT中
+        // 把电池存到对讲机NBT
         if (!player.level().isClientSide) {
             ItemStack battery = batteryInventory.get(0);
             CompoundTag tag = walkieStack.getOrCreateTag();

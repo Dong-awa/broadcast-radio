@@ -21,11 +21,9 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
         this.stationEntity = menu.getStationEntity();
         this.currentServiceName = stationEntity.getServiceName();
         this.imageWidth = 176;
-        this.imageHeight = 210; // 总高度保持210不变
-        
-        // 修正物品栏文字位置
-        this.inventoryLabelX = 8; // 左边距，默认值
-        this.inventoryLabelY = 120; // 物品栏文字Y坐标设置为120
+        this.imageHeight = 210;
+        this.inventoryLabelX = 8;
+        this.inventoryLabelY = 120;
     }
 
     @Override
@@ -140,9 +138,8 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
             serviceNameBox.keyPressed(keyCode, scanCode, modifiers);
             return true;
         }
-        
-        // E键也可以关闭界面
-        if (keyCode == 69 || keyCode == 256) { // 69是E键，256是ESC键
+
+        if (keyCode == 69 || keyCode == 256) {
             this.onClose();
             return true;
         }
@@ -151,7 +148,7 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
 
     @Override
     public boolean isPauseScreen() {
-        return false; // 打开时不暂停游戏
+        return false;
     }
 
     @Override

@@ -78,6 +78,6 @@ public class SimpleRadioBlockEntity extends BlockEntity {
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, SimpleRadioBlockEntity blockEntity) {
-        // 被旧代码调用，故保留
+        // 旧代码用了，秉持着能跑不动原则，放个空气在这里
     }
 }

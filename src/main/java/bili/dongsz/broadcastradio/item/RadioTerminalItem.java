@@ -62,7 +62,7 @@ public class RadioTerminalItem extends Item {
             return InteractionResultHolder.fail(stack);
         }
 
-        // 对讲机的电池消耗逻辑：在use方法中消耗电量
+        // 对讲机的电池消耗
         CompoundTag tag = stack.getOrCreateTag();
         long currentTime = level.getGameTime();
         long lastConsumeTime = tag.getLong(TAG_LAST_CONSUME_TIME);
@@ -133,7 +133,7 @@ public class RadioTerminalItem extends Item {
         long currentTime = player.level().getGameTime();
         long lastConsumeTime = tag.getLong(TAG_LAST_CONSUME_TIME);
         
-        // 每60秒消耗一次电量
+        // -1/60s
         if (currentTime - lastConsumeTime >= STANDBY_CONSUME_INTERVAL * 20) {
             consumeBattery(terminalStack, player);
             tag.putLong(TAG_LAST_CONSUME_TIME, currentTime);
@@ -150,7 +150,7 @@ public class RadioTerminalItem extends Item {
         long currentTime = player.level().getGameTime();
         long lastConsumeTime = tag.getLong(TAG_LAST_CONSUME_TIME);
         
-        // 每60秒消耗一次电量
+        // -1/60s
         if (currentTime - lastConsumeTime >= STANDBY_CONSUME_INTERVAL * 20) {
             consumeBattery(terminalStack, player);
             tag.putLong(TAG_LAST_CONSUME_TIME, currentTime);
@@ -212,18 +212,16 @@ public class RadioTerminalItem extends Item {
     }
 
     public static String getCurrentServiceName(Level level, Player player) {
-        // 查找附近的基站
+        // 查找附近基站
         double closestDistance = Double.MAX_VALUE;
         String serviceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString();
         
-        // 获取终端中插入的SIM卡类型（先检查手持，再检查背包）
+        // 获取插入SIM卡类型
         ItemStack terminalStack = player.getMainHandItem();
         if (terminalStack.isEmpty() || !(terminalStack.getItem() instanceof RadioTerminalItem)) {
             terminalStack = player.getOffhandItem();
         }
         if (terminalStack.isEmpty() || !(terminalStack.getItem() instanceof RadioTerminalItem)) {
-            // 检查所有槽位（主背包 0-35 + 装备栏 36-40）
-            // 确保与 hasAnyMatching 检查的范围一致
             for (int i = 0; i < 41; i++) {
                 ItemStack stack = player.getInventory().getItem(i);
                 if (stack.getItem() instanceof RadioTerminalItem) {
@@ -234,25 +232,19 @@ public class RadioTerminalItem extends Item {
         }
         
         if (!terminalStack.isEmpty() && terminalStack.getItem() instanceof RadioTerminalItem) {
-            // 检查终端的物品栏中是否有SIM卡
+            // 检查终端中是否有SIM卡
             CompoundTag tag = terminalStack.getOrCreateTag();
             if (tag.contains(TAG_SIM_CARD)) {
                 CompoundTag simTag = tag.getCompound(TAG_SIM_CARD);
                 ItemStack simCard = ItemStack.of(simTag);
                 if (!simCard.isEmpty()) {
-                    // 简化搜索：一次性完成搜索，不添加内部延迟
                     BlockPos playerPos = player.blockPosition();
                     int searchRadius = 100; // 搜索半径100格
-                    
-                    // 优化搜索顺序：从近到远搜索
                     for (int radius = 0; radius <= searchRadius; radius++) {
                         boolean foundInRadius = false;
-                        
-                        // 在当前半径内搜索
                         for (int dx = -radius; dx <= radius; dx++) {
                             for (int dy = -Math.min(32, radius); dy <= Math.min(32, radius); dy++) {
                                 for (int dz = -radius; dz <= radius; dz++) {
-                                    // 只搜索当前半径的边界，避免重复搜索内部区域
                                     if (Math.abs(dx) != radius && Math.abs(dy) != Math.min(32, radius) && Math.abs(dz) != radius) {
                                         continue;
                                     }
@@ -263,10 +255,8 @@ public class RadioTerminalItem extends Item {
                                         RadioBaseStationBlockEntity baseStation = (RadioBaseStationBlockEntity) blockEntity;
                                         double distance = player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                                         int signalRange = baseStation.getSignalRange();
-                                        
-                                        // 检查是否在信号范围内
                                         if (distance <= signalRange * signalRange) {
-                                            // 检查网络类型是否匹配
+                                            // 检查网络类型匹配
                                             if (isNetworkTypeMatch(simCard, baseStation.getNetworkType())) {
                                                 // 找到更近的基站
                                                 if (distance < closestDistance) {

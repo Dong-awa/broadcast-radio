@@ -25,7 +25,7 @@ public class CommunicationUtils {
     public static boolean checkPlayerNearRadio(ServerPlayer target, String senderName, float senderFreq, String senderPwd, String message) {
         Level level = target.level();
         
-        // 直接检查玩家
+        // 检查玩家
         BlockPos playerPos = target.blockPosition();
         for (int dx = -8; dx <= 8; dx++) {
             for (int dy = -8; dy <= 8; dy++) {
@@ -133,7 +133,7 @@ public class CommunicationUtils {
     }
     
     /**
-     * 应用干扰效果
+     * 干扰效果
      * @param message 原始消息
      * @param baseInterference 基础干扰值
      * @param level 世界
@@ -157,7 +157,7 @@ public class CommunicationUtils {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < message.length(); i++) {
             if (Math.random() < interferenceProbability) {
-                sb.append(".");
+                sb.append("#");
             } else {
                 sb.append(message.charAt(i));
             }

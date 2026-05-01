@@ -18,8 +18,7 @@ public class SimpleRadioScreen extends Screen {
 
     @Override
     public boolean keyPressed(int keyCode, int scanCode, int modifiers) {
-        // E键也可以关闭界面
-        if (keyCode == 69 || keyCode == 256) { // 69是E键，256是ESC键
+        if (keyCode == 69 || keyCode == 256) {
             this.onClose();
             return true;
         }
@@ -42,7 +41,7 @@ public class SimpleRadioScreen extends Screen {
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
         
-        // 绘制GUI背景
+        // GUI背景
         guiGraphics.fill(x, y, x + this.imageWidth, y + this.imageHeight, 0xFF8B8B8B);
         guiGraphics.fill(x, y, x + this.imageWidth, y + 1, 0xFF333333);
         guiGraphics.fill(x, y, x + 1, y + this.imageHeight, 0xFF333333);
@@ -67,7 +66,7 @@ public class SimpleRadioScreen extends Screen {
     public void tick() {
         super.tick();
         if (radioEntity != null) {
-            // 这里可以添加额外的更新逻辑，如果需要的话
+            // 滚木算法，留着放更新（如果要搞）
         }
     }
 }

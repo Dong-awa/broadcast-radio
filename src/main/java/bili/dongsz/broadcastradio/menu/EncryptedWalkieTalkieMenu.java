@@ -21,8 +21,6 @@ public class EncryptedWalkieTalkieMenu extends AbstractContainerMenu {
         super(ModMenus.ENCRYPTED_WALKIE_TALKIE_MENU.get(), containerId);
         this.walkieStack = walkieStack;
         this.batteryInventory = NonNullList.withSize(1, ItemStack.EMPTY);
-        
-        // 从对讲机NBT中加载电池
         CompoundTag tag = walkieStack.getOrCreateTag();
         if (tag.contains("Battery")) {
             CompoundTag batteryTag = tag.getCompound("Battery");
@@ -66,8 +64,7 @@ public class EncryptedWalkieTalkieMenu extends AbstractContainerMenu {
                 }
             }
         });
-        
-        // 玩家物品栏位置调整（向上移动4像素）
+
         for (int i = 0; i < 3; ++i) {
             for (int j = 0; j < 9; ++j) {
                 this.addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 148 + i * 18));
@@ -205,7 +202,6 @@ public class EncryptedWalkieTalkieMenu extends AbstractContainerMenu {
     @Override
     public void removed(Player player) {
         super.removed(player);
-        // 将电池保存到对讲机NBT中
         if (!player.level().isClientSide) {
             ItemStack battery = batteryInventory.get(0);
             CompoundTag tag = walkieStack.getOrCreateTag();

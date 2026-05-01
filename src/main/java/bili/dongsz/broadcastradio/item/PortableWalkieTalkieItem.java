@@ -228,12 +228,12 @@ public class PortableWalkieTalkieItem extends Item {
         super.appendHoverText(stack, level, tooltip, flag);
         initNBT(stack);
 
-        // 获取NBT数据
+        // 获取NBT
         CompoundTag tag = stack.getTag();
         float frequency = tag.getFloat(TAG_FREQUENCY);
         String password = tag.getString(TAG_PASSWORD);
         
-        // 获取电池电量
+        // 获取电量
         int power = 0;
         if (tag.contains("Battery")) {
             CompoundTag batteryTag = tag.getCompound("Battery");
@@ -283,7 +283,7 @@ public class PortableWalkieTalkieItem extends Item {
                 return;
             }
 
-            // 消息发送
+            // 发送消息
             if (!sender.getPersistentData().getBoolean(BroadcastRadio.MOD_ID + "_using_walkie")) {
                 return;
             }
@@ -300,7 +300,7 @@ public class PortableWalkieTalkieItem extends Item {
                 return;
             }
 
-            // 检查是否有电池供电
+            // 检查是否有电池
             if (!hasBatteryPower(sender)) {
                 sender.sendSystemMessage(Component.translatable("item.broadcast_radio.walkie_talkie.no_power").withStyle(ChatFormatting.RED));
                 sender.getPersistentData().remove(BroadcastRadio.MOD_ID + "_using_walkie");
@@ -314,7 +314,7 @@ public class PortableWalkieTalkieItem extends Item {
             String senderPwd = senderTag.getString(TAG_PASSWORD);
             int senderInterference = senderTag.getInt(TAG_INTERFERENCE);
 
-            // 发送者自身显示消息
+            // 显示自己发的
             String messageContent = event.getMessage().getString();
             Component selfMessage = Component.translatable(
                     "item.broadcast_radio.walkie_talkie.self_message",

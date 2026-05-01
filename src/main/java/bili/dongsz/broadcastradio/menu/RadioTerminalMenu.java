@@ -19,8 +19,7 @@ public class RadioTerminalMenu extends AbstractContainerMenu {
         super(ModMenus.RADIO_TERMINAL_MENU.get(), containerId);
         this.terminalStack = terminalStack;
         this.terminalInventory = NonNullList.withSize(2, ItemStack.EMPTY);
-        
-        // 从终端NBT中加载电池和SIM卡
+
         CompoundTag tag = terminalStack.getOrCreateTag();
         if (tag.contains("Battery")) {
             CompoundTag batteryTag = tag.getCompound("Battery");
@@ -196,7 +195,7 @@ public class RadioTerminalMenu extends AbstractContainerMenu {
     @Override
     public void removed(Player player) {
         super.removed(player);
-        // 将电池和SIM卡保存到终端NBT中
+        // 把电池和SIM卡存到NBT中
         if (!player.level().isClientSide) {
             ItemStack battery = terminalInventory.get(0);
             ItemStack simCard = terminalInventory.get(1);

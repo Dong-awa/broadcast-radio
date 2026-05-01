@@ -270,7 +270,6 @@ public class EncryptedWalkieTalkieItem extends Item {
                 return;
             }
 
-            // ÃƒÂ¦Ã‚Â£Ã¢â€šÂ¬ÃƒÂ¦Ã…Â¸Ã‚Â¥ÃƒÂ¦Ã‹Å“Ã‚Â¯ÃƒÂ¥Ã‚ÂÃ‚Â¦ÃƒÂ¦Ã…â€œÃ¢â‚¬Â°ÃƒÂ§Ã¢â‚¬ÂÃ‚ÂµÃƒÂ¦Ã‚Â±Ã‚Â ÃƒÂ¤Ã‚Â¾Ã¢â‚¬ÂºÃƒÂ§Ã¢â‚¬ÂÃ‚Âµ
             if (!hasBatteryPower(sender)) {
                 sender.sendSystemMessage(Component.translatable("item.broadcast_radio.walkie_talkie.no_power").withStyle(ChatFormatting.RED));
                 sender.getPersistentData().remove(BroadcastRadio.MOD_ID + "_using_encrypted_walkie");

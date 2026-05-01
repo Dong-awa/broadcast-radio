@@ -31,23 +31,21 @@ public class UpdateEncryptedWalkieTalkiePacket {
             if (context.getDirection().getReceptionSide().isServer()) {
                 ServerPlayer player = context.getSender();
                 if (player != null) {
-                    // 首先检查主手
+                    // 检查主手
                     ItemStack mainHandStack = player.getMainHandItem();
                     if (mainHandStack.getItem() instanceof bili.dongsz.broadcastradio.item.EncryptedWalkieTalkieItem) {
                         mainHandStack.getOrCreateTag().putFloat("Frequency", packet.frequency);
                         mainHandStack.getOrCreateTag().putString("Password", packet.password);
                         return;
                     }
-                    
-                    // 然后检查副手
+                    // 检查副手
                     ItemStack offHandStack = player.getOffhandItem();
                     if (offHandStack.getItem() instanceof bili.dongsz.broadcastradio.item.EncryptedWalkieTalkieItem) {
                         offHandStack.getOrCreateTag().putFloat("Frequency", packet.frequency);
                         offHandStack.getOrCreateTag().putString("Password", packet.password);
                         return;
                     }
-                    
-                    // 最后检查物品栏
+                    // 检查物品栏
                     for (ItemStack stack : player.getInventory().items) {
                         if (stack.getItem() instanceof bili.dongsz.broadcastradio.item.EncryptedWalkieTalkieItem) {
                             stack.getOrCreateTag().putFloat("Frequency", packet.frequency);

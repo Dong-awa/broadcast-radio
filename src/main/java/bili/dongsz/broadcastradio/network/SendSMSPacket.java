@@ -49,25 +49,19 @@ public class SendSMSPacket {
     public static SendSMSPacket decode(FriendlyByteBuf buf) {
         return new SendSMSPacket(buf);
     }
-    
-    /**
-     * 服务器端处理 - 只做转发，不做任何检查
-     */
+
     public static void handle(SendSMSPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
             ServerPlayer sender = ctx.get().getSender();
             if (sender != null) {
-                // 服务器只做转发，不检查任何逻辑
-                // 直接转发给目标玩家（如果在线）
+                // 转发给目标玩家
                 ServerPlayer receiver = sender.server.getPlayerList().getPlayer(packet.getTargetPlayerUUID());
                 if (receiver != null) {
-                    // 发送接收方数据包 - 使用正确的API
                     bili.dongsz.broadcastradio.BroadcastRadio.NETWORK.send(
                         net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> receiver),
                         new ReceiveSMSPacket(packet.getSenderUUID(), packet.getMessage())
                     );
-                    
-                    // 发送确认消息给发送者
+
                     sender.sendSystemMessage(
                         net.minecraft.network.chat.Component.translatable(
                             "item.broadcast_radio.radio_terminal.sms_sent",
@@ -75,7 +69,7 @@ public class SendSMSPacket {
                         )
                     );
                 } else {
-                    // 如果目标玩家不在线，给发送者提示
+                    // 目标玩家不在线
                     sender.sendSystemMessage(
                         net.minecraft.network.chat.Component.translatable(
                             "item.broadcast_radio.radio_terminal.sms_failed",

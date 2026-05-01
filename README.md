@@ -1,41 +1,31 @@
-# Broadcast Radio Mod
-A lightweight Minecraft Forge mod (1.20.1) that adds portable walkie-talkies for short-range text communication, perfect for survival multiplayer cooperation!
+## Broadcast Radio
 
-## 🎮 Features
-- Walkie-Talkie: A core handheld communication tool with 10000 individual channels
-- Short-Range Communication: Messages are only visible to players within 128 blocks (balance for vanilla survival)
-- Power Simulation: Uses durability as battery (100 total power, 1 power per channel switch, 1 power per message sent)
-- Frequency Switching: Shift + Right Click to switch channels
-- Multiplayer Compatible: Fully works in multiplayer servers, no extra server-side setup needed
-- Encrypted Communication: Optional password protection (only visible to players with the same password)
-- Vanilla-Friendly: Fits perfectly into vanilla survival progression, no OP items/mechanics
+Bring realistic radio communication systems to Minecraft! Includes radio receivers, walkie-talkies, and base station SMS systems for an immersive communication experience.
 
-## 📦 Installation
-### Requirements
-- Minecraft 1.20.1
-- Forge 47.1.0+ (compatible with 1.20.1 Forge versions)
+---
 
-### Steps
-1. Install Minecraft Forge for 1.20.1
-2. Download the mod JAR file from Modrinth
-3. Put the JAR file into your .minecraft/mods folder
-4. Launch the game with Forge profile
+### ✨ Key Features
+- 📻 **Radio Receiver** - Tune into broadcasts from radio towers with multiple channels
+- 🔊 **Walkie-Talkie** - Real-time voice communication with encrypted channels
+- 📡 **Base Station Terminal** - Search for signals and send SMS to players
+- ⚡ **Network Latency** - Experience realistic delays across different frequencies
 
-## 🕹️ Usage
-1. Craft the Portable Walkie-Talkie
-2. Normal Right Click: Trigger message input (type your message in chat to send)
-3. Shift + Right Click: Switch channels (1-10 cycle, visual feedback in chat)
-4. Check remaining power by hovering over the walkie-talkie in inventory
-5. Messages will appear in chat as [Walkie-Talkie-X] Player: Message
+### 🎮 How to Play
+1. Craft a radio/walkie-talkie/terminal and insert batteries
+2. Place radio towers or base stations for signal coverage
+3. Tune to channels or search for signals
+4. Communicate with friends or send SMS
 
-## 📝 Localization
-Supports multiple languages:
-- Simplified Chinese (zh_cn)
-- Traditional Chinese (zh_tw, zh_hk)
-- English (en_us)
+### 📦 Compatibility
+- Minecraft 1.20.1 | Forge 47.x
+- Single-player and multiplayer supported
 
-## 📄 License
-This mod is licensed under the MIT License - see the LICENSE file for details.
+### 🤝 Contributors
+- [Dong_awa](https://github.com/Dong-awa) (Mod Author)
+- [MOrange2336](https://github.com/slbcz) (Resource)
+- [ChiTou_TW](https://github.com/ChiTou_TW) (Chinese(Taiwan of China) Translation)
 
-## 📞 Contact
-- E-mail: 2099467463@qq.com
+---
+
+Fill your world with communication fun! 🌐📻🔊
+        
