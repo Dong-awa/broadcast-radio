@@ -3,6 +3,10 @@ package bili.dongsz.broadcastradio;
 import bili.dongsz.broadcastradio.network.UpdateFrequencyPacket;
 import bili.dongsz.broadcastradio.network.UpdateRadioBaseStationPacket;
 import bili.dongsz.broadcastradio.network.UpdateEncryptedWalkieTalkiePacket;
+import bili.dongsz.broadcastradio.network.PlayerSignalStatusPacket;
+ import bili.dongsz.broadcastradio.network.QueryPlayerValidPacket;
+import bili.dongsz.broadcastradio.network.QueryPlayerValidResponsePacket;
+import bili.dongsz.broadcastradio.event.PlayerLoginListener;
 import bili.dongsz.broadcastradio.registry.ModBlocks;
 import bili.dongsz.broadcastradio.registry.ModBlockEntities;
 import bili.dongsz.broadcastradio.registry.ModCreativeModeTabs;
@@ -16,7 +20,6 @@ import net.minecraftforge.network.simple.SimpleChannel;
 @Mod("broadcast_radio")
 public class BroadcastRadio {
     public static final String MOD_ID = "broadcast_radio";
-    // 全局客户端标志：表示本客户端自身是否满足短信/服务全部条件（终端+电池>0+SIM+有效基站）
     public static boolean HAS_VALID_SERVICE = false;
 
     // Network channel
@@ -35,6 +38,9 @@ public class BroadcastRadio {
         ModCreativeModeTabs.CREATIVE_MODE_TABS.register(FMLJavaModLoadingContext.get().getModEventBus());
         ModMenus.MENUS.register(FMLJavaModLoadingContext.get().getModEventBus());
         MinecraftForge.EVENT_BUS.register(this);
+        
+        // 注册玩家登录事件监听器
+        PlayerLoginListener.register();
 
         // Register network messages
         NETWORK.registerMessage(0, UpdateFrequencyPacket.class, UpdateFrequencyPacket::encode, UpdateFrequencyPacket::decode, UpdateFrequencyPacket::handle);
@@ -58,5 +64,17 @@ public class BroadcastRadio {
             bili.dongsz.broadcastradio.network.ReceiveSMSPacket::encode,
             bili.dongsz.broadcastradio.network.ReceiveSMSPacket::decode,
             bili.dongsz.broadcastradio.network.ReceiveSMSPacket::handle);
+        NETWORK.registerMessage(6, PlayerSignalStatusPacket.class,
+            PlayerSignalStatusPacket::encode,
+            PlayerSignalStatusPacket::decode,
+            PlayerSignalStatusPacket::handle);
+        NETWORK.registerMessage(7, QueryPlayerValidPacket.class,
+            QueryPlayerValidPacket::encode,
+            QueryPlayerValidPacket::decode,
+            QueryPlayerValidPacket::handle);
+        NETWORK.registerMessage(8, QueryPlayerValidResponsePacket.class,
+            QueryPlayerValidResponsePacket::encode,
+            QueryPlayerValidResponsePacket::decode,
+            QueryPlayerValidResponsePacket::handle);
     }
 }

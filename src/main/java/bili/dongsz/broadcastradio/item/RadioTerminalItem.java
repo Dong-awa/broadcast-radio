@@ -216,8 +216,23 @@ public class RadioTerminalItem extends Item {
         double closestDistance = Double.MAX_VALUE;
         String serviceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString();
         
-        // 获取终端中插入的SIM卡类型
+        // 获取终端中插入的SIM卡类型（先检查手持，再检查背包）
         ItemStack terminalStack = player.getMainHandItem();
+        if (terminalStack.isEmpty() || !(terminalStack.getItem() instanceof RadioTerminalItem)) {
+            terminalStack = player.getOffhandItem();
+        }
+        if (terminalStack.isEmpty() || !(terminalStack.getItem() instanceof RadioTerminalItem)) {
+            // 检查所有槽位（主背包 0-35 + 装备栏 36-40）
+            // 确保与 hasAnyMatching 检查的范围一致
+            for (int i = 0; i < 41; i++) {
+                ItemStack stack = player.getInventory().getItem(i);
+                if (stack.getItem() instanceof RadioTerminalItem) {
+                    terminalStack = stack;
+                    break;
+                }
+            }
+        }
+        
         if (!terminalStack.isEmpty() && terminalStack.getItem() instanceof RadioTerminalItem) {
             // 检查终端的物品栏中是否有SIM卡
             CompoundTag tag = terminalStack.getOrCreateTag();

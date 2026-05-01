@@ -21,7 +21,7 @@ public class RadioTerminalSMSScreen extends Screen {
     private List<Player> onlinePlayers;
     private Player selectedPlayer;
     
-    // NOTE: global service availability is provided by BroadcastRadio.HAS_VALID_SERVICE
+    // 使用 SignalSearchManager 检查信号状态和获取缓存的玩家列表
 
     public RadioTerminalSMSScreen(Screen parentScreen, Player currentPlayer) {
         super(Component.translatable("item.broadcast_radio.radio_terminal.sms_title"));
@@ -68,7 +68,8 @@ public class RadioTerminalSMSScreen extends Screen {
         ).bounds(x, y, 200, 20).build()).active = false;
 
 
-        boolean isSenderValid = BroadcastRadio.HAS_VALID_SERVICE;
+        SignalSearchManager searchManager = SignalSearchManager.getInstance();
+        boolean isSenderValid = searchManager.hasValidSignal();
         
         if (!isSenderValid) {
             // 发送端无效，显示空列表提示
@@ -79,7 +80,6 @@ public class RadioTerminalSMSScreen extends Screen {
         } else {
             // 发送端有效，直接使用 SignalSearchManager 缓存的玩家列表
             onlinePlayers.clear();
-            SignalSearchManager searchManager = SignalSearchManager.getInstance();
             onlinePlayers.addAll(searchManager.getCachedOnlinePlayers());
             
             // 显示玩家列表按钮
@@ -126,14 +126,14 @@ public class RadioTerminalSMSScreen extends Screen {
      * 完全清空列表并重新加载符合条件的玩家
      */
     private void refreshPlayerList() {
-        // 仅根据全局标志刷新列表：清空所有可渲染组件并重新初始化
+        // 清空所有可渲染组件并重新初始化
         this.clearWidgets();
 
         // 清空玩家列表
         onlinePlayers.clear();
         selectedPlayer = null;
 
-        // 重新初始化界面组件（init 中会读取 BroadcastRadio.HAS_VALID_SERVICE）
+        // 重新初始化界面组件（init 中会读取 SignalSearchManager 的信号状态）
         this.init();
     }
     

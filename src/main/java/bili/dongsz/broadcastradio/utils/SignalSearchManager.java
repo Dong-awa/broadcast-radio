@@ -2,6 +2,7 @@ package bili.dongsz.broadcastradio.utils;
 
 import bili.dongsz.broadcastradio.registry.ModItems;
 import bili.dongsz.broadcastradio.BroadcastRadio;
+import bili.dongsz.broadcastradio.network.PlayerSignalStatusPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.network.chat.Component;
@@ -12,7 +13,10 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.core.BlockPos;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -28,6 +32,7 @@ public class SignalSearchManager {
     private List<Player> cachedOnlinePlayers = new ArrayList<>();
     private boolean hasValidSignal = false; // 信号状态：true=有信号，false=无信号
     private String cachedServiceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString(); // 缓存的基站服务名称
+    private final Map<UUID, Boolean> playerValidCache = new HashMap<>(); // 存储其他玩家的有效性状态（由服务端检查）
     
     private SignalSearchManager() {
         this.scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
@@ -55,6 +60,7 @@ public class SignalSearchManager {
         isRunning = true;
         
         // 每3秒执行一次信号搜索（60 tick）——同时以此频率更新全局 HAS_VALID_SERVICE
+        // 初始延迟100ms避免启动时卡顿
         scheduler.scheduleAtFixedRate(() -> {
             if (Minecraft.getInstance().level == null || Minecraft.getInstance().player == null) {
                 return;
@@ -65,19 +71,24 @@ public class SignalSearchManager {
                 // 无终端时清空列表，并更新全局标志
                 cachedOnlinePlayers.clear();
                 hasValidSignal = false;
-                BroadcastRadio.HAS_VALID_SERVICE = false; // 依据要求：扫描完成后更新全局变量
+                BroadcastRadio.HAS_VALID_SERVICE = false;
                 return;
             }
             
-            // 执行信号搜索逻辑
+            // 先清空缓存并查询其他玩家的有效性状态（异步执行）
+            playerValidCache.clear();
+            for (Player player : Minecraft.getInstance().level.players()) {
+                if (!player.getUUID().equals(Minecraft.getInstance().player.getUUID())) {
+                    BroadcastRadio.NETWORK.sendToServer(new bili.dongsz.broadcastradio.network.QueryPlayerValidPacket(player.getUUID()));
+                }
+            }
+            
+            // 执行信号搜索逻辑（使用当前缓存，服务端响应会在后续更新缓存）
             performSignalSearch();
             
-        }, 0, 3, TimeUnit.SECONDS); // 初始延迟0秒，每3秒执行一次
+        }, 100, 3000, TimeUnit.MILLISECONDS); // 初始延迟100ms，每3秒执行一次
     }
-    
-    /**
-     * 停止后台信号搜索任务
-     */
+
     public void stopSignalSearch() {
         if (!isRunning) {
             return;
@@ -87,31 +98,25 @@ public class SignalSearchManager {
         cachedOnlinePlayers.clear();
         scheduler.shutdown();
     }
-    
-    /**
-     * 立即执行一次信号搜索
-     */
+
     public void forceSignalSearch() {
-        if (Minecraft.getInstance().level == null || Minecraft.getInstance().player == null) {
-            return;
-        }
+        // 异步执行，避免阻塞主线程
+        scheduler.execute(() -> {
+            if (Minecraft.getInstance().level == null || Minecraft.getInstance().player == null) {
+                return;
+            }
 
-        // 检查玩家是否持有无线电终端
-        if (!hasRadioTerminal(Minecraft.getInstance().player)) {
-            // 无终端时清空列表，并更新全局标志
-            cachedOnlinePlayers.clear();
-            hasValidSignal = false;
-            BroadcastRadio.HAS_VALID_SERVICE = false;
-            return;
-        }
-
-        // 执行信号搜索逻辑
-        performSignalSearch();
+            // 检查玩家是否持有无线电终端
+            if (!hasRadioTerminal(Minecraft.getInstance().player)) {
+                cachedOnlinePlayers.clear();
+                hasValidSignal = false;
+                BroadcastRadio.HAS_VALID_SERVICE = false;
+                return;
+            }
+            performSignalSearch();
+        });
     }
-    
-    /**
-     * 检查玩家是否持有无线电终端
-     */
+
     private boolean hasRadioTerminal(Player player) {
         // 检查手持物品
         if (player.getMainHandItem().getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get() ||
@@ -162,43 +167,62 @@ public class SignalSearchManager {
         
         return false;
     }
+
+    private boolean isPlayerValidForSMS(Player player) {
+        // 使用服务端检查的玩家有效性状态
+        Boolean isValid = playerValidCache.get(player.getUUID());
+        if (isValid != null) {
+            return isValid;
+        } else {
+            // 服务端数据还没回来，暂时返回false（等待服务端响应）
+            return false;
+        }
+    }
     
     /**
-     * 检查玩家是否满足短信发送的所有条件
-     * 1. 玩家当前在线
-     * 2. 玩家背包/手持中存在无线电终端
-     * 3. 终端电池槽内有电池且电量＞0
-     * 4. 终端SIM卡槽内已插入有效SIM卡
-     * 5. 该玩家最近一次后台信号扫描，检测到至少1个能量＞0的有效基站（即有信号）
+     * 备用信号检查方法（使用本地搜索）
      */
-    private boolean isPlayerValidForSMS(Player player) {
-        // 检查玩家是否持有无线电终端
-        if (!hasRadioTerminal(player)) {
+    private boolean isPositionHasValidSignalFallback(Player player) {
+        if (Minecraft.getInstance().level == null) {
             return false;
         }
-
-        // 检查终端电池槽内有电池且电量＞0
-        ItemStack terminalStack = findRadioTerminalInInventory(player);
-        if (terminalStack.isEmpty()) {
-            return false;
+        
+        String serviceName = bili.dongsz.broadcastradio.item.RadioTerminalItem.getCurrentServiceName(
+            Minecraft.getInstance().level,
+            player
+        );
+        
+        return !serviceName.equals(Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString());
+    }
+    
+    /**
+     * 更新玩家有效性状态（从服务端响应）
+     */
+    public void updatePlayerValidStatus(UUID playerId, boolean isValid) {
+        playerValidCache.put(playerId, isValid);
+    }
+    
+    /**
+     * 更新缓存的服务名称
+     */
+    public void updateCachedServiceName(String serviceName) {
+        this.cachedServiceName = serviceName;
+        this.hasValidSignal = !serviceName.equals(Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString());
+        BroadcastRadio.HAS_VALID_SERVICE = this.hasValidSignal;
+    }
+    
+    /**
+     * 触发玩家搜索（查询其他玩家的有效性）
+     */
+    public void triggerPlayerSearch() {
+        if (Minecraft.getInstance().level != null && Minecraft.getInstance().player != null) {
+            playerValidCache.clear();
+            for (Player player : Minecraft.getInstance().level.players()) {
+                if (!player.getUUID().equals(Minecraft.getInstance().player.getUUID())) {
+                    BroadcastRadio.NETWORK.sendToServer(new bili.dongsz.broadcastradio.network.QueryPlayerValidPacket(player.getUUID()));
+                }
+            }
         }
-
-        if (!bili.dongsz.broadcastradio.item.RadioTerminalItem.hasBattery(terminalStack)) {
-            return false;
-        }
-
-        int batteryLevel = bili.dongsz.broadcastradio.item.RadioTerminalItem.getBatteryLevel(terminalStack);
-        if (batteryLevel <= 0) {
-            return false;
-        }
-
-        // 检查终端SIM卡槽内已插入有效SIM卡
-        if (!hasValidSIMCard(terminalStack)) {
-            return false;
-        }
-
-        // （注意：信号检查由发送端统一判断，此处不再额外检查）
-        return true;
     }
     
     /**
@@ -239,10 +263,6 @@ public class SignalSearchManager {
         // 发送端需要同时有有效基站信号
         return hasValidSignal;
     }
-    
-    /**
-     * 在玩家背包中查找无线电终端
-     */
     private ItemStack findRadioTerminalInInventory(Player player) {
         // 检查手持物品
         if (player.getMainHandItem().getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get()) {
@@ -252,8 +272,9 @@ public class SignalSearchManager {
             return player.getOffhandItem();
         }
         
-        // 检查背包
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+        // 检查所有槽位（主背包 0-35 + 装备栏 36-40）
+        // 确保与 hasAnyMatching 检查的范围一致
+        for (int i = 0; i < 41; i++) {
             ItemStack stack = player.getInventory().getItem(i);
             if (stack.getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get()) {
                 return stack;
@@ -299,6 +320,14 @@ public class SignalSearchManager {
         
         // 根据服务名称判断信号状态（有服务名表示有信号）
         hasValidSignal = !serviceName.equals(Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString());
+        
+        // 发送自己的信号状态到服务端
+        if (Minecraft.getInstance().player != null) {
+            BroadcastRadio.NETWORK.sendToServer(new PlayerSignalStatusPacket(
+                Minecraft.getInstance().player.getUUID(),
+                hasValidSignal
+            ));
+        }
         
         // 检查发送端玩家自身是否满足服务条件
         boolean isSenderValid = isSenderValidForSMS();
