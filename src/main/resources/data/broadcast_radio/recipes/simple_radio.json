@@ -16,7 +16,7 @@
       "item": "broadcast_radio:circuit_board"
     },
     "C": {
-      "item": "broadcast_radio:radio_components"
+      "item": "broadcast_radio:radio_component"
     },
     "A": {
       "item": "broadcast_radio:antenna"

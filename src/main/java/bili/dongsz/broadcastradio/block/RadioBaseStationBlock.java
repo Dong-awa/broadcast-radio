@@ -25,6 +25,8 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -100,5 +102,24 @@ public class RadioBaseStationBlock extends Block implements EntityBlock {
             return InteractionResult.CONSUME;
         }
         return InteractionResult.PASS;
+    }
+
+    @Override
+    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool) {
+        if (!level.isClientSide) {
+            // 掉落方块本身
+            popResource(level, pos, new ItemStack(this));
+            
+            // 掉落内部蓄电池
+            if (blockEntity instanceof RadioBaseStationBlockEntity) {
+                RadioBaseStationBlockEntity stationEntity = (RadioBaseStationBlockEntity) blockEntity;
+                ItemStack batteryStack = stationEntity.getItem(0);
+                
+                if (!batteryStack.isEmpty()) {
+                    popResource(level, pos, batteryStack.copy());
+                }
+            }
+        }
+        super.playerDestroy(level, player, pos, state, blockEntity, tool);
     }
 }

@@ -31,7 +31,7 @@
   "item.broadcast_radio.radio_base_station.service_name_hint": "Enter service name (displayed in radio terminal):",
   "item.broadcast_radio.radio_base_station.signal_range": "Signal Range: %d meters",
   "item.broadcast_radio.radio_battery": "Radio Battery",
-  "item.broadcast_radio.radio_components": "Radio Components Circuit Board",
+  "item.broadcast_radio.radio_component": "Radio Components Circuit Board",
   "item.broadcast_radio.radio_module": "Radio Module",
   "item.broadcast_radio.radio_terminal": "Radio Terminal",
   "item.broadcast_radio.four_g_universal": "4G SIM Card",

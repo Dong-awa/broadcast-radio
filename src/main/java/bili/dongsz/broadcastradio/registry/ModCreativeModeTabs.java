@@ -31,7 +31,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.PCB_BOARD.get());
                         output.accept(ModItems.ELECTRONIC_COMPONENT.get());
                         output.accept(ModItems.RADIO_MODULE.get());
-                        output.accept(ModItems.RADIO_COMPONENTS.get());
+                        output.accept(ModItems.RADIO_COMPONENT.get());
                         output.accept(ModItems.ANTENNA.get());
                         output.accept(ModItems.CIRCUIT_BOARD.get());
                         

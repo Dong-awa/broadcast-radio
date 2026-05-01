@@ -29,7 +29,7 @@
   "item.broadcast_radio.radio_base_station.service_name_hint": "輸入服務名稱（顯示於無線電終端機）：",
   "item.broadcast_radio.radio_base_station.signal_range": "訊號範圍：%d公尺",
   "item.broadcast_radio.radio_battery": "無線電電池",
-  "item.broadcast_radio.radio_components": "無線電元件電路板",
+  "item.broadcast_radio.radio_component": "無線電元件電路板",
   "item.broadcast_radio.radio_module": "無線電模組",
   "item.broadcast_radio.radio_terminal": "無線電終端機",
   "item.broadcast_radio.radio_terminal.2g_button": "2G",

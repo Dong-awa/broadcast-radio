@@ -24,6 +24,7 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.network.NetworkHooks;
 
 import javax.annotation.Nullable;
@@ -35,15 +36,45 @@ public class SimpleRadioBlock extends Block implements EntityBlock {
         super(properties);
         this.registerDefaultState(this.stateDefinition.any().setValue(FACING, Direction.NORTH));
     }
-    protected static final VoxelShape COLLISION_SHAPE = Shapes.or(
-            box(3, 0, 6, 13, 7, 10),
-            box(4, 7, 7, 5, 13, 8),
-            box(6, 7, 8, 7, 13, 9)
-    );
+
+    private VoxelShape getShapeForDirection(Direction direction) {
+        switch (direction) {
+            case NORTH:
+                return Shapes.or(
+                        box(3, 0, 6, 13, 7, 10),
+                        box(11, 7, 7, 12, 13, 8),
+                        box(9, 7, 8, 10, 13, 9)
+                );
+            case SOUTH:
+                return Shapes.or(
+                        box(3, 0, 6, 13, 7, 10),
+                        box(4, 7, 7, 5, 13, 8),
+                        box(6, 7, 8, 7, 13, 9)
+                );
+            case EAST:
+                return Shapes.or(
+                        box(6, 0, 3, 10, 7, 13),
+                        box(7, 7, 11, 8, 13, 12),
+                        box(8, 7, 9, 9, 13, 10)
+                );
+            case WEST:
+            default:
+                return Shapes.or(
+                        box(6, 0, 3, 10, 7, 13),
+                        box(7, 7, 4, 8, 13, 5),
+                        box(8, 7, 6, 9, 13, 7)
+                );
+        }
+    }
 
     @Override
     public void onPlace(BlockState state, Level level, BlockPos pos, BlockState oldState, boolean isMoving) {
         super.onPlace(state, level, pos, oldState, isMoving);
+    }
+
+    @Override
+    public BlockState getStateForPlacement(net.minecraft.world.item.context.BlockPlaceContext context) {
+        return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
@@ -51,17 +82,17 @@ public class SimpleRadioBlock extends Block implements EntityBlock {
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return COLLISION_SHAPE;
+        return getShapeForDirection(state.getValue(FACING));
     }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return COLLISION_SHAPE;
+        return getShapeForDirection(state.getValue(FACING));
     }
 
     @Override
     public VoxelShape getInteractionShape(BlockState state, BlockGetter world, BlockPos pos) {
-        return COLLISION_SHAPE;
+        return getShapeForDirection(state.getValue(FACING));
     }
 
     @Nullable
@@ -100,5 +131,13 @@ public class SimpleRadioBlock extends Block implements EntityBlock {
             return InteractionResult.CONSUME;
         }
         return InteractionResult.PASS;
+    }
+
+    @Override
+    public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable net.minecraft.world.level.block.entity.BlockEntity blockEntity, ItemStack tool) {
+        if (!level.isClientSide) {
+            popResource(level, pos, new ItemStack(this));
+        }
+        super.playerDestroy(level, player, pos, state, blockEntity, tool);
     }
 }

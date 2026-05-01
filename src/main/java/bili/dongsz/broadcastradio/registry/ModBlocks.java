@@ -18,7 +18,6 @@ public class ModBlocks {
                     .noOcclusion()
                     .strength(3.5f)
                     .sound(SoundType.METAL)
-                    .requiresCorrectToolForDrops()
                     .isViewBlocking((state, world, pos) -> false)
             )
     );
@@ -28,7 +27,6 @@ public class ModBlocks {
                     .noOcclusion()
                     .strength(3.5f)
                     .sound(SoundType.METAL)
-                    .requiresCorrectToolForDrops()
                     .isViewBlocking((state, world, pos) -> true)
             )
     );

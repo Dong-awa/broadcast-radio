@@ -48,7 +48,7 @@ public class ModItems {
                     stacksTo(64)
             )
     );
-    public static final RegistryObject<Item> RADIO_COMPONENTS = ITEMS.register("radio_components",
+    public static final RegistryObject<Item> RADIO_COMPONENT = ITEMS.register("radio_component",
             () -> new Item(new Item.Properties().
                     stacksTo(64)
             )
