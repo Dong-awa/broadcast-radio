@@ -87,8 +87,8 @@ public class RadioTerminalItem extends Item {
         if (terminalStack.isEmpty() || !(terminalStack.getItem() instanceof RadioTerminalItem)) {
             return false;
         }
-        CompoundTag tag = terminalStack.getOrCreateTag();
-        if (tag.contains(TAG_BATTERY)) {
+        CompoundTag tag = terminalStack.getTag();
+        if (tag != null && tag.contains(TAG_BATTERY)) {
             CompoundTag batteryTag = tag.getCompound(TAG_BATTERY);
             ItemStack battery = ItemStack.of(batteryTag);
             return !battery.isEmpty() && battery.getItem() instanceof RadioBatteryItem;
@@ -100,7 +100,10 @@ public class RadioTerminalItem extends Item {
         if (!hasBattery(terminalStack)) {
             return 0;
         }
-        CompoundTag tag = terminalStack.getOrCreateTag();
+        CompoundTag tag = terminalStack.getTag();
+        if (tag == null) {
+            return 0;
+        }
         CompoundTag batteryTag = tag.getCompound(TAG_BATTERY);
         ItemStack battery = ItemStack.of(batteryTag);
         if (!battery.isEmpty() && battery.getItem() instanceof RadioBatteryItem) {
@@ -241,8 +244,8 @@ public class RadioTerminalItem extends Item {
         }
         
         if (!terminalStack.isEmpty() && terminalStack.getItem() instanceof RadioTerminalItem) {
-            CompoundTag tag = terminalStack.getOrCreateTag();
-            if (tag.contains(TAG_SIM_CARD)) {
+            CompoundTag tag = terminalStack.getTag();
+            if (tag != null && tag.contains(TAG_SIM_CARD)) {
                 CompoundTag simTag = tag.getCompound(TAG_SIM_CARD);
                 ItemStack simCard = ItemStack.of(simTag);
                 if (!simCard.isEmpty()) {

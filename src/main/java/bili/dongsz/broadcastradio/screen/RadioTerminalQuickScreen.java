@@ -66,9 +66,7 @@ public class RadioTerminalQuickScreen extends Screen {
     }
 
     private void openPositionScreen() {
-        if (Minecraft.getInstance().player != null) {
-            Minecraft.getInstance().setScreen(new RadioTerminalPositionScreen(this, Minecraft.getInstance().player));
-        }
+        Minecraft.getInstance().setScreen(new RadioTerminalPositionScreen(this));
     }
 
     @Override

@@ -73,8 +73,8 @@ public class QueryPlayerValidPacket {
             return new ValidationResult(false, 0, 0);
         }
         
-        net.minecraft.nbt.CompoundTag tag = terminalStack.getOrCreateTag();
-        if (!tag.contains("SimCard")) {
+        net.minecraft.nbt.CompoundTag tag = terminalStack.getTag();
+        if (tag == null || !tag.contains("SimCard")) {
             return new ValidationResult(false, 0, 0);
         }
         net.minecraft.nbt.CompoundTag simCardTag = tag.getCompound("SimCard");

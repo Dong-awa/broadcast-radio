@@ -65,30 +65,33 @@ public class SignalSearchManager {
         // 每3秒执行一次信号搜索（60 tick）——同时以此频率更新全局 HAS_VALID_SERVICE
         // 初始延迟100ms避免启动时卡顿
         scheduler.scheduleAtFixedRate(() -> {
-            if (Minecraft.getInstance().level == null || Minecraft.getInstance().player == null) {
-                return;
-            }
-            
-            // 检查玩家是否持有无线电终端
-            if (!hasRadioTerminal(Minecraft.getInstance().player)) {
-                // 无终端时清空列表，并更新全局标志
-                cachedOnlinePlayers.clear();
-                hasValidSignal = false;
-                BroadcastRadio.HAS_VALID_SERVICE = false;
-                return;
-            }
-            
-            // 先清空缓存并查询其他玩家的有效性状态（异步执行）
-            playerValidCache.clear();
-            for (Player player : Minecraft.getInstance().level.players()) {
-                if (!player.getUUID().equals(Minecraft.getInstance().player.getUUID())) {
-                    BroadcastRadio.NETWORK.sendToServer(new bili.dongsz.broadcastradio.network.QueryPlayerValidPacket(player.getUUID()));
+            // 所有对 Minecraft 对象的访问必须在主线程上执行，否则会导致实体状态被破坏
+            Minecraft minecraft = Minecraft.getInstance();
+            minecraft.execute(() -> {
+                if (minecraft.level == null || minecraft.player == null) {
+                    return;
                 }
-            }
-            
-            // 执行信号搜索逻辑（使用当前缓存，服务端响应会在后续更新缓存）
-            performSignalSearch();
-            
+
+                // 检查玩家是否持有无线电终端
+                if (!hasRadioTerminal(minecraft.player)) {
+                    // 无终端时清空列表，并更新全局标志
+                    cachedOnlinePlayers.clear();
+                    hasValidSignal = false;
+                    BroadcastRadio.HAS_VALID_SERVICE = false;
+                    return;
+                }
+
+                // 先清空缓存并查询其他玩家的有效性状态（在主线程执行）
+                playerValidCache.clear();
+                for (Player player : minecraft.level.players()) {
+                    if (!player.getUUID().equals(minecraft.player.getUUID())) {
+                        BroadcastRadio.NETWORK.sendToServer(new bili.dongsz.broadcastradio.network.QueryPlayerValidPacket(player.getUUID()));
+                    }
+                }
+
+                // 执行信号搜索逻辑（在主线程执行，避免破坏玩家/世界状态）
+                performSignalSearch();
+            });
         }, 100, 3000, TimeUnit.MILLISECONDS); // 初始延迟100ms，每3秒执行一次
     }
 
@@ -103,14 +106,15 @@ public class SignalSearchManager {
     }
 
     public void forceSignalSearch() {
-        // 异步执行，避免阻塞主线程
-        scheduler.execute(() -> {
-            if (Minecraft.getInstance().level == null || Minecraft.getInstance().player == null) {
+        // 所有对 Minecraft 对象的访问必须在主线程上执行
+        Minecraft minecraft = Minecraft.getInstance();
+        minecraft.execute(() -> {
+            if (minecraft.level == null || minecraft.player == null) {
                 return;
             }
 
             // 检查玩家是否持有无线电终端
-            if (!hasRadioTerminal(Minecraft.getInstance().player)) {
+            if (!hasRadioTerminal(minecraft.player)) {
                 cachedOnlinePlayers.clear();
                 hasValidSignal = false;
                 BroadcastRadio.HAS_VALID_SERVICE = false;
@@ -295,8 +299,8 @@ public class SignalSearchManager {
             return false;
         }
         
-        net.minecraft.nbt.CompoundTag tag = terminalStack.getOrCreateTag();
-        if (tag.contains("SimCard")) {
+        net.minecraft.nbt.CompoundTag tag = terminalStack.getTag();
+        if (tag != null && tag.contains("SimCard")) {
             net.minecraft.nbt.CompoundTag simCardTag = tag.getCompound("SimCard");
             net.minecraft.world.item.ItemStack simCard = net.minecraft.world.item.ItemStack.of(simCardTag);
             return !simCard.isEmpty();
