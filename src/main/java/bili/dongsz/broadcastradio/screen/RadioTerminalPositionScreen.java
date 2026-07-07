@@ -149,7 +149,7 @@ public class RadioTerminalPositionScreen extends Screen {
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
 
-        // 只保留返回按钮，移除刷新按钮（刷新会触发后台逻辑，可能造成问题）
+        // 只保留返回按钮（向下移动 14px，保持与列表的新位置一致）
         this.addRenderableWidget(Button.builder(
             Component.translatable("item.broadcast_radio.radio_terminal.return_button"),
             button -> {
@@ -157,7 +157,7 @@ public class RadioTerminalPositionScreen extends Screen {
                     this.minecraft.setScreen(this.parentScreen);
                 }
             }
-        ).bounds(x + 8, y + 130, 60, 20).build());
+        ).bounds(x + 8, y + 144, 60, 20).build());
     }
 
     @Override
@@ -173,19 +173,24 @@ public class RadioTerminalPositionScreen extends Screen {
         guiGraphics.fill(x + this.imageWidth - 1, y, x + this.imageWidth, y + this.imageHeight, 0xFF333333);
         guiGraphics.fill(x, y + this.imageHeight - 1, x + this.imageWidth, y + this.imageHeight, 0xFF333333);
 
-        // ===== 顶部：基站坐标（使用构造时保存的值） =====
-        int topLineWidth = this.font.width(savedBaseStationText);
-        guiGraphics.drawString(this.font, savedBaseStationText, x + (this.imageWidth - topLineWidth) / 2, y + 6, 0xFFFFFF);
+        // ===== 顶部：位置（固定标题，风格与其他界面一致） =====
+        Component titleLine = Component.translatable("item.broadcast_radio.radio_terminal.position_title");
+        int titleLineWidth = this.font.width(titleLine);
+        guiGraphics.drawString(this.font, titleLine, x + (this.imageWidth - titleLineWidth) / 2, y + 6, 0xFFFFFF);
 
         // 水平分隔线
         guiGraphics.fill(x + 8, y + 20, x + this.imageWidth - 8, y + 21, 0xFF333333);
 
-        // ===== 中间：在线玩家列表（使用构造时保存的值） =====
-        Component listTitle = Component.translatable("item.broadcast_radio.radio_terminal.player_list_title");
-        guiGraphics.drawString(this.font, listTitle, x + 12, y + 28, 0xE0E0E0);
+        // ===== 分割线下方：当前定位（基站XZ坐标） =====
+        Component locationLine = Component.translatable("item.broadcast_radio.radio_terminal.current_location", savedBaseStationText);
+        guiGraphics.drawString(this.font, locationLine, x + 12, y + 28, 0xFFFFFF);
 
-        int listTop = y + 42;
-        int listBottom = y + 118;
+        // ===== 中间：在线玩家列表（向下移动 14px，保持整体间距协调） =====
+        Component listTitle = Component.translatable("item.broadcast_radio.radio_terminal.player_list_title");
+        guiGraphics.drawString(this.font, listTitle, x + 12, y + 44, 0xE0E0E0);
+
+        int listTop = y + 58;
+        int listBottom = y + 134;
         int listLeft = x + 12;
         int listRight = x + this.imageWidth - 12;
 
@@ -210,8 +215,8 @@ public class RadioTerminalPositionScreen extends Screen {
             }
         }
 
-        // 按钮下方的水平分隔线
-        guiGraphics.fill(x + 8, y + 158, x + this.imageWidth - 8, y + 159, 0xFF333333);
+        // 按钮下方的水平分隔线（向下移动 14px）
+        guiGraphics.fill(x + 8, y + 172, x + this.imageWidth - 8, y + 173, 0xFF333333);
 
         super.render(guiGraphics, mouseX, mouseY, partialTick);
 

@@ -23,7 +23,7 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
         this.imageWidth = 176;
         this.imageHeight = 210;
         this.inventoryLabelX = 8;
-        this.inventoryLabelY = 120;
+        this.inventoryLabelY = this.imageHeight - 88;
     }
 
     @Override
@@ -32,7 +32,7 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
 
-        serviceNameBox = new EditBox(this.font, x + 10, y + 30, 156, 20, Component.translatable("item.broadcast_radio.radio_terminal.service_name_hint"));
+        serviceNameBox = new EditBox(this.font, x + 10, y + 32, 156, 18, Component.translatable("item.broadcast_radio.radio_terminal.service_name_hint"));
         serviceNameBox.setMaxLength(50);
         serviceNameBox.setValue(currentServiceName);
         serviceNameBox.setResponder(text -> {
@@ -42,9 +42,9 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
         this.addRenderableWidget(serviceNameBox);
 
         int buttonWidth = 49;
-        int buttonHeight = 20;
-        int buttonY = y + 60;
+        int buttonHeight = 16;
         int spacing = 4;
+        int buttonY = y + 56;
 
         this.addRenderableWidget(Button.builder(Component.translatable("item.broadcast_radio.radio_terminal.2g_button"), button -> {
             stationEntity.setNetworkType(RadioBaseStationBlockEntity.NetworkType.TWO_G);
@@ -61,7 +61,7 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
             sendUpdatePacket();
         }).bounds(x + 10 + buttonWidth * 2 + spacing * 2, buttonY, buttonWidth, buttonHeight).build());
 
-        buttonY = y + 90;
+        buttonY = y + 88;
 
         this.addRenderableWidget(Button.builder(Component.translatable("item.broadcast_radio.radio_terminal.decrease_10"), button -> {
             stationEntity.setSignalRange(Math.max(10, stationEntity.getSignalRange() - 10));
@@ -113,19 +113,57 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
         int y = (this.height - this.imageHeight) / 2;
         this.renderBg(guiGraphics, partialTick, mouseX, mouseY);
 
+        // ===== 顶部：标题（水平居中白色） =====
+        Component titleLine = this.title;
+        int titleLineWidth = this.font.width(titleLine);
+        guiGraphics.drawString(this.font, titleLine, x + (this.imageWidth - titleLineWidth) / 2, y + 6, 0xFFFFFF);
+
+        // 水平分隔线
+        guiGraphics.fill(x + 8, y + 20, x + this.imageWidth - 8, y + 21, 0xFF333333);
+
         if (stationEntity != null) {
-                guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.network_type", stationEntity.getNetworkType().getDisplayName()), x + 10, y + 51, 0x404040);
-                guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_base_station.signal_range", stationEntity.getSignalRange()), x + 10, y + 80, 0x404040);
-                guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.energy", stationEntity.getTotalEnergy()), x + 10, y + 112, 0xFFFFFF);
-                guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_base_station.consumption", String.format("%.1f", stationEntity.getEnergyConsumptionRate())), x + 90, y + 112, 0xFFFFFF);
-                guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.service_name"), x + 10, y + 20, 0x404040);
+            // 网络类型（在输入框上方）
+            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.network_type", stationEntity.getNetworkType().getDisplayName()), x + 10, y + 26, 0xE0E0E0);
+            // 信号范围（在两行按钮之间）
+            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_base_station.signal_range", stationEntity.getSignalRange()), x + 10, y + 78, 0xE0E0E0);
+            // 能量和消耗（在第二行按钮下方）
+            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.energy", stationEntity.getTotalEnergy()), x + 10, y + 110, 0xFFFFFF);
+            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_base_station.consumption", String.format("%.1f", stationEntity.getEnergyConsumptionRate())), x + 90, y + 110, 0xFFFFFF);
+        }
+
+        // 手动渲染 widgets
+        this.renderables.forEach(widget -> widget.render(guiGraphics, mouseX, mouseY, partialTick));
+
+        // ===== 渲染物品槽（Slots） =====
+        net.minecraft.world.inventory.Slot hoveredSlot = null;
+        for (net.minecraft.world.inventory.Slot slot : this.menu.slots) {
+            int slotX = x + slot.x;
+            int slotY = y + slot.y;
+
+            boolean isHovered = mouseX >= slotX && mouseX < slotX + 16 && mouseY >= slotY && mouseY < slotY + 16;
+            if (isHovered) {
+                hoveredSlot = slot;
             }
 
-        // 渲染按钮
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        
-        // 界面标题
-        guiGraphics.drawString(this.font, this.title, x + 8, y + 6, 0x404040);
+            if (isHovered) {
+                guiGraphics.fill(slotX - 1, slotY - 1, slotX + 17, slotY + 17, 0xFFFFFFFF);
+                guiGraphics.fill(slotX, slotY, slotX + 16, slotY + 16, 0xFFCCCCCC);
+            } else {
+                guiGraphics.fill(slotX - 1, slotY - 1, slotX + 17, slotY + 17, 0xFF555555);
+                guiGraphics.fill(slotX, slotY, slotX + 16, slotY + 16, 0xFF8B8B8B);
+            }
+
+            if (slot.hasItem()) {
+                guiGraphics.renderItem(slot.getItem(), slotX, slotY);
+                guiGraphics.renderItemDecorations(this.font, slot.getItem(), slotX, slotY);
+            }
+        }
+
+        if (hoveredSlot != null && hoveredSlot.hasItem()) {
+            guiGraphics.renderTooltip(this.font, hoveredSlot.getItem(), mouseX, mouseY);
+        } else {
+            this.renderTooltip(guiGraphics, mouseX, mouseY);
+        }
     }
 
     @Override

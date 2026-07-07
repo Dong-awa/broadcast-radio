@@ -11,10 +11,10 @@ import net.minecraft.world.item.ItemStack;
 
 public class WalkieTalkieScreen extends AbstractContainerScreen<WalkieTalkieMenu> {
     private float currentFrequency;
-    private int startX;
-    private int buttonY;
     private int buttonWidth;
     private int buttonHeight;
+    private int startX;
+    private int buttonY;
     private int spacing;
 
     public WalkieTalkieScreen(WalkieTalkieMenu menu, Inventory inventory, Component title) {
@@ -22,10 +22,8 @@ public class WalkieTalkieScreen extends AbstractContainerScreen<WalkieTalkieMenu
         this.imageWidth = 176;
         this.imageHeight = 198;
         this.currentFrequency = menu.getWalkieStack().getOrCreateTag().getFloat("Frequency");
-        
-        // 修正物品栏文字位置
-        this.inventoryLabelX = 8; // 左边距，默认值
-        this.inventoryLabelY = this.imageHeight - 94; // 底部物品栏上方的标准位置
+        this.inventoryLabelX = 8;
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
@@ -52,7 +50,7 @@ public class WalkieTalkieScreen extends AbstractContainerScreen<WalkieTalkieMenu
         buttonWidth = 35;
         buttonHeight = 20;
         startX = x + 10;
-        buttonY = y + 20;
+        buttonY = y + 30;
         spacing = 5;
 
         // -5MHz 按钮
@@ -100,8 +98,15 @@ public class WalkieTalkieScreen extends AbstractContainerScreen<WalkieTalkieMenu
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
         this.renderBg(guiGraphics, partialTick, mouseX, mouseY);
-        // 渲染标题
-        guiGraphics.drawString(this.font, this.title.getString(), x + 8, y + 6, 0x404040);
+        
+        // ===== 顶部：标题（水平居中白色） =====
+        Component titleLine = this.title;
+        int titleLineWidth = this.font.width(titleLine);
+        guiGraphics.drawString(this.font, titleLine, x + (this.imageWidth - titleLineWidth) / 2, y + 6, 0xFFFFFF);
+
+        // 水平分隔线
+        guiGraphics.fill(x + 8, y + 20, x + this.imageWidth - 8, y + 21, 0xFF333333);
+        
         // 渲染按钮
         this.renderables.forEach(widget -> widget.render(guiGraphics, mouseX, mouseY, partialTick));
         // 显示当前频率
@@ -115,21 +120,40 @@ public class WalkieTalkieScreen extends AbstractContainerScreen<WalkieTalkieMenu
             power = RadioBatteryItem.getPower(battery);
         }
         String powerText = Component.translatable("item.broadcast_radio.walkie_talkie.power", power).getString();
-        int powerTextWidth = this.font.width(powerText);
         guiGraphics.drawString(this.font, powerText, x + 10, buttonY + buttonHeight + 25, 0xFFFFFF);
-        // 渲染电池槽标签
-        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.walkie_talkie.battery_label"), x + 24 + powerTextWidth + 20, buttonY + buttonHeight + 25, 0x404040);
-        // 渲染电池槽背景
-        int batterySlotX = x + 157;
-        guiGraphics.fill(batterySlotX, buttonY + buttonHeight + 20, batterySlotX + 16, buttonY + buttonHeight + 36, 0xFF8B8B8B);
-        guiGraphics.fill(batterySlotX, buttonY + buttonHeight + 20, batterySlotX + 1, buttonY + buttonHeight + 36, 0xFF333333);
-        guiGraphics.fill(batterySlotX, buttonY + buttonHeight + 20, batterySlotX + 16, buttonY + buttonHeight + 21, 0xFF333333);
-        guiGraphics.fill(batterySlotX, buttonY + buttonHeight + 35, batterySlotX + 16, buttonY + buttonHeight + 36, 0xFF333333);
-        guiGraphics.fill(batterySlotX + 15, buttonY + buttonHeight + 20, batterySlotX + 16, buttonY + buttonHeight + 36, 0xFF333333);
-        // 渲染物品栏
-        super.render(guiGraphics, mouseX, mouseY, partialTick);
-        // 渲染工具提示
-        this.renderTooltip(guiGraphics, mouseX, mouseY);
+        // 渲染电池槽标签（放在电池框左侧）
+        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.walkie_talkie.battery_label"), x + 140, y + 61, 0xE0E0E0);
+        
+        // ===== 渲染物品槽（Slots） =====
+        net.minecraft.world.inventory.Slot hoveredSlot = null;
+        for (net.minecraft.world.inventory.Slot slot : this.menu.slots) {
+            int slotX = x + slot.x;
+            int slotY = y + slot.y;
+
+            boolean isHovered = mouseX >= slotX && mouseX < slotX + 16 && mouseY >= slotY && mouseY < slotY + 16;
+            if (isHovered) {
+                hoveredSlot = slot;
+            }
+
+            if (isHovered) {
+                guiGraphics.fill(slotX - 1, slotY - 1, slotX + 17, slotY + 17, 0xFFFFFFFF);
+                guiGraphics.fill(slotX, slotY, slotX + 16, slotY + 16, 0xFFCCCCCC);
+            } else {
+                guiGraphics.fill(slotX - 1, slotY - 1, slotX + 17, slotY + 17, 0xFF555555);
+                guiGraphics.fill(slotX, slotY, slotX + 16, slotY + 16, 0xFF8B8B8B);
+            }
+
+            if (slot.hasItem()) {
+                guiGraphics.renderItem(slot.getItem(), slotX, slotY);
+                guiGraphics.renderItemDecorations(this.font, slot.getItem(), slotX, slotY);
+            }
+        }
+
+        if (hoveredSlot != null && hoveredSlot.hasItem()) {
+            guiGraphics.renderTooltip(this.font, hoveredSlot.getItem(), mouseX, mouseY);
+        } else {
+            this.renderTooltip(guiGraphics, mouseX, mouseY);
+        }
     }
 
     @Override

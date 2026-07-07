@@ -224,7 +224,7 @@ public class RadioTerminalItem extends Item {
         }
     }
     
-    private static BaseStationInfo findClosestBaseStation(Level level, Player player) {
+    public static BaseStationInfo findClosestBaseStation(Level level, Player player) {
         double closestDistance = Double.MAX_VALUE;
         String serviceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString();
         BlockPos closestPos = null;

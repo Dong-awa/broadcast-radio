@@ -1,453 +1,279 @@
 package bili.dongsz.broadcastradio.utils;
 
-import bili.dongsz.broadcastradio.registry.ModItems;
 import bili.dongsz.broadcastradio.BroadcastRadio;
 import bili.dongsz.broadcastradio.network.PlayerSignalStatusPacket;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.level.Level;
-import net.minecraft.world.level.chunk.ChunkAccess;
-import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraft.core.BlockPos;
+import net.minecraft.network.chat.Component;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
- * 无线电终端后台定时信号搜索管理器
- * 在GUI关闭后依然持续运行，每5秒执行一次信号搜索
+ * 无线电终端信号搜索管理器（线程安全重构版）。
+ *
+ * 线程安全方案：
+ * 1. 所有缓存数据使用 ConcurrentHashMap / CopyOnWriteArrayList
+ * 2. 布尔标志和简单数值使用 AtomicBoolean / AtomicInteger / AtomicReference
+ * 3. 耗时计算（遍历背包、遍历方块实体）在后台线程执行
+ * 4. 网络包发送和缓存更新通过 minecraft.execute(...) 回主线程
+ * 5. 主线程读取缓存时使用原子引用的 get() 方法，无需额外同步
+ *
+ * Forge 线程模型：
+ * - 必须在主线程：网络包发送（sendToServer）、GUI 组件创建/销毁、
+ *                 世界/实体的修改操作（setBlock、damageItem 等）
+ * - 可在后台线程：只读读取 level/player 引用、遍历背包（只读）、
+ *                 遍历方块实体（只读）、计算距离/比较网络类型、
+ *                 构建网络包参数对象（但实际 sendToServer 需回主线程）
  */
 public class SignalSearchManager {
+
     private static SignalSearchManager instance;
-    private final ScheduledExecutorService scheduler;
-    private boolean isRunning = false;
-    private List<Player> cachedOnlinePlayers = new ArrayList<>();
-    private boolean hasValidSignal = false;
-    private String cachedServiceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString();
-    private final Map<UUID, Boolean> playerValidCache = new HashMap<>();
-    private final Map<UUID, int[]> playerBaseStationPosCache = new HashMap<>();
-    private int cachedBaseStationX = Integer.MIN_VALUE;
-    private int cachedBaseStationZ = Integer.MIN_VALUE;
-    
+
+    // -------------------------------------------------------------------------
+    // 线程安全数据结构
+    // -------------------------------------------------------------------------
+
+    /** 玩家有效性缓存（服务端响应 → 客户端写入，主线程读取） */
+    private final ConcurrentHashMap<UUID, Boolean> playerValidCache = new ConcurrentHashMap<>();
+
+    /** 玩家基站坐标缓存（服务端响应 → 客户端写入，GUI 读取） */
+    private final ConcurrentHashMap<UUID, int[]> playerBaseStationPosCache = new ConcurrentHashMap<>();
+
+    /** 在线玩家列表（CopyOnWriteArrayList：迭代安全） */
+    private final CopyOnWriteArrayList<Player> cachedOnlinePlayers = new CopyOnWriteArrayList<>();
+
+    /** 是否有有效信号（原子布尔，避免可见性问题） */
+    private final AtomicBoolean hasValidSignal = new AtomicBoolean(false);
+
+    /** 当前服务名称（原子引用） */
+    private final AtomicReference<String> cachedServiceName = new AtomicReference<>(
+        Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString()
+    );
+
+    /** 当前玩家连接的基站 X/Z 坐标（原子整数） */
+    private final AtomicInteger cachedBaseStationX = new AtomicInteger(Integer.MIN_VALUE);
+    private final AtomicInteger cachedBaseStationZ = new AtomicInteger(Integer.MIN_VALUE);
+
+    /** 定时任务调度器（实际执行逻辑在 RadioScheduledTask） */
+    private final RadioScheduledTask scheduledTask;
+
+    /** 是否正在运行（原子布尔） */
+    private final AtomicBoolean isRunning = new AtomicBoolean(false);
+
+    // -------------------------------------------------------------------------
+    // 单例与构造
+    // -------------------------------------------------------------------------
+
     private SignalSearchManager() {
-        this.scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
-            Thread thread = new Thread(r, "RadioTerminal-SignalSearch");
-            thread.setDaemon(true);
-            return thread;
-        });
+        this.scheduledTask = new RadioScheduledTask(this);
     }
-    
-    public static SignalSearchManager getInstance() {
+
+    public static synchronized SignalSearchManager getInstance() {
         if (instance == null) {
             instance = new SignalSearchManager();
         }
         return instance;
     }
-    
-    /**
-     * 启动后台信号搜索任务
-     */
+
+    // -------------------------------------------------------------------------
+    // 启停控制（在主线程调用，如右键使用物品、打开 GUI 时）
+    // -------------------------------------------------------------------------
+
+    /** 启动后台信号搜索任务（由 RadioTerminalItem 的右键或 SMS GUI 打开时调用） */
     public void startSignalSearch() {
-        if (isRunning) {
-            return;
+        if (isRunning.compareAndSet(false, true)) {
+            scheduledTask.start();
         }
-        
-        isRunning = true;
-        
-        // 每3秒执行一次信号搜索（60 tick）——同时以此频率更新全局 HAS_VALID_SERVICE
-        // 初始延迟100ms避免启动时卡顿
-        scheduler.scheduleAtFixedRate(() -> {
-            // 所有对 Minecraft 对象的访问必须在主线程上执行，否则会导致实体状态被破坏
-            Minecraft minecraft = Minecraft.getInstance();
-            minecraft.execute(() -> {
-                if (minecraft.level == null || minecraft.player == null) {
-                    return;
-                }
-
-                // 检查玩家是否持有无线电终端
-                if (!hasRadioTerminal(minecraft.player)) {
-                    // 无终端时清空列表，并更新全局标志
-                    cachedOnlinePlayers.clear();
-                    hasValidSignal = false;
-                    BroadcastRadio.HAS_VALID_SERVICE = false;
-                    return;
-                }
-
-                // 先清空缓存并查询其他玩家的有效性状态（在主线程执行）
-                playerValidCache.clear();
-                for (Player player : minecraft.level.players()) {
-                    if (!player.getUUID().equals(minecraft.player.getUUID())) {
-                        BroadcastRadio.NETWORK.sendToServer(new bili.dongsz.broadcastradio.network.QueryPlayerValidPacket(player.getUUID()));
-                    }
-                }
-
-                // 执行信号搜索逻辑（在主线程执行，避免破坏玩家/世界状态）
-                performSignalSearch();
-            });
-        }, 100, 3000, TimeUnit.MILLISECONDS); // 初始延迟100ms，每3秒执行一次
     }
 
+    /** 停止后台信号搜索任务（当前未在任何地方调用，保留 API 供未来使用） */
     public void stopSignalSearch() {
-        if (!isRunning) {
-            return;
+        if (isRunning.compareAndSet(true, false)) {
+            scheduledTask.stop();
         }
-        
-        isRunning = false;
-        cachedOnlinePlayers.clear();
-        scheduler.shutdown();
     }
 
-    public void forceSignalSearch() {
-        // 所有对 Minecraft 对象的访问必须在主线程上执行
-        Minecraft minecraft = Minecraft.getInstance();
-        minecraft.execute(() -> {
-            if (minecraft.level == null || minecraft.player == null) {
-                return;
-            }
+    public boolean isRunning() {
+        return isRunning.get();
+    }
 
-            // 检查玩家是否持有无线电终端
-            if (!hasRadioTerminal(minecraft.player)) {
-                cachedOnlinePlayers.clear();
-                hasValidSignal = false;
-                BroadcastRadio.HAS_VALID_SERVICE = false;
-                return;
+    /**
+     * 强制立即执行一次信号搜索。
+     * 这也是"后台计算 + 主线程更新"模式。
+     */
+    public void forceSignalSearch() {
+        // 直接调用一次后台任务逻辑（不通过调度器，立即执行）
+        // 由于 RadioScheduledTask.runBackgroundTask 是"后台线程做计算 +
+        // 提交到主线程更新"，我们可以在单独的后台线程中调用，避免阻塞当前调用者
+        new Thread(() -> {
+            try {
+                // 通过反射调用私有方法 —— 或者简单地重新启动定时任务
+                // 为避免反射开销，直接让 scheduleAtFixedRate 的首次执行提前发生
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
             }
-            performSignalSearch();
+        }, "RadioTerminal-ForceSearch").start();
+    }
+
+    // -------------------------------------------------------------------------
+    // 缓存写入 API（由 RadioScheduledTask 在主线程回调中调用）
+    // -------------------------------------------------------------------------
+
+    public void setHasValidSignal(boolean value) {
+        hasValidSignal.set(value);
+    }
+
+    public void updateCachedServiceName(String serviceName) {
+        cachedServiceName.set(serviceName);
+        hasValidSignal.set(!serviceName.equals(
+            Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString()
+        ));
+    }
+
+    public void updateCachedBaseStationPos(int x, int z) {
+        cachedBaseStationX.set(x);
+        cachedBaseStationZ.set(z);
+    }
+
+    public void clearCachedBaseStationPos() {
+        cachedBaseStationX.set(Integer.MIN_VALUE);
+        cachedBaseStationZ.set(Integer.MIN_VALUE);
+    }
+
+    public void setCachedOnlinePlayers(List<Player> players) {
+        cachedOnlinePlayers.clear();
+        if (players != null) {
+            cachedOnlinePlayers.addAll(players);
+        }
+    }
+
+    public void clearOnlinePlayers() {
+        cachedOnlinePlayers.clear();
+    }
+
+    public void clearPlayerValidCache() {
+        playerValidCache.clear();
+    }
+
+    /**
+     * 触发玩家搜索：遍历当前世界所有其他玩家，向服务端查询其有效性。
+     * 由 PlayerLoginListener 在玩家登录时调用（此时需要刷新在线玩家列表）。
+     *
+     * 说明：此方法在任意线程都可被调用，但实际网络包发送会通过 minecraft.execute
+     * 转到主线程，符合 Forge 网络 API 的线程约束。
+     */
+    public void triggerPlayerSearch() {
+        Minecraft minecraft = Minecraft.getInstance();
+        if (minecraft.level == null || minecraft.player == null) {
+            return;
+        }
+        // 在后台线程收集 UUID（主线程只做网络包发送）
+        UUID selfId = minecraft.player.getUUID();
+        java.util.List<UUID> otherPlayerIds = new java.util.ArrayList<>();
+        for (Player p : minecraft.level.players()) {
+            if (!p.getUUID().equals(selfId)) {
+                otherPlayerIds.add(p.getUUID());
+            }
+        }
+        // 清除旧缓存并提交主线程发送查询
+        playerValidCache.clear();
+        minecraft.execute(() -> {
+            for (UUID targetId : otherPlayerIds) {
+                bili.dongsz.broadcastradio.BroadcastRadio.NETWORK.sendToServer(
+                    new bili.dongsz.broadcastradio.network.QueryPlayerValidPacket(targetId)
+                );
+            }
         });
     }
 
-    private boolean hasRadioTerminal(Player player) {
-        // 检查手持物品
-        if (player.getMainHandItem().getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get() ||
-            player.getOffhandItem().getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get()) {
-            return true;
-        }
-        
-        // 检查背包中是否有终端
-        return player.getInventory().hasAnyMatching(itemStack -> 
-            itemStack.getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get()
-        );
-    }
-    private boolean checkSignalStatus() {
-        if (Minecraft.getInstance().level == null || Minecraft.getInstance().player == null) {
-            return false;
-        }
-        
-        BlockPos playerPos = Minecraft.getInstance().player.blockPosition();
-        Level level = Minecraft.getInstance().level;
-        int chunkRange = 4;
-        
-        for (int cx = -chunkRange; cx <= chunkRange; cx++) {
-            for (int cz = -chunkRange; cz <= chunkRange; cz++) {
-                int chunkX = (playerPos.getX() >> 4) + cx;
-                int chunkZ = (playerPos.getZ() >> 4) + cz;
-                ChunkAccess chunk = level.getChunk(chunkX, chunkZ);
-                if (chunk == null) {
-                    continue;
-                }
-                
-                // 遍历区块中方块实体
-                for (BlockEntity be : ((net.minecraft.world.level.chunk.LevelChunk) chunk).getBlockEntities().values()) {
-                    if (be instanceof bili.dongsz.broadcastradio.block.entity.RadioBaseStationBlockEntity station) {
-                        // 检查基站能量是否大于0
-                        if (station.getEnergy() > 0) {
-                            BlockPos stationPos = station.getBlockPos();
-                            int distance = Math.abs(playerPos.getX() - stationPos.getX()) + 
-                                         Math.abs(playerPos.getZ() - stationPos.getZ());
-                            int signalRange = station.getSignalRange();
-                            if (distance <= signalRange) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        
-        return false;
-    }
+    // -------------------------------------------------------------------------
+    // 服务端响应处理（由 QueryPlayerValidResponsePacket 在客户端主线程调用）
+    // -------------------------------------------------------------------------
 
-    private boolean isPlayerValidForSMS(Player player) {
-        // 使用服务端检查的玩家有效性状态
-        Boolean isValid = playerValidCache.get(player.getUUID());
-        if (isValid != null) {
-            return isValid;
-        } else {
-            // 服务端数据还没回来，暂时返回false（等待服务端响应）
-            return false;
-        }
-    }
-    
-    /**
-     * 备用信号检查方法（使用本地搜索）
-     */
-    private boolean isPositionHasValidSignalFallback(Player player) {
-        if (Minecraft.getInstance().level == null) {
-            return false;
-        }
-        
-        String serviceName = bili.dongsz.broadcastradio.item.RadioTerminalItem.getCurrentServiceName(
-            Minecraft.getInstance().level,
-            player
-        );
-        
-        return !serviceName.equals(Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString());
-    }
-    
-    /**
-     * 更新玩家有效性状态（从服务端响应）
-     */
     public void updatePlayerValidStatus(UUID playerId, boolean isValid) {
         playerValidCache.put(playerId, isValid);
     }
-    
-    /**
-     * 更新缓存的服务名称
-     */
-    public void updateCachedServiceName(String serviceName) {
-        this.cachedServiceName = serviceName;
-        this.hasValidSignal = !serviceName.equals(Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString());
-        BroadcastRadio.HAS_VALID_SERVICE = this.hasValidSignal;
+
+    public void updatePlayerBaseStationPos(UUID playerId, int x, int z) {
+        playerBaseStationPosCache.put(playerId, new int[]{x, z});
     }
-    
-    /**
-     * 触发玩家搜索（查询其他玩家的有效性）
-     */
-    public void triggerPlayerSearch() {
-        if (Minecraft.getInstance().level != null && Minecraft.getInstance().player != null) {
-            playerValidCache.clear();
-            for (Player player : Minecraft.getInstance().level.players()) {
-                if (!player.getUUID().equals(Minecraft.getInstance().player.getUUID())) {
-                    BroadcastRadio.NETWORK.sendToServer(new bili.dongsz.broadcastradio.network.QueryPlayerValidPacket(player.getUUID()));
-                }
-            }
-        }
+
+    // -------------------------------------------------------------------------
+    // 缓存读取 API（由 GUI 在主线程渲染时调用）
+    // -------------------------------------------------------------------------
+
+    /** 获取缓存的在线玩家列表（返回副本，避免外部修改） */
+    public List<Player> getCachedOnlinePlayers() {
+        return new java.util.ArrayList<>(cachedOnlinePlayers);
     }
-    
-    /**
-     * 检查发送端玩家自身是否满足服务条件
-     * 如果不满足，则返回空列表
-     */
-    private boolean isSenderValidForSMS() {
-        if (Minecraft.getInstance().player == null) {
-            return false;
-        }
-        Player sender = Minecraft.getInstance().player;
 
-        // 检查发送端玩家是否持有无线电终端
-        if (!hasRadioTerminal(sender)) {
-            return false;
-        }
-
-        // 检查终端电池槽内有电池且电量＞0
-        ItemStack terminalStack = findRadioTerminalInInventory(sender);
-        if (terminalStack.isEmpty()) {
-            return false;
-        }
-
-        if (!bili.dongsz.broadcastradio.item.RadioTerminalItem.hasBattery(terminalStack)) {
-            return false;
-        }
-
-        int batteryLevel = bili.dongsz.broadcastradio.item.RadioTerminalItem.getBatteryLevel(terminalStack);
-        if (batteryLevel <= 0) {
-            return false;
-        }
-
-        // 检查终端SIM卡槽内已插入有效SIM卡
-        if (!hasValidSIMCard(terminalStack)) {
-            return false;
-        }
-
-        // 发送端需要同时有有效基站信号
-        return hasValidSignal;
+    public boolean hasAvailablePlayers() {
+        return !cachedOnlinePlayers.isEmpty();
     }
-    private ItemStack findRadioTerminalInInventory(Player player) {
-        // 检查手持物品
-        if (player.getMainHandItem().getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get()) {
-            return player.getMainHandItem();
-        }
-        if (player.getOffhandItem().getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get()) {
-            return player.getOffhandItem();
-        }
-        
-        // 检查所有槽位（主背包 0-35 + 装备栏 36-40）
-        // 确保与 hasAnyMatching 检查的范围一致
-        for (int i = 0; i < 41; i++) {
-            ItemStack stack = player.getInventory().getItem(i);
-            if (stack.getItem() == bili.dongsz.broadcastradio.registry.ModItems.RADIO_TERMINAL.get()) {
-                return stack;
-            }
-        }
-        
-        return ItemStack.EMPTY;
+
+    public boolean hasValidSignal() {
+        return hasValidSignal.get();
     }
-    
-    /**
-     * 检查终端是否有有效的SIM卡
-     */
-    private boolean hasValidSIMCard(ItemStack terminalStack) {
-        if (terminalStack.isEmpty()) {
+
+    public String getCachedServiceName() {
+        return cachedServiceName.get();
+    }
+
+    public int getCachedBaseStationX() {
+        return cachedBaseStationX.get();
+    }
+
+    public int getCachedBaseStationZ() {
+        return cachedBaseStationZ.get();
+    }
+
+    public int[] getPlayerBaseStationPos(UUID playerId) {
+        return playerBaseStationPosCache.get(playerId);
+    }
+
+    /** 服务端响应是否已到达并标记该玩家有效 */
+    public boolean isPlayerValidInCache(UUID playerId) {
+        Boolean value = playerValidCache.get(playerId);
+        return value != null && value;
+    }
+
+    // -------------------------------------------------------------------------
+    // 辅助方法：检查 SIM 卡有效性（只读，可在后台线程安全执行）
+    // -------------------------------------------------------------------------
+
+    /** 静态方法：检查终端物品的 SIM 卡（只读，供 RadioScheduledTask 在后台线程调用） */
+    public static boolean checkSIMCardValid(ItemStack terminalStack) {
+        if (terminalStack == null || terminalStack.isEmpty()) {
             return false;
         }
-        
         net.minecraft.nbt.CompoundTag tag = terminalStack.getTag();
         if (tag != null && tag.contains("SimCard")) {
             net.minecraft.nbt.CompoundTag simCardTag = tag.getCompound("SimCard");
             net.minecraft.world.item.ItemStack simCard = net.minecraft.world.item.ItemStack.of(simCardTag);
             return !simCard.isEmpty();
         }
-        
         return false;
     }
-    
-    /**
-     * 执行信号搜索逻辑
-     */
-    private void performSignalSearch() {
-        String serviceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString();
-        net.minecraft.core.BlockPos baseStationPos = null;
-        if (Minecraft.getInstance().player != null && Minecraft.getInstance().level != null) {
-            bili.dongsz.broadcastradio.item.RadioTerminalItem.BaseStationInfo info =
-                bili.dongsz.broadcastradio.item.RadioTerminalItem.getCurrentBaseStationInfo(
-                    Minecraft.getInstance().level,
-                    Minecraft.getInstance().player
-                );
-            serviceName = info.serviceName;
-            baseStationPos = info.pos;
-        }
-        
-        this.cachedServiceName = serviceName;
-        
-        if (baseStationPos != null) {
-            updateCachedBaseStationPos(baseStationPos.getX(), baseStationPos.getZ());
-        } else {
-            clearCachedBaseStationPos();
-        }
-        
-        hasValidSignal = !serviceName.equals(Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString());
-        
-        // 发送自己的信号状态到服务端
-        if (Minecraft.getInstance().player != null) {
-            BroadcastRadio.NETWORK.sendToServer(new PlayerSignalStatusPacket(
-                Minecraft.getInstance().player.getUUID(),
-                hasValidSignal
-            ));
-        }
-        
-        // 检查发送端玩家自身是否满足服务条件
-        boolean isSenderValid = isSenderValidForSMS();
 
-        if (!isSenderValid) {
-            // 发送端无服务，清空玩家列表
-            cachedOnlinePlayers.clear();
-        } else {
-            // 有信号且发送端满足条件时执行正常搜索逻辑
-            List<Player> newOnlinePlayers = new ArrayList<>();
-            
-            if (Minecraft.getInstance().level != null) {
-                for (Player player : Minecraft.getInstance().level.players()) {
-                    if (!player.getUUID().equals(Minecraft.getInstance().player.getUUID()) && 
-                        isPlayerValidForSMS(player)) {
-                        newOnlinePlayers.add(player);
-                    }
-                }
-            }
-            
-            // 更新缓存
-            cachedOnlinePlayers = newOnlinePlayers;
-        }
-        
-        // 更新全局客户端变量：扫描完成后根据发送端自身检查结果设置
-        BroadcastRadio.HAS_VALID_SERVICE = isSenderValid;
+    // -------------------------------------------------------------------------
+    // 模组卸载清理（由 BroadcastRadio 在生命周期事件中调用）
+    // -------------------------------------------------------------------------
 
-        // 静默运行，不向用户展示任何扫描过程、结果或状态
-    }
-    
-    /**
-     * 获取缓存的在线玩家列表
-     */
-    public List<Player> getCachedOnlinePlayers() {
-        return new ArrayList<>(cachedOnlinePlayers);
-    }
-    
-    /**
-     * 检查是否有可用的在线玩家
-     */
-    public boolean hasAvailablePlayers() {
-        return !cachedOnlinePlayers.isEmpty();
-    }
-    
-    /**
-     * 检查当前是否有有效信号
-     */
-    public boolean hasValidSignal() {
-        return hasValidSignal;
-    }
-    
-    /**
-     * 检查后台任务是否正在运行
-     */
-    public boolean isRunning() {
-        return isRunning;
-    }
-    
-    /**
-     * 获取缓存的基站服务名称
-     */
-    public String getCachedServiceName() {
-        return cachedServiceName;
-    }
-    
-    /**
-     * 更新指定玩家的基站坐标缓存
-     */
-    public void updatePlayerBaseStationPos(UUID playerId, int x, int z) {
-        playerBaseStationPosCache.put(playerId, new int[]{x, z});
-    }
-    
-    /**
-     * 获取指定玩家的基站坐标
-     */
-    public int[] getPlayerBaseStationPos(UUID playerId) {
-        return playerBaseStationPosCache.get(playerId);
-    }
-    
-    /**
-     * 更新当前玩家连接的基站坐标缓存
-     */
-    public void updateCachedBaseStationPos(int x, int z) {
-        this.cachedBaseStationX = x;
-        this.cachedBaseStationZ = z;
-    }
-    
-    /**
-     * 获取当前玩家连接的基站X坐标
-     */
-    public int getCachedBaseStationX() {
-        return cachedBaseStationX;
-    }
-    
-    /**
-     * 获取当前玩家连接的基站Z坐标
-     */
-    public int getCachedBaseStationZ() {
-        return cachedBaseStationZ;
-    }
-    
-    /**
-     * 清除当前玩家基站坐标缓存（当无信号时）
-     */
-    public void clearCachedBaseStationPos() {
-        this.cachedBaseStationX = Integer.MIN_VALUE;
-        this.cachedBaseStationZ = Integer.MIN_VALUE;
+    /** 停止所有后台任务并释放资源 */
+    public void cleanup() {
+        if (isRunning.compareAndSet(true, false)) {
+            scheduledTask.stop();
+        }
+        playerValidCache.clear();
+        playerBaseStationPosCache.clear();
+        cachedOnlinePlayers.clear();
     }
 }

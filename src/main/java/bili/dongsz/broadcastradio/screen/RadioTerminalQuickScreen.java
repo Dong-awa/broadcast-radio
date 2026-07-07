@@ -82,6 +82,14 @@ public class RadioTerminalQuickScreen extends Screen {
         guiGraphics.fill(x + this.imageWidth - 1, y, x + this.imageWidth, y + this.imageHeight, 0xFF333333);
         guiGraphics.fill(x, y + this.imageHeight - 1, x + this.imageWidth, y + this.imageHeight, 0xFF333333);
         
+        // ===== 顶部：标题（水平居中白色） =====
+        Component titleLine = this.title;
+        int titleLineWidth = this.font.width(titleLine);
+        guiGraphics.drawString(this.font, titleLine, x + (this.imageWidth - titleLineWidth) / 2, y + 6, 0xFFFFFF);
+
+        // 水平分隔线
+        guiGraphics.fill(x + 8, y + 20, x + this.imageWidth - 8, y + 21, 0xFF333333);
+        
         // 电量
         int batteryLevel = 0;
         if (this.minecraft != null && this.minecraft.player != null) {
@@ -129,8 +137,5 @@ public class RadioTerminalQuickScreen extends Screen {
         
         // 渲染按钮
         super.render(guiGraphics, mouseX, mouseY, partialTick);
-        
-        // 界面标题
-        guiGraphics.drawString(this.font, this.title, x + 8, y + 6, 0x404040);
     }
 }
