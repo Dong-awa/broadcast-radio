@@ -211,12 +211,21 @@ public class RadioTerminalItem extends Item {
         }
     }
 
-    public static String getCurrentServiceName(Level level, Player player) {
-        // 查找附近基站
+    public static class BaseStationInfo {
+        public final String serviceName;
+        public final BlockPos pos;
+        
+        public BaseStationInfo(String serviceName, BlockPos pos) {
+            this.serviceName = serviceName;
+            this.pos = pos;
+        }
+    }
+    
+    private static BaseStationInfo findClosestBaseStation(Level level, Player player) {
         double closestDistance = Double.MAX_VALUE;
         String serviceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString();
+        BlockPos closestPos = null;
         
-        // 获取插入SIM卡类型
         ItemStack terminalStack = player.getMainHandItem();
         if (terminalStack.isEmpty() || !(terminalStack.getItem() instanceof RadioTerminalItem)) {
             terminalStack = player.getOffhandItem();
@@ -232,14 +241,13 @@ public class RadioTerminalItem extends Item {
         }
         
         if (!terminalStack.isEmpty() && terminalStack.getItem() instanceof RadioTerminalItem) {
-            // 检查终端中是否有SIM卡
             CompoundTag tag = terminalStack.getOrCreateTag();
             if (tag.contains(TAG_SIM_CARD)) {
                 CompoundTag simTag = tag.getCompound(TAG_SIM_CARD);
                 ItemStack simCard = ItemStack.of(simTag);
                 if (!simCard.isEmpty()) {
                     BlockPos playerPos = player.blockPosition();
-                    int searchRadius = 100; // 搜索半径100格
+                    int searchRadius = 100;
                     for (int radius = 0; radius <= searchRadius; radius++) {
                         boolean foundInRadius = false;
                         for (int dx = -radius; dx <= radius; dx++) {
@@ -256,13 +264,12 @@ public class RadioTerminalItem extends Item {
                                         double distance = player.distanceToSqr(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
                                         int signalRange = baseStation.getSignalRange();
                                         if (distance <= signalRange * signalRange) {
-                                            // 检查网络类型匹配
                                             if (isNetworkTypeMatch(simCard, baseStation.getNetworkType())) {
-                                                // 找到更近的基站
                                                 if (distance < closestDistance) {
                                                     closestDistance = distance;
                                                     String stationServiceName = baseStation.getServiceName();
                                                     serviceName = stationServiceName.isEmpty() ? Component.translatable("item.broadcast_radio.radio_terminal.unknown_service").getString() : stationServiceName;
+                                                    closestPos = pos;
                                                     foundInRadius = true;
                                                 }
                                             }
@@ -272,7 +279,6 @@ public class RadioTerminalItem extends Item {
                             }
                         }
                         
-                        // 如果已经找到基站且当前半径已经超过最近基站的距离，可以提前结束搜索
                         if (closestDistance < Double.MAX_VALUE && radius * radius > closestDistance) {
                             break;
                         }
@@ -281,7 +287,19 @@ public class RadioTerminalItem extends Item {
             }
         }
         
-        return serviceName;
+        return new BaseStationInfo(serviceName, closestPos);
+    }
+    
+    public static String getCurrentServiceName(Level level, Player player) {
+        return findClosestBaseStation(level, player).serviceName;
+    }
+    
+    public static BlockPos getCurrentBaseStationPos(Level level, Player player) {
+        return findClosestBaseStation(level, player).pos;
+    }
+    
+    public static BaseStationInfo getCurrentBaseStationInfo(Level level, Player player) {
+        return findClosestBaseStation(level, player);
     }
     
     private static boolean isNetworkTypeMatch(ItemStack simCard, RadioBaseStationBlockEntity.NetworkType baseStationType) {

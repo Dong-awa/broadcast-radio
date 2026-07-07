@@ -13,7 +13,7 @@ public class RadioTerminalScreen extends AbstractContainerScreen<RadioTerminalMe
         this.imageWidth = 176;
         this.imageHeight = 166;
         this.inventoryLabelX = 8;
-        this.inventoryLabelY = this.imageHeight - 94;
+        this.inventoryLabelY = 73;
     }
 
     @Override
@@ -28,11 +28,6 @@ public class RadioTerminalScreen extends AbstractContainerScreen<RadioTerminalMe
     @Override
     public boolean isPauseScreen() {
         return false;
-    }
-
-    @Override
-    protected void init() {
-        super.init();
     }
 
     @Override
@@ -53,8 +48,8 @@ public class RadioTerminalScreen extends AbstractContainerScreen<RadioTerminalMe
         int y = (this.height - this.imageHeight) / 2;
         this.renderBg(guiGraphics, partialTick, mouseX, mouseY);
 
-        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.battery"), x + 62, y + 36, 0x404040);
-        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.universal_card"), x + 44, y + 60, 0x404040);
+        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.battery"), x + 8, y + 20, 0x404040);
+        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.universal_card"), x + 44, y + 20, 0x404040);
 
         super.render(guiGraphics, mouseX, mouseY, partialTick);
         this.renderTooltip(guiGraphics, mouseX, mouseY);

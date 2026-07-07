@@ -39,26 +39,35 @@ public class RadioTerminalQuickScreen extends Screen {
     protected void init() {
         super.init();
         this.lastServiceCheckTime = System.currentTimeMillis();
-        
-        // 使用缓存的服务名称
+
         SignalSearchManager searchManager = SignalSearchManager.getInstance();
         if (searchManager.isRunning()) {
             this.cachedServiceName = searchManager.getCachedServiceName();
         }
-        
+
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
-        
-        // SMS按钮
+
         this.addRenderableWidget(Button.builder(
             Component.translatable("item.broadcast_radio.radio_terminal.sms_button"),
             button -> openSMSScreen()
         ).bounds(x + 50, y + 30, 75, 20).build());
+
+        this.addRenderableWidget(Button.builder(
+            Component.translatable("item.broadcast_radio.radio_terminal.position_button"),
+            button -> openPositionScreen()
+        ).bounds(x + 50, y + 55, 75, 20).build());
     }
-    
+
     private void openSMSScreen() {
         if (Minecraft.getInstance().player != null) {
             Minecraft.getInstance().setScreen(new RadioTerminalSMSScreen(this, Minecraft.getInstance().player));
+        }
+    }
+
+    private void openPositionScreen() {
+        if (Minecraft.getInstance().player != null) {
+            Minecraft.getInstance().setScreen(new RadioTerminalPositionScreen(this, Minecraft.getInstance().player));
         }
     }
 

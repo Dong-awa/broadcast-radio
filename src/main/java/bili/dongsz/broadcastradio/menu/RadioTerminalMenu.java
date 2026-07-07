@@ -36,8 +36,8 @@ public class RadioTerminalMenu extends AbstractContainerMenu {
             }
         }
 
-        int slotX = 80;
-        int slotY = 30;
+        int slotX = 8;
+        int slotY = 32;
 
         this.addSlot(new Slot(new TerminalContainer(terminalInventory), 0, slotX, slotY) {
             @Override
@@ -51,7 +51,7 @@ public class RadioTerminalMenu extends AbstractContainerMenu {
             }
         });
 
-        this.addSlot(new Slot(new TerminalContainer(terminalInventory), 1, slotX, slotY + 25) {
+        this.addSlot(new Slot(new TerminalContainer(terminalInventory), 1, slotX + 36, slotY) {
             @Override
             public boolean mayPlace(ItemStack stack) {
                 return stack.is(bili.dongsz.broadcastradio.registry.ModItems.TWO_G_UNIVERSAL.get()) ||
@@ -68,13 +68,13 @@ public class RadioTerminalMenu extends AbstractContainerMenu {
         int playerInvX = 8;
         int playerInvY = 84;
 
-        for (int i = 0; i < 3; ++i) {
+        for (int i=0;i<3;++i) {
             for (int j = 0; j < 9; ++j) {
                 this.addSlot(new Slot(playerInventory, j + i * 9 + 9, playerInvX + j * 18, playerInvY + i * 18));
             }
         }
 
-        for (int i = 0; i < 9; ++i) {
+        for (int i=0;i<9;++i) {
             this.addSlot(new Slot(playerInventory, i, playerInvX + i * 18, playerInvY + 58));
         }
     }

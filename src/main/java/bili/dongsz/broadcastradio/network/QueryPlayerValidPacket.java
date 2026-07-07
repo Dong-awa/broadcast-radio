@@ -2,6 +2,7 @@ package bili.dongsz.broadcastradio.network;
 
 import bili.dongsz.broadcastradio.BroadcastRadio;
 import bili.dongsz.broadcastradio.registry.ModItems;
+import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -30,53 +31,64 @@ public class QueryPlayerValidPacket {
             ServerPlayer sender = ctx.get().getSender();
             if (sender != null) {
                 ServerPlayer targetPlayer = sender.server.getPlayerList().getPlayer(targetPlayerId);
-                boolean isValid = checkPlayerValidOnServer(targetPlayer);
-                QueryPlayerValidResponsePacket.send(sender, targetPlayerId, isValid);
+                ValidationResult result = checkPlayerValidOnServer(targetPlayer);
+                QueryPlayerValidResponsePacket.send(sender, targetPlayerId, result.isValid, result.baseStationX, result.baseStationZ);
             }
         });
         ctx.get().setPacketHandled(true);
     }
     
-    private boolean checkPlayerValidOnServer(ServerPlayer player) {
+    private static class ValidationResult {
+        final boolean isValid;
+        final int baseStationX;
+        final int baseStationZ;
+        
+        ValidationResult(boolean isValid, int baseStationX, int baseStationZ) {
+            this.isValid = isValid;
+            this.baseStationX = baseStationX;
+            this.baseStationZ = baseStationZ;
+        }
+    }
+    
+    private ValidationResult checkPlayerValidOnServer(ServerPlayer player) {
         if (player == null) {
-            return false;
+            return new ValidationResult(false, 0, 0);
         }
         
-        // 检查玩家是否持有无线电终端
         if (!hasRadioTerminal(player)) {
-            return false;
+            return new ValidationResult(false, 0, 0);
         }
         
-        // 查找终端
         ItemStack terminalStack = findRadioTerminalInInventory(player);
         if (terminalStack.isEmpty()) {
-            return false;
+            return new ValidationResult(false, 0, 0);
         }
         
-        // 检查电池
         if (!bili.dongsz.broadcastradio.item.RadioTerminalItem.hasBattery(terminalStack)) {
-            return false;
+            return new ValidationResult(false, 0, 0);
         }
         
         int batteryLevel = bili.dongsz.broadcastradio.item.RadioTerminalItem.getBatteryLevel(terminalStack);
         if (batteryLevel <= 0) {
-            return false;
+            return new ValidationResult(false, 0, 0);
         }
         
-        // 检查SIM卡
         net.minecraft.nbt.CompoundTag tag = terminalStack.getOrCreateTag();
         if (!tag.contains("SimCard")) {
-            return false;
+            return new ValidationResult(false, 0, 0);
         }
         net.minecraft.nbt.CompoundTag simCardTag = tag.getCompound("SimCard");
         ItemStack simCard = ItemStack.of(simCardTag);
         if (simCard.isEmpty()) {
-            return false;
+            return new ValidationResult(false, 0, 0);
         }
         
-        // 检查信号状态
-        String serviceName = bili.dongsz.broadcastradio.item.RadioTerminalItem.getCurrentServiceName(player.level(), player);
-        return !serviceName.equals(net.minecraft.network.chat.Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString());
+        BlockPos baseStationPos = bili.dongsz.broadcastradio.item.RadioTerminalItem.getCurrentBaseStationPos(player.level(), player);
+        if (baseStationPos == null) {
+            return new ValidationResult(false, 0, 0);
+        }
+        
+        return new ValidationResult(true, baseStationPos.getX(), baseStationPos.getZ());
     }
     
     private boolean hasRadioTerminal(ServerPlayer player) {

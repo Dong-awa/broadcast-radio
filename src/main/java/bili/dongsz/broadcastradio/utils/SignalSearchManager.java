@@ -30,9 +30,12 @@ public class SignalSearchManager {
     private final ScheduledExecutorService scheduler;
     private boolean isRunning = false;
     private List<Player> cachedOnlinePlayers = new ArrayList<>();
-    private boolean hasValidSignal = false; // 信号状态：true=有信号，false=无信号
-    private String cachedServiceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString(); // 缓存的基站服务名称
-    private final Map<UUID, Boolean> playerValidCache = new HashMap<>(); // 存储其他玩家的有效性状态（由服务端检查）
+    private boolean hasValidSignal = false;
+    private String cachedServiceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString();
+    private final Map<UUID, Boolean> playerValidCache = new HashMap<>();
+    private final Map<UUID, int[]> playerBaseStationPosCache = new HashMap<>();
+    private int cachedBaseStationX = Integer.MIN_VALUE;
+    private int cachedBaseStationZ = Integer.MIN_VALUE;
     
     private SignalSearchManager() {
         this.scheduler = Executors.newSingleThreadScheduledExecutor(r -> {
@@ -306,19 +309,26 @@ public class SignalSearchManager {
      * 执行信号搜索逻辑
      */
     private void performSignalSearch() {
-        // 直接使用终端搜索方法获取服务名称（包含SIM卡匹配检查）
         String serviceName = Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString();
+        net.minecraft.core.BlockPos baseStationPos = null;
         if (Minecraft.getInstance().player != null && Minecraft.getInstance().level != null) {
-            serviceName = bili.dongsz.broadcastradio.item.RadioTerminalItem.getCurrentServiceName(
-                Minecraft.getInstance().level,
-                Minecraft.getInstance().player
-            );
+            bili.dongsz.broadcastradio.item.RadioTerminalItem.BaseStationInfo info =
+                bili.dongsz.broadcastradio.item.RadioTerminalItem.getCurrentBaseStationInfo(
+                    Minecraft.getInstance().level,
+                    Minecraft.getInstance().player
+                );
+            serviceName = info.serviceName;
+            baseStationPos = info.pos;
         }
         
-        // 更新缓存的服务名称
         this.cachedServiceName = serviceName;
         
-        // 根据服务名称判断信号状态（有服务名表示有信号）
+        if (baseStationPos != null) {
+            updateCachedBaseStationPos(baseStationPos.getX(), baseStationPos.getZ());
+        } else {
+            clearCachedBaseStationPos();
+        }
+        
         hasValidSignal = !serviceName.equals(Component.translatable("item.broadcast_radio.radio_terminal.no_signal").getString());
         
         // 发送自己的信号状态到服务端
@@ -391,5 +401,49 @@ public class SignalSearchManager {
      */
     public String getCachedServiceName() {
         return cachedServiceName;
+    }
+    
+    /**
+     * 更新指定玩家的基站坐标缓存
+     */
+    public void updatePlayerBaseStationPos(UUID playerId, int x, int z) {
+        playerBaseStationPosCache.put(playerId, new int[]{x, z});
+    }
+    
+    /**
+     * 获取指定玩家的基站坐标
+     */
+    public int[] getPlayerBaseStationPos(UUID playerId) {
+        return playerBaseStationPosCache.get(playerId);
+    }
+    
+    /**
+     * 更新当前玩家连接的基站坐标缓存
+     */
+    public void updateCachedBaseStationPos(int x, int z) {
+        this.cachedBaseStationX = x;
+        this.cachedBaseStationZ = z;
+    }
+    
+    /**
+     * 获取当前玩家连接的基站X坐标
+     */
+    public int getCachedBaseStationX() {
+        return cachedBaseStationX;
+    }
+    
+    /**
+     * 获取当前玩家连接的基站Z坐标
+     */
+    public int getCachedBaseStationZ() {
+        return cachedBaseStationZ;
+    }
+    
+    /**
+     * 清除当前玩家基站坐标缓存（当无信号时）
+     */
+    public void clearCachedBaseStationPos() {
+        this.cachedBaseStationX = Integer.MIN_VALUE;
+        this.cachedBaseStationZ = Integer.MIN_VALUE;
     }
 }
