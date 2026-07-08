@@ -122,7 +122,7 @@ public class WalkieTalkieScreen extends AbstractContainerScreen<WalkieTalkieMenu
         String powerText = Component.translatable("item.broadcast_radio.walkie_talkie.power", power).getString();
         guiGraphics.drawString(this.font, powerText, x + 10, buttonY + buttonHeight + 25, 0xFFFFFF);
         // 渲染电池槽标签（放在电池框左侧）
-        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.walkie_talkie.battery_label"), x + 140, y + 61, 0xE0E0E0);
+        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.walkie_talkie.battery_label"), x + 120, y + 61, 0xE0E0E0);
         
         // ===== 渲染物品槽（Slots） =====
         net.minecraft.world.inventory.Slot hoveredSlot = null;
@@ -147,6 +147,13 @@ public class WalkieTalkieScreen extends AbstractContainerScreen<WalkieTalkieMenu
                 guiGraphics.renderItem(slot.getItem(), slotX, slotY);
                 guiGraphics.renderItemDecorations(this.font, slot.getItem(), slotX, slotY);
             }
+        }
+
+        // 渲染跟随鼠标的拿起物品
+        ItemStack carriedItem = this.menu.getCarried();
+        if (!carriedItem.isEmpty()) {
+            guiGraphics.renderItem(carriedItem, mouseX - 8, mouseY - 8);
+            guiGraphics.renderItemDecorations(this.font, carriedItem, mouseX - 8, mouseY - 8);
         }
 
         if (hoveredSlot != null && hoveredSlot.hasItem()) {

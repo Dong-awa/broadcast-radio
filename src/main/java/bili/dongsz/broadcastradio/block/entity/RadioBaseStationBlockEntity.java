@@ -14,45 +14,112 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.ForgeCapabilities;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.energy.IEnergyStorage;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyContainer {
     public static final String TAG_SIGNAL_RANGE = "SignalRange";
     public static final String TAG_ENERGY = "Energy";
+    public static final String TAG_FE_ENERGY = "FE_Energy";
+    public static final String TAG_FE_MAX = "FE_Max";
     public static final String TAG_SERVICE_NAME = "ServiceName";
     public static final String TAG_NETWORK_TYPE = "NetworkType";
     public static final String TAG_ITEMS = "Items";
-    
+
     public static final int DEFAULT_SIGNAL_RANGE = 100;
     public static final int DEFAULT_ENERGY = 0;
     public static final String DEFAULT_SERVICE_NAME = "";
     public static final NetworkType DEFAULT_NETWORK_TYPE = NetworkType.FOUR_G;
-    
+
+    public static final int MAX_FE_STORAGE = 10000;
+    public static final int FE_TRANSFER_RATE = 100;
+
     private int signalRange = DEFAULT_SIGNAL_RANGE;
     private int energy = DEFAULT_ENERGY;
+    private int feEnergy = 0;
+    private int feMaxStorage = MAX_FE_STORAGE;
     private String serviceName = DEFAULT_SERVICE_NAME;
     private NetworkType networkType = DEFAULT_NETWORK_TYPE;
-    private int tickCounter = 0; // tick计数器
+    private int tickCounter = 0;
+    private EnergySource currentEnergySource = EnergySource.NONE;
     private NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
-    
+
+    private final LazyOptional<IEnergyStorage> energyHandler = LazyOptional.of(() -> new IEnergyStorage() {
+        @Override
+        public int receiveEnergy(int maxReceive, boolean simulate) {
+            if (!canReceive()) return 0;
+            int energyReceived = Math.min(feMaxStorage - feEnergy, Math.min(FE_TRANSFER_RATE, maxReceive));
+            if (!simulate) {
+                feEnergy += energyReceived;
+                setChanged();
+            }
+            return energyReceived;
+        }
+
+        @Override
+        public int extractEnergy(int maxExtract, boolean simulate) {
+            return 0;
+        }
+
+        @Override
+        public int getEnergyStored() {
+            return feEnergy;
+        }
+
+        @Override
+        public int getMaxEnergyStored() {
+            return feMaxStorage;
+        }
+
+        @Override
+        public boolean canExtract() {
+            return false;
+        }
+
+        @Override
+        public boolean canReceive() {
+            return true;
+        }
+    });
+
+    public enum EnergySource {
+        FE("FE"),
+        BATTERY("Battery"),
+        NONE("None");
+
+        private final String name;
+
+        EnergySource(String name) {
+            this.name = name;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
     public enum NetworkType {
         TWO_G("2G", 1.0f),
         THREE_G("3G", 1.5f),
         FOUR_G("4G", 2.0f);
-        
+
         private final String displayName;
         private final float energyMultiplier;
-        
+
         NetworkType(String displayName, float energyMultiplier) {
             this.displayName = displayName;
             this.energyMultiplier = energyMultiplier;
         }
-        
+
         public String getDisplayName() {
             return displayName;
         }
-        
+
         public float getEnergyMultiplier() {
             return energyMultiplier;
         }
@@ -89,6 +156,26 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
         }
     }
 
+    public int getFeEnergy() {
+        return feEnergy;
+    }
+
+    public void setFeEnergy(int feEnergy) {
+        this.feEnergy = feEnergy;
+        setChanged();
+        if (level != null) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+        }
+    }
+
+    public int getFeMaxStorage() {
+        return feMaxStorage;
+    }
+
+    public EnergySource getCurrentEnergySource() {
+        return currentEnergySource;
+    }
+
     public String getServiceName() {
         return serviceName;
     }
@@ -122,6 +209,8 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
         super.saveAdditional(pTag);
         pTag.putInt(TAG_SIGNAL_RANGE, signalRange);
         pTag.putInt(TAG_ENERGY, energy);
+        pTag.putInt(TAG_FE_ENERGY, feEnergy);
+        pTag.putInt(TAG_FE_MAX, feMaxStorage);
         pTag.putString(TAG_SERVICE_NAME, serviceName);
         pTag.putInt(TAG_NETWORK_TYPE, networkType.ordinal());
         pTag.putInt("TickCounter", tickCounter);
@@ -136,6 +225,12 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
         }
         if (pTag.contains(TAG_ENERGY)) {
             energy = pTag.getInt(TAG_ENERGY);
+        }
+        if (pTag.contains(TAG_FE_ENERGY)) {
+            feEnergy = pTag.getInt(TAG_FE_ENERGY);
+        }
+        if (pTag.contains(TAG_FE_MAX)) {
+            feMaxStorage = pTag.getInt(TAG_FE_MAX);
         }
         if (pTag.contains(TAG_SERVICE_NAME)) {
             serviceName = pTag.getString(TAG_SERVICE_NAME);
@@ -164,18 +259,31 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
         return tag;
     }
 
+    @Nonnull
+    @Override
+    public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
+        if (cap == ForgeCapabilities.ENERGY) {
+            return energyHandler.cast();
+        }
+        return super.getCapability(cap, side);
+    }
+
+    @Override
+    public void invalidateCaps() {
+        super.invalidateCaps();
+        energyHandler.invalidate();
+    }
+
     public static void tick(Level level, BlockPos pos, BlockState state, RadioBaseStationBlockEntity blockEntity) {
         if (level.isClientSide) {
             return;
         }
-        
+
         blockEntity.tickCounter++;
-        
-        // 每 1200 tick = 60 秒 (20 tick/秒 * 60 秒)
+
         if (blockEntity.tickCounter >= 1200) {
             blockEntity.tickCounter = 0;
-            
-            // 只有基站工作时才消耗电量
+
             if (blockEntity.isWorking()) {
                 blockEntity.tryConsumeEnergy();
             }
@@ -185,17 +293,34 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
     private void tryConsumeEnergy() {
         float consumption = this.getEnergyConsumptionRate();
 
-        ItemStack batteryStack = items.get(0);
-        if (!batteryStack.isEmpty()) {
-            int currentDurability = getBatteryCurrentDurability(batteryStack);
-            
-            if (currentDurability > 0) {
-                int durabilityToConsume = (int)Math.ceil(consumption); // 1:1
-                int newDurability = Math.max(0, currentDurability - durabilityToConsume);
-                setBatteryDurability(batteryStack, newDurability);
-                this.setChanged();
+        boolean consumed = false;
+
+        if (feEnergy >= consumption) {
+            feEnergy -= consumption;
+            currentEnergySource = EnergySource.FE;
+            consumed = true;
+        }
+
+        if (!consumed) {
+            ItemStack batteryStack = items.get(0);
+            if (!batteryStack.isEmpty()) {
+                int currentDurability = getBatteryCurrentDurability(batteryStack);
+
+                if (currentDurability > 0) {
+                    int durabilityToConsume = (int) Math.ceil(consumption);
+                    int newDurability = Math.max(0, currentDurability - durabilityToConsume);
+                    setBatteryDurability(batteryStack, newDurability);
+                    currentEnergySource = EnergySource.BATTERY;
+                    consumed = true;
+                }
             }
         }
+
+        if (!consumed) {
+            currentEnergySource = EnergySource.NONE;
+        }
+
+        this.setChanged();
     }
 
     private int getBatteryMaxDurability(ItemStack batteryStack) {
@@ -227,10 +352,11 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
     }
 
     public boolean isWorking() {
+        boolean hasFeEnergy = feEnergy > 0;
         boolean hasBattery = hasBatteryWithDurability();
         boolean hasServiceName = serviceName != null && !serviceName.trim().isEmpty();
-        
-        return hasBattery && hasServiceName;
+
+        return (hasFeEnergy || hasBattery) && hasServiceName;
     }
 
     private boolean hasBatteryWithDurability() {
@@ -243,12 +369,34 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
     }
 
     public int getTotalEnergy() {
+        int total = 0;
+
+        if (feEnergy > 0) {
+            total += feEnergy;
+        }
+
         ItemStack batteryStack = items.get(0);
         if (!batteryStack.isEmpty()) {
             int currentDurability = getBatteryCurrentDurability(batteryStack);
-            return currentDurability; // 1:1
+            total += currentDurability;
         }
-        
+
+        return total;
+    }
+
+    public int getBatteryEnergy() {
+        ItemStack batteryStack = items.get(0);
+        if (!batteryStack.isEmpty()) {
+            return getBatteryCurrentDurability(batteryStack);
+        }
+        return 0;
+    }
+
+    public int getMaxBatteryEnergy() {
+        ItemStack batteryStack = items.get(0);
+        if (!batteryStack.isEmpty()) {
+            return getBatteryMaxDurability(batteryStack);
+        }
         return 0;
     }
 
@@ -259,7 +407,7 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
 
     @Override
     public boolean isEmpty() {
-        for(ItemStack itemstack : items) {
+        for (ItemStack itemstack : items) {
             if (!itemstack.isEmpty()) {
                 return false;
             }
@@ -300,7 +448,7 @@ public class RadioBaseStationBlockEntity extends BlockEntity implements WorldlyC
         if (this.level.getBlockEntity(this.worldPosition) != this) {
             return false;
         } else {
-            return player.distanceToSqr((double)this.worldPosition.getX() + 0.5, (double)this.worldPosition.getY() + 0.5, (double)this.worldPosition.getZ() + 0.5) <= 64.0;
+            return player.distanceToSqr((double) this.worldPosition.getX() + 0.5, (double) this.worldPosition.getY() + 0.5, (double) this.worldPosition.getZ() + 0.5) <= 64.0;
         }
     }
 

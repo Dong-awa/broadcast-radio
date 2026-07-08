@@ -5,6 +5,7 @@ import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
 public class RadioTerminalScreen extends AbstractContainerScreen<RadioTerminalMenu> {
 
@@ -13,7 +14,7 @@ public class RadioTerminalScreen extends AbstractContainerScreen<RadioTerminalMe
         this.imageWidth = 176;
         this.imageHeight = 166;
         this.inventoryLabelX = 8;
-        this.inventoryLabelY = 73;
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
@@ -86,6 +87,13 @@ public class RadioTerminalScreen extends AbstractContainerScreen<RadioTerminalMe
                 guiGraphics.renderItem(slot.getItem(), slotX, slotY);
                 guiGraphics.renderItemDecorations(this.font, slot.getItem(), slotX, slotY);
             }
+        }
+
+        // 渲染跟随鼠标的拿起物品
+        ItemStack carriedItem = this.menu.getCarried();
+        if (!carriedItem.isEmpty()) {
+            guiGraphics.renderItem(carriedItem, mouseX - 8, mouseY - 8);
+            guiGraphics.renderItemDecorations(this.font, carriedItem, mouseX - 8, mouseY - 8);
         }
 
         if (hoveredSlot != null && hoveredSlot.hasItem()) {

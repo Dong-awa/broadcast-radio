@@ -78,8 +78,6 @@ public class BroadcastRadio {
             QueryPlayerValidResponsePacket::handle);
 
         // 注册 JVM 关闭钩子：游戏退出时清理后台线程和缓存
-        // 说明：后台线程已设为 Daemon，不注册此 hook 也会随 JVM 终止；
-        // 这里仅作额外保障，确保资源被优雅释放。
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             bili.dongsz.broadcastradio.utils.SignalSearchManager.getInstance().cleanup();
             bili.dongsz.broadcastradio.utils.RadioThreadPoolManager.getInstance().shutdown();

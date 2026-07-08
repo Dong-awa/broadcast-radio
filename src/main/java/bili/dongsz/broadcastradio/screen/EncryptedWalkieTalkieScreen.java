@@ -135,7 +135,7 @@ public class EncryptedWalkieTalkieScreen extends AbstractContainerScreen<Encrypt
         guiGraphics.drawString(this.font, powerText, x + 10, buttonY + buttonHeight + 25, 0xFFFFFF);
         
         // 渲染电池槽标签（放在电池框左侧）
-        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.walkie_talkie.battery_label"), x + 140, y + 61, 0xE0E0E0);
+        guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.walkie_talkie.battery_label"), x + 120, y + 61, 0xE0E0E0);
 
         // 渲染密码提示文本（在密码框上方）
         guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.encrypted_walkie_talkie.encryption_key"), x + 10, y + 98, 0xE0E0E0);

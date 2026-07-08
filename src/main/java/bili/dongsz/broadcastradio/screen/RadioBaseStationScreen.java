@@ -10,6 +10,7 @@ import net.minecraft.client.gui.components.EditBox;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.item.ItemStack;
 
 public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseStationMenu> {
     private EditBox serviceNameBox;
@@ -21,9 +22,9 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
         this.stationEntity = menu.getStationEntity();
         this.currentServiceName = stationEntity.getServiceName();
         this.imageWidth = 176;
-        this.imageHeight = 210;
+        this.imageHeight = 280;
         this.inventoryLabelX = 8;
-        this.inventoryLabelY = this.imageHeight - 88;
+        this.inventoryLabelY = this.imageHeight - 94;
     }
 
     @Override
@@ -44,7 +45,7 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
         int buttonWidth = 49;
         int buttonHeight = 16;
         int spacing = 4;
-        int buttonY = y + 56;
+        int buttonY = y + 70;
 
         this.addRenderableWidget(Button.builder(Component.translatable("item.broadcast_radio.radio_terminal.2g_button"), button -> {
             stationEntity.setNetworkType(RadioBaseStationBlockEntity.NetworkType.TWO_G);
@@ -61,7 +62,7 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
             sendUpdatePacket();
         }).bounds(x + 10 + buttonWidth * 2 + spacing * 2, buttonY, buttonWidth, buttonHeight).build());
 
-        buttonY = y + 88;
+        buttonY = y + 108;
 
         this.addRenderableWidget(Button.builder(Component.translatable("item.broadcast_radio.radio_terminal.decrease_10"), button -> {
             stationEntity.setSignalRange(Math.max(10, stationEntity.getSignalRange() - 10));
@@ -77,10 +78,10 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
     private void sendUpdatePacket() {
         if (stationEntity != null) {
             BroadcastRadio.NETWORK.sendToServer(new UpdateRadioBaseStationPacket(
-                stationEntity.getBlockPos(),
-                stationEntity.getSignalRange(),
-                stationEntity.getNetworkType().ordinal(),
-                currentServiceName
+                    stationEntity.getBlockPos(),
+                    stationEntity.getSignalRange(),
+                    stationEntity.getNetworkType().ordinal(),
+                    currentServiceName
             ));
         }
     }
@@ -97,8 +98,7 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
     protected void renderBg(GuiGraphics guiGraphics, float partialTick, int mouseX, int mouseY) {
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
-        
-        // 绘制GUI背景
+
         guiGraphics.fill(x, y, x + this.imageWidth, y + this.imageHeight, 0xFF8B8B8B);
         guiGraphics.fill(x, y, x + this.imageWidth, y + 1, 0xFF333333);
         guiGraphics.fill(x, y, x + 1, y + this.imageHeight, 0xFF333333);
@@ -113,28 +113,53 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
         int y = (this.height - this.imageHeight) / 2;
         this.renderBg(guiGraphics, partialTick, mouseX, mouseY);
 
-        // ===== 顶部：标题（水平居中白色） =====
         Component titleLine = this.title;
         int titleLineWidth = this.font.width(titleLine);
         guiGraphics.drawString(this.font, titleLine, x + (this.imageWidth - titleLineWidth) / 2, y + 6, 0xFFFFFF);
 
-        // 水平分隔线
         guiGraphics.fill(x + 8, y + 20, x + this.imageWidth - 8, y + 21, 0xFF333333);
 
         if (stationEntity != null) {
-            // 网络类型（在输入框上方）
-            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.network_type", stationEntity.getNetworkType().getDisplayName()), x + 10, y + 26, 0xE0E0E0);
-            // 信号范围（在两行按钮之间）
-            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_base_station.signal_range", stationEntity.getSignalRange()), x + 10, y + 78, 0xE0E0E0);
-            // 能量和消耗（在第二行按钮下方）
-            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.energy", stationEntity.getTotalEnergy()), x + 10, y + 110, 0xFFFFFF);
-            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_base_station.consumption", String.format("%.1f", stationEntity.getEnergyConsumptionRate())), x + 90, y + 110, 0xFFFFFF);
+            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_terminal.network_type", stationEntity.getNetworkType().getDisplayName()), x + 10, y + 58, 0xE0E0E0);
+            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_base_station.signal_range", stationEntity.getSignalRange()), x + 10, y + 94, 0xE0E0E0);
+
+            // FE能量标签 和 消耗文字 等高（y+130）
+            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_base_station.fe_energy"), x + 10, y + 130, 0xFFFFFF);
+            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_base_station.consumption", String.format("%.1f", stationEntity.getEnergyConsumptionRate())), x + 100, y + 130, 0xFFFFFF);
+
+            // FE能量条
+            int feBarX = x + 10;
+            int feBarY = y + 140;
+            int feBarWidth = 80;
+            int feBarHeight = 10;
+            int feEnergy = stationEntity.getFeEnergy();
+            int feMax = stationEntity.getFeMaxStorage();
+            int feFill = feMax > 0 ? (feEnergy * feBarWidth) / feMax : 0;
+            guiGraphics.fill(feBarX - 1, feBarY - 1, feBarX + feBarWidth + 1, feBarY + feBarHeight + 1, 0xFF333333);
+            guiGraphics.fill(feBarX, feBarY, feBarX + feBarWidth, feBarY + feBarHeight, 0xFF555555);
+            guiGraphics.fill(feBarX, feBarY, feBarX + feFill, feBarY + feBarHeight, 0xFF00BFFF);
+            guiGraphics.drawString(this.font, feEnergy + " / " + feMax, feBarX + feBarWidth + 4, feBarY + 1, 0xE0E0E0);
+
+            // 电池能量条：在FE条下方
+            int batBarY = feBarY + 22;
+            int batBarWidth = 80;
+            int batBarHeight = 10;
+            int batEnergy = stationEntity.getBatteryEnergy();
+            int batMax = stationEntity.getMaxBatteryEnergy();
+            int batFill = batMax > 0 ? (batEnergy * batBarWidth) / batMax : 0;
+            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_base_station.battery_energy"), x + 10, batBarY - 10, 0xFFFFFF);
+            guiGraphics.fill(x + 9, batBarY - 1, x + batBarWidth + 11, batBarY + batBarHeight + 1, 0xFF333333);
+            guiGraphics.fill(x + 10, batBarY, x + batBarWidth + 10, batBarY + batBarHeight, 0xFF555555);
+            guiGraphics.fill(x + 10, batBarY, x + batFill + 10, batBarY + batBarHeight, 0xFF228B22);
+            guiGraphics.drawString(this.font, batEnergy + " / " + batMax, x + batBarWidth + 14, batBarY + 1, 0xE0E0E0);
+
+            // 当前电源
+            RadioBaseStationBlockEntity.EnergySource source = stationEntity.getCurrentEnergySource();
+            guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.radio_base_station.current_source", source.getName()), x + 10, batBarY + batBarHeight + 8, 0xFFE0E0E0);
         }
 
-        // 手动渲染 widgets
         this.renderables.forEach(widget -> widget.render(guiGraphics, mouseX, mouseY, partialTick));
 
-        // ===== 渲染物品槽（Slots） =====
         net.minecraft.world.inventory.Slot hoveredSlot = null;
         for (net.minecraft.world.inventory.Slot slot : this.menu.slots) {
             int slotX = x + slot.x;
@@ -157,6 +182,13 @@ public class RadioBaseStationScreen extends AbstractContainerScreen<RadioBaseSta
                 guiGraphics.renderItem(slot.getItem(), slotX, slotY);
                 guiGraphics.renderItemDecorations(this.font, slot.getItem(), slotX, slotY);
             }
+        }
+
+        // 渲染跟随鼠标的拿起物品
+        ItemStack carriedItem = this.menu.getCarried();
+        if (!carriedItem.isEmpty()) {
+            guiGraphics.renderItem(carriedItem, mouseX - 8, mouseY - 8);
+            guiGraphics.renderItemDecorations(this.font, carriedItem, mouseX - 8, mouseY - 8);
         }
 
         if (hoveredSlot != null && hoveredSlot.hasItem()) {

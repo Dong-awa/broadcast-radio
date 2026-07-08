@@ -75,7 +75,7 @@ public class RadioTerminalMenu extends AbstractContainerMenu {
         }
 
         for (int i=0;i<9;++i) {
-            this.addSlot(new Slot(playerInventory, i, playerInvX + i * 18, playerInvY + 58));
+            this.addSlot(new Slot(playerInventory, i, playerInvX + i * 18, 138));
         }
     }
 
