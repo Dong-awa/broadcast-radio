@@ -113,6 +113,11 @@ public class ModItems {
                     .rarity(Rarity.UNCOMMON)
                     .durability(700))); // 最大耐久700
 
+    public static final RegistryObject<Item> SIMPLE_SIGNAL_JAMMER = ITEMS.register("simple_signal_jammer",
+            () -> new BlockItem(ModBlocks.SIMPLE_SIGNAL_JAMMER_BLOCK.get(), new Item.Properties()
+                    .stacksTo(1)
+                    .rarity(Rarity.UNCOMMON)));
+
     @SubscribeEvent
     public void onItemTooltip(ItemTooltipEvent event) {
         if (event.getItemStack().is(ModItems.COPPER_CONDUCTIVE_SLICE.get())) {

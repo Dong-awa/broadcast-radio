@@ -3,6 +3,7 @@ package bili.dongsz.broadcastradio.registry;
 import bili.dongsz.broadcastradio.BroadcastRadio;
 import bili.dongsz.broadcastradio.block.RadioBaseStationBlock;
 import bili.dongsz.broadcastradio.block.SimpleRadioBlock;
+import bili.dongsz.broadcastradio.block.SimpleSignalJammerBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -24,6 +25,15 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> RADIO_BASE_STATION_BLOCK = BLOCKS.register("radio_base_station",
             () -> new RadioBaseStationBlock(Block.Properties.of()
+                    .noOcclusion()
+                    .strength(3.5f)
+                    .sound(SoundType.METAL)
+                    .isViewBlocking((state, world, pos) -> true)
+            )
+    );
+
+    public static final RegistryObject<Block> SIMPLE_SIGNAL_JAMMER_BLOCK = BLOCKS.register("simple_signal_jammer",
+            () -> new SimpleSignalJammerBlock(Block.Properties.of()
                     .noOcclusion()
                     .strength(3.5f)
                     .sound(SoundType.METAL)

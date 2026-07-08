@@ -24,6 +24,7 @@ public class ModCreativeModeTabs {
                         output.accept(ModItems.SIMPLE_RADIO.get());
                         output.accept(ModItems.RADIO_BASE_STATION.get());
                         output.accept(ModItems.RADIO_TERMINAL.get());
+                        output.accept(ModItems.SIMPLE_SIGNAL_JAMMER.get());
 
                         // 原材料
                         output.accept(ModItems.COPPER_CONDUCTIVE_SLICE.get());

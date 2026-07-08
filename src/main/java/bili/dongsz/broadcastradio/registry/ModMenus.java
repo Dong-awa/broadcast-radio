@@ -5,6 +5,7 @@ import bili.dongsz.broadcastradio.menu.RadioBaseStationMenu;
 import bili.dongsz.broadcastradio.menu.RadioTerminalMenu;
 import bili.dongsz.broadcastradio.menu.RadioTerminalQuickMenu;
 import bili.dongsz.broadcastradio.menu.SimpleRadioMenu;
+import bili.dongsz.broadcastradio.menu.SimpleSignalJammerMenu;
 import bili.dongsz.broadcastradio.menu.WalkieTalkieMenu;
 import bili.dongsz.broadcastradio.menu.EncryptedWalkieTalkieMenu;
 import net.minecraft.world.inventory.MenuType;
@@ -34,4 +35,7 @@ public class ModMenus {
 
     public static final RegistryObject<MenuType<RadioTerminalQuickMenu>> RADIO_TERMINAL_QUICK_MENU = MENUS.register("radio_terminal_quick_menu",
             () -> IForgeMenuType.create(RadioTerminalQuickMenu::new));
+
+    public static final RegistryObject<MenuType<SimpleSignalJammerMenu>> SIMPLE_SIGNAL_JAMMER_MENU = MENUS.register("simple_signal_jammer_menu",
+            () -> IForgeMenuType.create(SimpleSignalJammerMenu::new));
 }

@@ -3,6 +3,7 @@ package bili.dongsz.broadcastradio;
 import bili.dongsz.broadcastradio.registry.ModBlocks;
 import bili.dongsz.broadcastradio.registry.ModMenus;
 import bili.dongsz.broadcastradio.screen.SimpleRadioScreen;
+import bili.dongsz.broadcastradio.screen.SimpleSignalJammerScreen;
 import bili.dongsz.broadcastradio.screen.WalkieTalkieScreen;
 import bili.dongsz.broadcastradio.screen.EncryptedWalkieTalkieScreen;
 import bili.dongsz.broadcastradio.screen.RadioBaseStationScreen;
@@ -23,6 +24,7 @@ public class ClientSetup {
             MenuScreens.register(ModMenus.ENCRYPTED_WALKIE_TALKIE_MENU.get(), EncryptedWalkieTalkieScreen::new);
             MenuScreens.register(ModMenus.RADIO_TERMINAL_MENU.get(), RadioTerminalScreen::new);
             MenuScreens.register(ModMenus.RADIO_BASE_STATION_MENU.get(), RadioBaseStationScreen::new);
+            MenuScreens.register(ModMenus.SIMPLE_SIGNAL_JAMMER_MENU.get(), SimpleSignalJammerScreen::new);
         });
     }
 }

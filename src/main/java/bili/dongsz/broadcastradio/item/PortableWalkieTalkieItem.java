@@ -312,9 +312,13 @@ public class PortableWalkieTalkieItem extends Item {
             CompoundTag senderTag = walkieStack.getTag();
             float senderFreq = senderTag.getFloat(TAG_FREQUENCY);
             String senderPwd = senderTag.getString(TAG_PASSWORD);
-            int senderInterference = senderTag.getInt(TAG_INTERFERENCE);
+            int senderNBTInterference = senderTag.getInt(TAG_INTERFERENCE);
+            int jammerAtSender = CommunicationUtils.getJammerInterference(sender.level(), sender.blockPosition(), senderFreq);
+            int senderEffectiveInterference = Math.max(senderNBTInterference, jammerAtSender);
 
-            // 显示自己发的
+            BroadcastRadio.LOGGER.info("[WalkieTalkie] {} 发送消息: 频率={}, 发送端干扰={}, NBT干扰={}",
+                    sender.getName().getString(), senderFreq, senderEffectiveInterference, senderNBTInterference);
+
             String messageContent = event.getMessage().getString();
             Component selfMessage = Component.translatable(
                     "item.broadcast_radio.walkie_talkie.self_message",
@@ -330,9 +334,9 @@ public class PortableWalkieTalkieItem extends Item {
                     continue;
                 }
                 if (target != sender) {
-                    checkPlayerWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderInterference, sender.level());
+                    checkPlayerWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender.level());
                 }
-                CommunicationUtils.checkPlayerNearRadio(target, sender.getName().getString(), senderFreq, senderPwd, messageContent);
+                CommunicationUtils.checkPlayerNearRadio(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference);
             }
             event.setCanceled(true);
             sender.getPersistentData().remove(BroadcastRadio.MOD_ID + "_using_walkie");
@@ -340,20 +344,23 @@ public class PortableWalkieTalkieItem extends Item {
         
         // 检查玩家是否持有同频率的对讲机
         private static boolean checkPlayerWalkieTalkie(ServerPlayer target, String senderName, float senderFreq, String senderPwd, String messageContent, int senderInterference, Level level) {
+            int jammerAtTarget = CommunicationUtils.getJammerInterference(target.level(), target.blockPosition(), senderFreq);
+            int effectiveSenderInterference = Math.max(senderInterference, jammerAtTarget);
+
             ItemStack mainHandStack = target.getMainHandItem();
-            if (checkWalkieTalkieFrequency(mainHandStack, target, senderName, senderFreq, senderPwd, messageContent, senderInterference, level)) {
+            if (checkWalkieTalkieFrequency(mainHandStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level)) {
                 return true;
             }
             ItemStack offHandStack = target.getOffhandItem();
-            if (checkWalkieTalkieFrequency(offHandStack, target, senderName, senderFreq, senderPwd, messageContent, senderInterference, level)) {
+            if (checkWalkieTalkieFrequency(offHandStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level)) {
                 return true;
             }
             for (ItemStack targetStack : target.getInventory().items) {
-                if (checkWalkieTalkieFrequency(targetStack, target, senderName, senderFreq, senderPwd, messageContent, senderInterference, level)) {
+                if (checkWalkieTalkieFrequency(targetStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level)) {
                     return true;
                 }
             }
-            
+
             return false;
         }
 
@@ -363,11 +370,13 @@ public class PortableWalkieTalkieItem extends Item {
                 CompoundTag targetTag = stack.getTag();
                 float targetFreq = targetTag.getFloat(TAG_FREQUENCY);
                 String targetPwd = targetTag.getString(TAG_PASSWORD);
-                int targetInterference = targetTag.getInt(TAG_INTERFERENCE);
-                
+                int targetNBTInterference = targetTag.getInt(TAG_INTERFERENCE);
+
                 if (CommunicationUtils.isFrequencyMatch(targetFreq, senderFreq) && targetPwd.equals(senderPwd)) {
-                    int totalInterference = Math.max(senderInterference, targetInterference);
+                    int totalInterference = Math.max(senderInterference, targetNBTInterference);
                     String displayMessage = CommunicationUtils.applyInterference(messageContent, totalInterference, level);
+                    BroadcastRadio.LOGGER.info("[WalkieTalkie] {} 收到消息: 频率={}, 发送端干扰={}, 接收端NBT={}, 总干扰={}, 原文={}, 显示={}",
+                            target.getName().getString(), senderFreq, senderInterference, targetNBTInterference, totalInterference, messageContent, displayMessage);
                     CommunicationUtils.sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
                     return true;
                 }

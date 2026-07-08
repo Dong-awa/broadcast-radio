@@ -3,6 +3,7 @@ package bili.dongsz.broadcastradio;
 import bili.dongsz.broadcastradio.network.UpdateFrequencyPacket;
 import bili.dongsz.broadcastradio.network.UpdateRadioBaseStationPacket;
 import bili.dongsz.broadcastradio.network.UpdateEncryptedWalkieTalkiePacket;
+import bili.dongsz.broadcastradio.network.UpdateSignalJammerPacket;
 import bili.dongsz.broadcastradio.network.PlayerSignalStatusPacket;
  import bili.dongsz.broadcastradio.network.QueryPlayerValidPacket;
 import bili.dongsz.broadcastradio.network.QueryPlayerValidResponsePacket;
@@ -16,10 +17,13 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.simple.SimpleChannel;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @Mod("broadcast_radio")
 public class BroadcastRadio {
     public static final String MOD_ID = "broadcast_radio";
+    public static final Logger LOGGER = LogManager.getLogger();
     public static boolean HAS_VALID_SERVICE = false;
 
     // Network channel
@@ -76,6 +80,10 @@ public class BroadcastRadio {
             QueryPlayerValidResponsePacket::encode,
             QueryPlayerValidResponsePacket::decode,
             QueryPlayerValidResponsePacket::handle);
+        NETWORK.registerMessage(9, UpdateSignalJammerPacket.class,
+            UpdateSignalJammerPacket::encode,
+            UpdateSignalJammerPacket::decode,
+            UpdateSignalJammerPacket::handle);
 
         // 注册 JVM 关闭钩子：游戏退出时清理后台线程和缓存
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
