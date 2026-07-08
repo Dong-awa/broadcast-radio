@@ -5,9 +5,9 @@ showAsResourcePack=false
 
 [[mods]]
 modId="broadcast_radio"
-version="0.2.0"
-displayName="Broadcast Radio"
-authors="Dong_awa"
+version="0.2.2"
+displayName="Broadcast Radio Mod"
+authors="Dong_awa, ChiTou_TW, MOrangeSAMA"
 description='''
 电波通讯模组为Minecraft带来了无线电通信系统！
 让Minecraft世界充满真实的无线电通信体验！
