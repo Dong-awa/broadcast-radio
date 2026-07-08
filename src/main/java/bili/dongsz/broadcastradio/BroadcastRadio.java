@@ -85,7 +85,7 @@ public class BroadcastRadio {
             UpdateSignalJammerPacket::decode,
             UpdateSignalJammerPacket::handle);
 
-        // 注册 JVM 关闭钩子：游戏退出时清理后台线程和缓存
+        // 注册 JVM 关闭钩子
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             bili.dongsz.broadcastradio.utils.SignalSearchManager.getInstance().cleanup();
             bili.dongsz.broadcastradio.utils.RadioThreadPoolManager.getInstance().shutdown();

@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "CBR",
+    "III"
+  ],
+  "key": {
+    "A": {
+      "item": "broadcast_radio:antenna"
+    },
+    "B": {
+      "item": "broadcast_radio:circuit_board"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "C": {
+      "item": "broadcast_radio:copper_conductive_slice"
+    },
+    "R": {
+      "item": "broadcast_radio:radio_component"
+    }
+  },
+  "result": {
+    "item": "broadcast_radio:simple_signal_jammer",
+    "count": 1
+  }
+}

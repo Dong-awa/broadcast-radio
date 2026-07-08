@@ -40,20 +40,15 @@ public class SimpleRadioScreen extends Screen {
         this.renderBackground(guiGraphics);
         int x = (this.width - this.imageWidth) / 2;
         int y = (this.height - this.imageHeight) / 2;
-        
-        // GUI背景
+
         guiGraphics.fill(x, y, x + this.imageWidth, y + this.imageHeight, 0xFF8B8B8B);
         guiGraphics.fill(x, y, x + this.imageWidth, y + 1, 0xFF333333);
         guiGraphics.fill(x, y, x + 1, y + this.imageHeight, 0xFF333333);
         guiGraphics.fill(x + this.imageWidth - 1, y, x + this.imageWidth, y + this.imageHeight, 0xFF333333);
         guiGraphics.fill(x, y + this.imageHeight - 1, x + this.imageWidth, y + this.imageHeight, 0xFF333333);
-        
-        // ===== 顶部：标题（水平居中白色） =====
         Component titleLine = this.title;
         int titleLineWidth = this.font.width(titleLine);
         guiGraphics.drawString(this.font, titleLine, x + (this.imageWidth - titleLineWidth) / 2, y + 6, 0xFFFFFF);
-
-        // 水平分隔线
         guiGraphics.fill(x + 8, y + 20, x + this.imageWidth - 8, y + 21, 0xFF333333);
 
         if (radioEntity != null) {
@@ -62,8 +57,6 @@ public class SimpleRadioScreen extends Screen {
         } else {
             guiGraphics.drawString(this.font, Component.translatable("item.broadcast_radio.simple_radio_block.default_frequency"), x + 10, y + 28, 0xFFFFFF);
         }
-
-        // 渲染按钮
         super.render(guiGraphics, mouseX, mouseY, partialTick);
     }
     
