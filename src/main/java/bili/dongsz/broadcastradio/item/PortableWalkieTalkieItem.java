@@ -315,9 +315,8 @@ public class PortableWalkieTalkieItem extends Item {
             int senderNBTInterference = senderTag.getInt(TAG_INTERFERENCE);
             int jammerAtSender = CommunicationUtils.getJammerInterference(sender.level(), sender.blockPosition(), senderFreq);
             int senderEffectiveInterference = Math.max(senderNBTInterference, jammerAtSender);
-
-            BroadcastRadio.LOGGER.info("[WalkieTalkie] {} 发送消息: 频率={}, 发送端干扰={}, NBT干扰={}",
-                    sender.getName().getString(), senderFreq, senderEffectiveInterference, senderNBTInterference);
+            int weatherAtSender = CommunicationUtils.getWeatherInterference(sender.level());
+            senderEffectiveInterference = CommunicationUtils.clampInterference(senderEffectiveInterference + weatherAtSender);
 
             String messageContent = event.getMessage().getString();
             Component selfMessage = Component.translatable(
@@ -375,8 +374,6 @@ public class PortableWalkieTalkieItem extends Item {
                 if (CommunicationUtils.isFrequencyMatch(targetFreq, senderFreq) && targetPwd.equals(senderPwd)) {
                     int totalInterference = Math.max(senderInterference, targetNBTInterference);
                     String displayMessage = CommunicationUtils.applyInterference(messageContent, totalInterference, level);
-                    BroadcastRadio.LOGGER.info("[WalkieTalkie] {} 收到消息: 频率={}, 发送端干扰={}, 接收端NBT={}, 总干扰={}, 原文={}, 显示={}",
-                            target.getName().getString(), senderFreq, senderInterference, targetNBTInterference, totalInterference, messageContent, displayMessage);
                     CommunicationUtils.sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
                     return true;
                 }

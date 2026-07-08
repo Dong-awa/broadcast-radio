@@ -138,8 +138,6 @@ public class SimpleSignalJammerBlockEntity extends BlockEntity implements Worldl
             if (batteryStack.getItem() == ModItems.STORAGE_BATTERY.get()) {
                 int maxDurability = 700;
                 return maxDurability - batteryStack.getDamageValue();
-            } else if (batteryStack.getItem() == ModItems.RADIO_BATTERY.get()) {
-                return RadioBatteryItem.getPower(batteryStack);
             }
         }
         return 0;
@@ -150,8 +148,6 @@ public class SimpleSignalJammerBlockEntity extends BlockEntity implements Worldl
         if (!batteryStack.isEmpty()) {
             if (batteryStack.getItem() == ModItems.STORAGE_BATTERY.get()) {
                 return 700;
-            } else if (batteryStack.getItem() == ModItems.RADIO_BATTERY.get()) {
-                return 100;
             }
         }
         return 0;
@@ -274,9 +270,6 @@ public class SimpleSignalJammerBlockEntity extends BlockEntity implements Worldl
 
                         if (batteryStack.getItem() == ModItems.STORAGE_BATTERY.get()) {
                             batteryStack.setDamageValue(batteryStack.getDamageValue() + actualConsumption);
-                        } else if (batteryStack.getItem() == ModItems.RADIO_BATTERY.get()) {
-                            int newPower = Math.max(0, RadioBatteryItem.getPower(batteryStack) - actualConsumption);
-                            RadioBatteryItem.setPower(batteryStack, newPower);
                         }
                     }
                     blockEntity.currentEnergySource = EnergySource.BATTERY;
@@ -290,12 +283,6 @@ public class SimpleSignalJammerBlockEntity extends BlockEntity implements Worldl
         }
 
         boolean isWorking = blockEntity.currentEnergySource != EnergySource.NONE;
-        if (wasWorking != isWorking || blockEntity.tickCounter % 200 == 0) {
-            bili.dongsz.broadcastradio.BroadcastRadio.LOGGER.info("[JammerBlock] 位置{} 频率{} 工作状态: {} -> {}, 能源: {} (FE能量={}, 电池能量={}, 槽中有物品={})",
-                    pos, blockEntity.frequency, wasWorking, isWorking,
-                    blockEntity.currentEnergySource, blockEntity.feEnergy, blockEntity.getBatteryEnergy(),
-                    !blockEntity.items.get(0).isEmpty());
-        }
 
         blockEntity.setChanged();
     }
@@ -366,7 +353,7 @@ public class SimpleSignalJammerBlockEntity extends BlockEntity implements Worldl
 
     @Override
     public boolean canPlaceItemThroughFace(int index, ItemStack itemStack, @Nullable Direction direction) {
-        return itemStack.is(ModItems.STORAGE_BATTERY.get()) || itemStack.is(ModItems.RADIO_BATTERY.get());
+        return itemStack.is(ModItems.STORAGE_BATTERY.get());
     }
 
     @Override

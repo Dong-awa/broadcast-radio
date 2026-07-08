@@ -21,30 +21,10 @@ public class CommunicationUtils {
         int range = SimpleSignalJammerBlockEntity.LIMIT_RADIUS;
         int rangeSq = range * range;
 
-        int jammerCount = 0;
-        int activeCount = 0;
-        int freqMatchCount = 0;
-        int inRangeCount = 0;
-        int totalChecked = 0;
-
-        int minX = pos.getX() - range;
-        int maxX = pos.getX() + range;
-        int minZ = pos.getZ() - range;
-        int maxZ = pos.getZ() + range;
-        int yMin = Math.max(level.getMinBuildHeight(), pos.getY() - range);
-        int yMax = Math.min(level.getMaxBuildHeight() - 1, pos.getY() + range);
-
-        BroadcastRadio.LOGGER.info("[JammerScan] START: pos={}, freq={}, scanRange X[{}..{}], Y[{}..{}], Z[{}..{}]",
-                pos, frequency, minX, maxX, yMin, yMax, minZ, maxZ);
-
-        // 先用区块方式快速收集（用 LevelChunk 具体类型）
         int chunkRadius = (range >> 4) + 1;
         int centerChunkX = pos.getX() >> 4;
         int centerChunkZ = pos.getZ() >> 4;
 
-        boolean foundAny = false;
-
-        // 方式1：用 LevelChunk 的具体实现获取 BlockEntities
         for (int cx = centerChunkX - chunkRadius; cx <= centerChunkX + chunkRadius; cx++) {
             for (int cz = centerChunkZ - chunkRadius; cz <= centerChunkZ + chunkRadius; cz++) {
                 if (!level.hasChunk(cx, cz)) continue;
@@ -56,38 +36,14 @@ public class CommunicationUtils {
 
                 for (var entry : blockEntities.entrySet()) {
                     BlockEntity be = entry.getValue();
-                    totalChecked++;
                     if (be instanceof SimpleSignalJammerBlockEntity jammer) {
-                        foundAny = true;
-                        jammerCount++;
-                        BlockPos jammerWorldPos = be.getBlockPos();
-                        if (!jammer.isWorking()) {
-                            BroadcastRadio.LOGGER.info("[JammerDebug] 屏蔽器在{} 未激活(isWorking=false, source={})",
-                                    jammerWorldPos, jammer.getCurrentEnergySource());
-                            continue;
-                        }
-                        activeCount++;
-
+                        if (!jammer.isWorking()) continue;
                         float jammerFreq = jammer.getFrequency();
-                        float freqDiff = Math.abs(jammerFreq - frequency);
-                        if (freqDiff > 0.05f) {
-                            BroadcastRadio.LOGGER.info("[JammerDebug] 屏蔽器在{} 频率{} 不匹配(目标{}, 差{})",
-                                    jammerWorldPos, jammerFreq, frequency, freqDiff);
-                            continue;
-                        }
-                        freqMatchCount++;
-
+                        if (Math.abs(jammerFreq - frequency) > 0.05f) continue;
+                        BlockPos jammerWorldPos = be.getBlockPos();
                         double distSq = pos.distSqr(jammerWorldPos);
-                        if (distSq > rangeSq) {
-                            BroadcastRadio.LOGGER.info("[JammerDebug] 屏蔽器在{} 距离{} 超出范围(限{})",
-                                    jammerWorldPos, String.format("%.1f", Math.sqrt(distSq)), range);
-                            continue;
-                        }
-                        inRangeCount++;
-
+                        if (distSq > rangeSq) continue;
                         int interference = SimpleSignalJammerBlockEntity.calculateInterferenceAtDistance(distSq);
-                        BroadcastRadio.LOGGER.info("[JammerDebug] 屏蔽器在{} 距离{} 产生干扰{}%",
-                                jammerWorldPos, String.format("%.1f", Math.sqrt(distSq)), interference);
                         if (interference > maxInterference) {
                             maxInterference = interference;
                         }
@@ -95,41 +51,6 @@ public class CommunicationUtils {
                 }
             }
         }
-
-        // 方式2：如果区块遍历没找到，退而直接按坐标遍历确认
-        if (!foundAny) {
-            BroadcastRadio.LOGGER.info("[JammerScan] 区块遍历未找到屏蔽器，尝试直接坐标遍历方式...");
-            int step = 1;
-            for (int x = minX; x <= maxX; x += step) {
-                for (int y = yMin; y <= yMax; y += step) {
-                    for (int z = minZ; z <= maxZ; z += step) {
-                        BlockPos checkPos = new BlockPos(x, y, z);
-                        try {
-                            BlockEntity be = level.getBlockEntity(checkPos);
-                            if (be instanceof SimpleSignalJammerBlockEntity jammer) {
-                                BroadcastRadio.LOGGER.info("[JammerScan-Fallback] 找到屏蔽器在{} (区块坐标 {},{})",
-                                        checkPos, x >> 4, z >> 4);
-                                jammerCount++;
-                                BlockPos jammerWorldPos = be.getBlockPos();
-                                if (!jammer.isWorking()) continue;
-                                float jammerFreq = jammer.getFrequency();
-                                if (Math.abs(jammerFreq - frequency) > 0.05f) continue;
-                                double distSq = pos.distSqr(jammerWorldPos);
-                                if (distSq > rangeSq) continue;
-                                int interference = SimpleSignalJammerBlockEntity.calculateInterferenceAtDistance(distSq);
-                                if (interference > maxInterference) maxInterference = interference;
-                            }
-                        } catch (Exception e) {
-                            // 跳过
-                        }
-                    }
-                }
-            }
-        }
-
-        BroadcastRadio.LOGGER.info("[Jammer] END: 位置{} 频率{}: 扫描检查{}个BlockEntity, 屏蔽器={}, 激活={}, 频率匹配={}, 范围内={}, 最终干扰={}%",
-                pos, frequency, totalChecked,
-                jammerCount, activeCount, freqMatchCount, inRangeCount, maxInterference);
 
         return maxInterference;
     }
@@ -158,9 +79,9 @@ public class CommunicationUtils {
 
                                     if (distance <= RADIO_RANGE * RADIO_RANGE) {
                                         int jammerAtRadio = getJammerInterference(level, checkPos, senderFreq);
-                                        int jammerAtTarget = getJammerInterference(level, playerPos, senderFreq);
-                                        int jammerCombined = Math.max(Math.max(jammerAtRadio, jammerAtTarget), senderInterference);
-                                        int totalInterference = Math.max(radioEntity.getInterference(), jammerCombined);
+                                        int jammerCombined = Math.max(jammerAtRadio, senderInterference);
+                                        int radioBase = radioEntity.getInterference();
+                                        int totalInterference = Math.max(radioBase, jammerCombined);
                                         String displayMessage;
                                         if (senderPwd.isEmpty()) {
                                             displayMessage = message;
@@ -179,15 +100,15 @@ public class CommunicationUtils {
 
                                     if (distance <= RADIO_RANGE * RADIO_RANGE) {
                                         int jammerAtRadio = getJammerInterference(level, checkPos, senderFreq);
-                                        int jammerAtTarget = getJammerInterference(level, playerPos, senderFreq);
-                                        int jammerCombined = Math.max(Math.max(jammerAtRadio, jammerAtTarget), senderInterference);
+                                        int jammerCombined = Math.max(jammerAtRadio, senderInterference);
+                                        int totalInterference = Math.max(SimpleRadioBlockEntity.DEFAULT_INTERFERENCE, jammerCombined);
                                         String displayMessage;
                                         if (senderPwd.isEmpty()) {
                                             displayMessage = message;
                                         } else {
                                             displayMessage = generateGarbledText(message, 0.0);
                                         }
-                                        displayMessage = applyInterference(displayMessage, Math.max(SimpleRadioBlockEntity.DEFAULT_INTERFERENCE, jammerCombined), level);
+                                        displayMessage = applyInterference(displayMessage, totalInterference, level);
                                         sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
                                         return true;
                                     }
@@ -230,16 +151,32 @@ public class CommunicationUtils {
         return sb.toString();
     }
 
-    public static String applyInterference(String message, int baseInterference, Level level) {
-        int weatherInterference = 0;
-        if (level.isRaining()) {
-            weatherInterference += RAIN_INTERFERENCE;
-        }
-        if (level.isThundering()) {
-            weatherInterference += THUNDER_INTERFERENCE;
-        }
+    public static int getWeatherInterference(Level level) {
+        if (level == null) return 0;
+        int weather = 0;
+        if (level.isRaining()) weather += RAIN_INTERFERENCE;
+        if (level.isThundering()) weather += THUNDER_INTERFERENCE;
+        return weather;
+    }
 
+    public static int clampInterference(int value) {
+        if (value < 0) return 0;
+        if (value > 100) return 100;
+        return value;
+    }
+
+    public static int calculateCombinedInterference(Level level, BlockPos pos, float frequency, int extraBase) {
+        int jammer = getJammerInterference(level, pos, frequency);
+        int weather = getWeatherInterference(level);
+        int combined = Math.max(extraBase, jammer) + weather;
+        return clampInterference(combined);
+    }
+
+    public static String applyInterference(String message, int baseInterference, Level level) {
+        int weatherInterference = getWeatherInterference(level);
         int totalInterference = baseInterference + weatherInterference;
+        totalInterference = clampInterference(totalInterference);
+
         if (totalInterference <= 0) {
             return message;
         }

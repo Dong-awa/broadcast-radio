@@ -113,7 +113,8 @@ public class SimpleSignalJammerScreen extends AbstractContainerScreen<SimpleSign
         int batBarWidth = 80;
         int batBarHeight = 10;
         int batEnergy = this.menu.getBatteryEnergyFromData();
-        int batMax = Math.max(100, batEnergy);
+        int batMax = this.menu.getMaxBatteryEnergyFromData();
+        if (batMax <= 0) batMax = 100;
         int batFill = batMax > 0 ? (batEnergy * batBarWidth) / batMax : 0;
         guiGraphics.drawString(this.font, Component.translatable("block.broadcast_radio.simple_signal_jammer.battery_energy"), x + 10, batBarY - 10, 0xFFFFFF);
         guiGraphics.fill(x + 9, batBarY - 1, x + batBarWidth + 11, batBarY + batBarHeight + 1, 0xFF333333);

@@ -41,9 +41,39 @@ public class SimpleSignalJammerBlock extends Block implements EntityBlock {
         return this.defaultBlockState().setValue(FACING, context.getHorizontalDirection().getOpposite());
     }
 
-    protected static final VoxelShape COLLISION_SHAPE = Shapes.or(
-            box(0, 0, 0, 16, 16, 16)
-    );
+    private VoxelShape getShapeForDirection(Direction direction) {
+        switch (direction) {
+            case SOUTH:
+                return Shapes.or(
+                        box(2, 0, 4, 14, 4, 13),
+                        box(3, 1, 2, 5, 11, 3),
+                        box(7, 1, 2, 9, 11, 3),
+                        box(11, 1, 2, 13, 11, 3)
+                );
+            case NORTH:
+                return Shapes.or(
+                        box(2, 0, 3, 14, 4, 12),
+                        box(11, 1, 13, 13, 11, 14),
+                        box(7, 1, 13, 9, 11, 14),
+                        box(3, 1, 13, 5, 11, 14)
+                );
+            case WEST:
+                return Shapes.or(
+                        box(3, 0, 2, 12, 4, 14),
+                        box(13, 1, 3, 14, 11, 5),
+                        box(13, 1, 7, 14, 11, 9),
+                        box(13, 1, 11, 14, 11, 13)
+                );
+            case EAST:
+            default:
+                return Shapes.or(
+                        box(4, 0, 2, 13, 4, 14),
+                        box(2, 1, 11, 3, 11, 13),
+                        box(2, 1, 7, 3, 11, 9),
+                        box(2, 1, 3, 3, 11, 5)
+                );
+        }
+    }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
@@ -52,17 +82,17 @@ public class SimpleSignalJammerBlock extends Block implements EntityBlock {
 
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return COLLISION_SHAPE;
+        return getShapeForDirection(state.getValue(FACING));
     }
 
     @Override
     public VoxelShape getShape(BlockState state, BlockGetter world, BlockPos pos, CollisionContext context) {
-        return COLLISION_SHAPE;
+        return getShapeForDirection(state.getValue(FACING));
     }
 
     @Override
     public VoxelShape getInteractionShape(BlockState state, BlockGetter world, BlockPos pos) {
-        return COLLISION_SHAPE;
+        return getShapeForDirection(state.getValue(FACING));
     }
 
     @Nullable
@@ -106,16 +136,23 @@ public class SimpleSignalJammerBlock extends Block implements EntityBlock {
     public void playerDestroy(Level level, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity, ItemStack tool) {
         if (!level.isClientSide) {
             popResource(level, pos, new ItemStack(this));
+        }
+        super.playerDestroy(level, player, pos, state, blockEntity, tool);
+    }
 
-            if (blockEntity instanceof SimpleSignalJammerBlockEntity) {
+    @Override
+    public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean moved) {
+        if (!state.is(newState.getBlock())) {
+            BlockEntity blockEntity = level.getBlockEntity(pos);
+            if (blockEntity instanceof SimpleSignalJammerBlockEntity && !level.isClientSide) {
                 SimpleSignalJammerBlockEntity jammerEntity = (SimpleSignalJammerBlockEntity) blockEntity;
                 ItemStack batteryStack = jammerEntity.getItem(0);
-
                 if (!batteryStack.isEmpty()) {
                     popResource(level, pos, batteryStack.copy());
+                    jammerEntity.setItem(0, ItemStack.EMPTY);
                 }
             }
         }
-        super.playerDestroy(level, player, pos, state, blockEntity, tool);
+        super.onRemove(state, level, pos, newState, moved);
     }
 }

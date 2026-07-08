@@ -2,14 +2,14 @@
 	"format_version": "1.9.0",
 	"credit": "Made with Blockbench",
 	"textures": {
-		"0": "broadcast_radio:block/a",
-		"1": "broadcast_radio:block/b",
-		"2": "broadcast_radio:block/c",
-		"3": "broadcast_radio:block/d",
-		"4": "broadcast_radio:block/e",
-		"5": "broadcast_radio:block/f",
-		"6": "broadcast_radio:block/g",
-		"particle": "broadcast_radio:block/a"
+		"0": "broadcast_radio:block/simple_radio_block/a",
+		"1": "broadcast_radio:block/simple_radio_block/b",
+		"2": "broadcast_radio:block/simple_radio_block/c",
+		"3": "broadcast_radio:block/simple_radio_block/d",
+		"4": "broadcast_radio:block/simple_radio_block/e",
+		"5": "broadcast_radio:block/simple_radio_block/f",
+		"6": "broadcast_radio:block/simple_radio_block/g",
+		"particle": "broadcast_radio:block/simple_radio_block/a"
 	},
 	"elements": [
 		{

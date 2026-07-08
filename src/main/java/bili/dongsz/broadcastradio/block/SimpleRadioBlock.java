@@ -39,17 +39,17 @@ public class SimpleRadioBlock extends Block implements EntityBlock {
 
     private VoxelShape getShapeForDirection(Direction direction) {
         switch (direction) {
-            case NORTH:
-                return Shapes.or(
-                        box(3, 0, 6, 13, 7, 10),
-                        box(11, 7, 7, 12, 13, 8),
-                        box(9, 7, 8, 10, 13, 9)
-                );
             case SOUTH:
                 return Shapes.or(
                         box(3, 0, 6, 13, 7, 10),
                         box(4, 7, 7, 5, 13, 8),
                         box(6, 7, 8, 7, 13, 9)
+                );
+            case NORTH:
+                return Shapes.or(
+                        box(3, 0, 6, 13, 7, 10),
+                        box(11, 7, 8, 12, 13, 9),
+                        box(9, 7, 7, 10, 13, 8)
                 );
             case EAST:
                 return Shapes.or(
@@ -61,8 +61,8 @@ public class SimpleRadioBlock extends Block implements EntityBlock {
             default:
                 return Shapes.or(
                         box(6, 0, 3, 10, 7, 13),
-                        box(7, 7, 4, 8, 13, 5),
-                        box(8, 7, 6, 9, 13, 7)
+                        box(8, 7, 4, 9, 13, 5),
+                        box(7, 7, 6, 8, 13, 7)
                 );
         }
     }

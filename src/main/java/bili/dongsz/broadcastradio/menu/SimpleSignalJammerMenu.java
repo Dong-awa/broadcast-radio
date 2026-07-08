@@ -23,6 +23,7 @@ public class SimpleSignalJammerMenu extends AbstractContainerMenu {
     private final DataSlot frequencyTenthsSlot;
     private final DataSlot energySourceSlot;
     private final DataSlot batteryEnergySlot;
+    private final DataSlot maxBatteryEnergySlot;
 
     public SimpleSignalJammerMenu(int containerId, Inventory playerInventory, SimpleSignalJammerBlockEntity jammerEntity) {
         super(ModMenus.SIMPLE_SIGNAL_JAMMER_MENU.get(), containerId);
@@ -32,7 +33,7 @@ public class SimpleSignalJammerMenu extends AbstractContainerMenu {
         this.addSlot(new Slot(jammerEntity, 0, 152, 108) {
             @Override
             public boolean mayPlace(ItemStack stack) {
-                return stack.is(ModItems.STORAGE_BATTERY.get()) || stack.is(ModItems.RADIO_BATTERY.get());
+                return stack.is(ModItems.STORAGE_BATTERY.get());
             }
         });
 
@@ -130,6 +131,23 @@ public class SimpleSignalJammerMenu extends AbstractContainerMenu {
         };
         this.addDataSlot(batteryEnergySlotImpl);
         this.batteryEnergySlot = batteryEnergySlotImpl;
+
+        DataSlot maxBatteryEnergySlotImpl = new DataSlot() {
+            private int syncedValue = 0;
+            @Override
+            public int get() {
+                if (jammerEntity != null && jammerEntity.getLevel() != null && !jammerEntity.getLevel().isClientSide) {
+                    return jammerEntity.getMaxBatteryEnergy();
+                }
+                return syncedValue;
+            }
+            @Override
+            public void set(int value) {
+                this.syncedValue = value;
+            }
+        };
+        this.addDataSlot(maxBatteryEnergySlotImpl);
+        this.maxBatteryEnergySlot = maxBatteryEnergySlotImpl;
     }
 
     public SimpleSignalJammerMenu(int containerId, Inventory playerInventory, FriendlyByteBuf buf) {
@@ -175,6 +193,10 @@ public class SimpleSignalJammerMenu extends AbstractContainerMenu {
         return this.batteryEnergySlot.get();
     }
 
+    public int getMaxBatteryEnergyFromData() {
+        return this.maxBatteryEnergySlot.get();
+    }
+
     @Override
     public boolean stillValid(Player player) {
         if (jammerEntity == null) {
@@ -199,7 +221,7 @@ public class SimpleSignalJammerMenu extends AbstractContainerMenu {
                 if (!this.moveItemStackTo(itemstack1, 1, this.slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (itemstack1.is(ModItems.STORAGE_BATTERY.get()) || itemstack1.is(ModItems.RADIO_BATTERY.get())) {
+            } else if (itemstack1.is(ModItems.STORAGE_BATTERY.get())) {
                 if (!this.moveItemStackTo(itemstack1, 0, 1, false)) {
                     return ItemStack.EMPTY;
                 }

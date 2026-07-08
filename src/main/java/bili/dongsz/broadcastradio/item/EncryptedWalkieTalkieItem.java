@@ -285,9 +285,8 @@ public class EncryptedWalkieTalkieItem extends Item {
             int senderNBTInterference = senderTag.getInt(TAG_INTERFERENCE);
             int jammerAtSender = CommunicationUtils.getJammerInterference(sender.level(), sender.blockPosition(), senderFreq);
             int senderEffectiveInterference = Math.max(senderNBTInterference, jammerAtSender);
-
-            BroadcastRadio.LOGGER.info("[EncryptedWalkieTalkie] {} 发送消息: 频率={}, 发送端干扰={}, NBT干扰={}",
-                    sender.getName().getString(), senderFreq, senderEffectiveInterference, senderNBTInterference);
+            int weatherAtSender = CommunicationUtils.getWeatherInterference(sender.level());
+            senderEffectiveInterference = CommunicationUtils.clampInterference(senderEffectiveInterference + weatherAtSender);
 
             String messageContent = event.getMessage().getString();
 
@@ -371,8 +370,6 @@ public class EncryptedWalkieTalkieItem extends Item {
                     }
                     int totalInterference = Math.max(senderInterference, targetInterference);
                     displayMessage = CommunicationUtils.applyInterference(displayMessage, totalInterference, level);
-                    BroadcastRadio.LOGGER.info("[EncryptedWalkieTalkie] {} 收到消息: 频率={}, 密码匹配={}, 发送端干扰={}, 总干扰={}, 显示={}",
-                            target.getName().getString(), senderFreq, targetPwd.equals(senderPwd), senderInterference, totalInterference, displayMessage);
                     CommunicationUtils.sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
                     return true;
                 }
