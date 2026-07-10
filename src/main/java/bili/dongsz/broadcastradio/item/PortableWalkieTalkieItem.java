@@ -39,7 +39,7 @@ public class PortableWalkieTalkieItem extends Item {
     public static final float MAX_FREQ = 999.9f;
     public static final float FREQ_STEP_LARGE = 5.0f;
     public static final float FREQ_STEP_SMALL = 0.1f;
-    public static final int COMMUNICATION_RANGE = 128;
+    public static final double COMMUNICATION_RANGE = 256.0;
     public static final int POWER_CONSUMPTION_SWITCH = 1;
     public static final String TAG_SETTING_PWD = "SettingPassword";
 
@@ -328,14 +328,14 @@ public class PortableWalkieTalkieItem extends Item {
 
             for (ServerPlayer target : sender.getServer().getPlayerList().getPlayers()) {
                 if (target instanceof FakePlayer) continue;
-                double distance = sender.distanceToSqr(target);
-                if (distance > COMMUNICATION_RANGE * COMMUNICATION_RANGE) {
+                if (!CommunicationUtils.canSignalReachEye(sender.level(), sender, target, COMMUNICATION_RANGE,
+                        sender.getName().getString(), target.getName().getString(), sender)) {
                     continue;
                 }
                 if (target != sender) {
                     checkPlayerWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender.level());
                 }
-                CommunicationUtils.checkPlayerNearRadio(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference);
+                CommunicationUtils.checkPlayerNearRadio(target, sender, COMMUNICATION_RANGE, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender);
             }
             event.setCanceled(true);
             sender.getPersistentData().remove(BroadcastRadio.MOD_ID + "_using_walkie");

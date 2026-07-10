@@ -1,87 +1,311 @@
-[107月2026 12:35:05.197] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeclientuserdev, --version, MOD_DEV, --assetIndex, 5, --assetsDir, H:\MCMOD\Hexcolorblocks\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.4.18, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412]
-[107月2026 12:35:05.201] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.18 by Microsoft; OS Windows 10 arch amd64 version 10.0
-[107月2026 12:35:05.325] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: Loading ImmediateWindowProvider fmlearlywindow
-[107月2026 12:35:05.409] [main/INFO] [EARLYDISPLAY/]: Trying GL version 4.6
-[107月2026 12:35:05.597] [main/INFO] [EARLYDISPLAY/]: Requested GL version 4.6 got version 4.6
-[107月2026 12:35:05.668] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/H:/MCMOD/Hexcolorblocks/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
-[107月2026 12:35:05.702] [pool-2-thread-1/INFO] [EARLYDISPLAY/]: GL info: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2 GL version 4.6.0 NVIDIA 596.36, NVIDIA Corporation
-[107月2026 12:35:05.985] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.4.18\b526bd87f2544dda5b1348fb2a5047f230e5e679\javafmllanguage-1.20.1-47.4.18.jar is missing mods.toml file
-[107月2026 12:35:05.987] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.4.18\312c78291744fbc826551ff8431a9c42e26493f3\lowcodelanguage-1.20.1-47.4.18.jar is missing mods.toml file
-[107月2026 12:35:05.991] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.4.18\f6a2d32cb3b5b54788432adafe8b11c99abaf7bd\mclanguage-1.20.1-47.4.18.jar is missing mods.toml file
-[107月2026 12:35:05.994] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.4.18\942bd5bf4be190a3681fa76f09d9c14e2434adf9\fmlcore-1.20.1-47.4.18.jar is missing mods.toml file
-[107月2026 12:35:06.068] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
-[107月2026 12:35:06.978] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeclientuserdev' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, H:\MCMOD\Hexcolorblocks\caches\forge_gradle\assets, --assetIndex, 5]
-[107月2026 12:35:09.536] [Datafixer Bootstrap/INFO] [com.mojang.datafixers.DataFixerBuilder/]: 188 Datafixer optimizations took 91 milliseconds
-[107月2026 12:35:10.764] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/H:/MCMOD/Hexcolorblocks/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.18_mapped_official_1.20.1/forge-1.20.1-47.4.18_mapped_official_1.20.1.jar%23191!/assets/.mcassetsroot' uses unexpected schema
-[107月2026 12:35:10.764] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/H:/MCMOD/Hexcolorblocks/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.18_mapped_official_1.20.1/forge-1.20.1-47.4.18_mapped_official_1.20.1.jar%23191!/data/.mcassetsroot' uses unexpected schema
-[107月2026 12:35:10.775] [Render thread/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
-[107月2026 12:35:10.780] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
-[107月2026 12:35:10.851] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.3.1 build 7
-[107月2026 12:35:11.033] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.4.18, for MC 1.20.1 with MCP 20230612.114412
-[107月2026 12:35:11.034] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.4.18 Initialized
-[107月2026 12:35:11.650] [Render thread/INFO] [net.minecraftforge.gametest.ForgeGameTestHooks/]: Enabled Gametest Namespaces: [broadcast_radio]
-[107月2026 12:35:11.725] [Render thread/INFO] [net.minecraft.server.packs.resources.ReloadableResourceManager/]: Reloading ResourceManager: vanilla, mod_resources
-[107月2026 12:35:11.802] [Worker-Main-4/INFO] [net.minecraft.client.gui.font.providers.UnihexProvider/]: Found unifont_all_no_pua-15.0.06.hex, loading
-[107月2026 12:35:11.824] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
-[107月2026 12:35:11.852] [Worker-Main-9/ERROR] [net.minecraft.Util/]: Invalid path in pack: broadcast_radio:textures/block/simple_radio_block/WHY.txt, ignoring
-[107月2026 12:35:12.032] [Worker-Main-2/WARN] [net.minecraft.client.renderer.texture.SpriteLoader/]: Texture broadcast_radio:item/circuit_board with size 157x157 limits mip level from 4 to 0
-[107月2026 12:35:12.716] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: OUTDATED Current: 47.4.18 Target: 47.4.21
-[107月2026 12:35:13.499] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:item.goat_horn.play
-[107月2026 12:35:13.499] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:entity.goat.screaming.horn_break
-[107月2026 12:35:13.525] [Render thread/INFO] [com.mojang.blaze3d.audio.Library/]: OpenAL initialized on device OpenAL Soft on 扬声器 (USB PnP Audio Device)
-[107月2026 12:35:13.526] [Render thread/INFO] [net.minecraft.client.sounds.SoundEngine/SOUNDS]: Sound engine started
-[107月2026 12:35:13.616] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/blocks.png-atlas
-[107月2026 12:35:13.622] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/signs.png-atlas
-[107月2026 12:35:13.622] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
-[107月2026 12:35:13.622] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
-[107月2026 12:35:13.623] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/armor_trims.png-atlas
-[107月2026 12:35:13.624] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
-[107月2026 12:35:13.625] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x64x4 minecraft:textures/atlas/decorated_pot.png-atlas
-[107月2026 12:35:13.625] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
-[107月2026 12:35:13.625] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
-[107月2026 12:35:13.794] [Render thread/WARN] [net.minecraft.client.renderer.ShaderInstance/]: Shader rendertype_entity_translucent_emissive could not find sampler named Sampler2 in the specified shader program.
-[107月2026 12:35:13.843] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
-[107月2026 12:35:13.844] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
-[107月2026 12:35:13.845] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
-[107月2026 12:35:14.370] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: java.lang.RuntimeException: Failed to parse into SignedJWT: 0
-[107月2026 12:35:18.072] [Render thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this CLIENT instance
-[107月2026 12:35:19.090] [Render thread/INFO] [net.minecraft.world.item.crafting.RecipeManager/]: Loaded 7 recipes
-[107月2026 12:35:19.169] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 1271 advancements
-[107月2026 12:35:19.453] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Starting integrated minecraft server version 1.20.1
-[107月2026 12:35:19.454] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Generating keypair
-[107月2026 12:35:19.658] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
-[107月2026 12:35:20.854] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
-[107月2026 12:35:20.854] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
-[107月2026 12:35:20.854] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
-[107月2026 12:35:21.179] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：46%
-[107月2026 12:35:21.319] [Server thread/INFO] [net.minecraftforge.server.permission.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
-[107月2026 12:35:21.323] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 1661 ms
-[107月2026 12:35:21.416] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing view distance to 12, from 10
-[107月2026 12:35:21.417] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing simulation distance to 12, from 0
-[107月2026 12:35:21.489] [Render thread/WARN] [io.netty.util.internal.SystemPropertyUtil/]: Unable to parse the boolean system property 'java.net.preferIPv6Addresses':system - using the default value: false
-[107月2026 12:35:21.921] [Netty Local Client IO #0/INFO] [net.minecraftforge.network.NetworkHooks/]: Connected to a modded server.
-[107月2026 12:35:21.965] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: Dev[local:E:8316d4a5] logged in with entity id 24 at (-55.132088003604316, -60.0625, -2.6930856369421083)
-[107月2026 12:35:22.010] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev加入了游戏
-[107月2026 12:35:22.465] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 126 advancements
-[107月2026 12:35:22.820] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
-[107月2026 12:35:22.835] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
-[107月2026 12:35:23.412] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
-[107月2026 12:35:23.413] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
-[107月2026 12:42:05.870] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
-[107月2026 12:42:05.881] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
-[107月2026 12:42:05.885] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
-[107月2026 12:42:05.886] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
-[107月2026 12:42:06.423] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev lost connection: 连接中断
-[107月2026 12:42:06.423] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev退出了游戏
-[107月2026 12:42:06.440] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Stopping singleplayer server as player logged out
-[107月2026 12:42:06.470] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
-[107月2026 12:42:06.470] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
-[107月2026 12:42:06.470] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
-[107月2026 12:42:06.555] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
-[107月2026 12:42:06.589] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
-[107月2026 12:42:06.590] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
-[107月2026 12:42:06.601] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (test): All chunks are saved
-[107月2026 12:42:06.601] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
-[107月2026 12:42:06.601] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
-[107月2026 12:42:06.602] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
-[107月2026 12:42:07.566] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+[107月2026 22:15:51.675] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeclientuserdev, --version, MOD_DEV, --assetIndex, 5, --assetsDir, H:\MCMOD\Hexcolorblocks\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.4.18, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412]
+[107月2026 22:15:51.679] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.18 by Microsoft; OS Windows 10 arch amd64 version 10.0
+[107月2026 22:15:51.791] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: Loading ImmediateWindowProvider fmlearlywindow
+[107月2026 22:15:51.870] [main/INFO] [EARLYDISPLAY/]: Trying GL version 4.6
+[107月2026 22:15:52.051] [main/INFO] [EARLYDISPLAY/]: Requested GL version 4.6 got version 4.6
+[107月2026 22:15:52.122] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/H:/MCMOD/Hexcolorblocks/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
+[107月2026 22:15:52.167] [pool-2-thread-1/INFO] [EARLYDISPLAY/]: GL info: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2 GL version 4.6.0 NVIDIA 596.36, NVIDIA Corporation
+[107月2026 22:15:52.420] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.4.18\b526bd87f2544dda5b1348fb2a5047f230e5e679\javafmllanguage-1.20.1-47.4.18.jar is missing mods.toml file
+[107月2026 22:15:52.421] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.4.18\312c78291744fbc826551ff8431a9c42e26493f3\lowcodelanguage-1.20.1-47.4.18.jar is missing mods.toml file
+[107月2026 22:15:52.425] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.4.18\f6a2d32cb3b5b54788432adafe8b11c99abaf7bd\mclanguage-1.20.1-47.4.18.jar is missing mods.toml file
+[107月2026 22:15:52.428] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.4.18\942bd5bf4be190a3681fa76f09d9c14e2434adf9\fmlcore-1.20.1-47.4.18.jar is missing mods.toml file
+[107月2026 22:15:52.496] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
+[107月2026 22:15:53.597] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeclientuserdev' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, H:\MCMOD\Hexcolorblocks\caches\forge_gradle\assets, --assetIndex, 5]
+[107月2026 22:15:56.256] [Datafixer Bootstrap/INFO] [com.mojang.datafixers.DataFixerBuilder/]: 188 Datafixer optimizations took 326 milliseconds
+[107月2026 22:15:57.752] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/H:/MCMOD/Hexcolorblocks/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.18_mapped_official_1.20.1/forge-1.20.1-47.4.18_mapped_official_1.20.1.jar%23191!/assets/.mcassetsroot' uses unexpected schema
+[107月2026 22:15:57.752] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/H:/MCMOD/Hexcolorblocks/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.18_mapped_official_1.20.1/forge-1.20.1-47.4.18_mapped_official_1.20.1.jar%23191!/data/.mcassetsroot' uses unexpected schema
+[107月2026 22:15:57.768] [Render thread/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[107月2026 22:15:57.775] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
+[107月2026 22:15:57.861] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.3.1 build 7
+[107月2026 22:15:58.072] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.4.18, for MC 1.20.1 with MCP 20230612.114412
+[107月2026 22:15:58.074] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.4.18 Initialized
+[107月2026 22:15:58.839] [Render thread/INFO] [net.minecraftforge.gametest.ForgeGameTestHooks/]: Enabled Gametest Namespaces: [broadcast_radio]
+[107月2026 22:15:58.925] [Render thread/INFO] [net.minecraft.server.packs.resources.ReloadableResourceManager/]: Reloading ResourceManager: vanilla, mod_resources
+[107月2026 22:15:59.036] [Worker-Main-8/INFO] [net.minecraft.client.gui.font.providers.UnihexProvider/]: Found unifont_all_no_pua-15.0.06.hex, loading
+[107月2026 22:15:59.060] [Worker-Main-10/ERROR] [net.minecraft.Util/]: Invalid path in pack: broadcast_radio:textures/block/simple_radio_block/WHY.txt, ignoring
+[107月2026 22:15:59.111] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
+[107月2026 22:15:59.344] [Worker-Main-2/WARN] [net.minecraft.client.renderer.texture.SpriteLoader/]: Texture broadcast_radio:item/circuit_board with size 157x157 limits mip level from 4 to 0
+[107月2026 22:15:59.999] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: OUTDATED Current: 47.4.18 Target: 47.4.21
+[107月2026 22:16:01.370] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:item.goat_horn.play
+[107月2026 22:16:01.370] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:entity.goat.screaming.horn_break
+[107月2026 22:16:01.437] [Render thread/INFO] [com.mojang.blaze3d.audio.Library/]: OpenAL initialized on device OpenAL Soft on 扬声器 (USB PnP Audio Device)
+[107月2026 22:16:01.438] [Render thread/INFO] [net.minecraft.client.sounds.SoundEngine/SOUNDS]: Sound engine started
+[107月2026 22:16:01.535] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/blocks.png-atlas
+[107月2026 22:16:01.541] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/signs.png-atlas
+[107月2026 22:16:01.541] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[107月2026 22:16:01.541] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[107月2026 22:16:01.542] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/armor_trims.png-atlas
+[107月2026 22:16:01.543] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[107月2026 22:16:01.544] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x64x4 minecraft:textures/atlas/decorated_pot.png-atlas
+[107月2026 22:16:01.544] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[107月2026 22:16:01.545] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[107月2026 22:16:01.724] [Render thread/WARN] [net.minecraft.client.renderer.ShaderInstance/]: Shader rendertype_entity_translucent_emissive could not find sampler named Sampler2 in the specified shader program.
+[107月2026 22:16:01.761] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[107月2026 22:16:01.762] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[107月2026 22:16:01.762] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[107月2026 22:16:02.250] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: java.lang.RuntimeException: Failed to parse into SignedJWT: 0
+[107月2026 22:16:49.938] [Render thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this CLIENT instance
+[107月2026 22:16:51.107] [Render thread/INFO] [net.minecraft.world.item.crafting.RecipeManager/]: Loaded 7 recipes
+[107月2026 22:16:51.179] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 1271 advancements
+[107月2026 22:16:51.489] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Starting integrated minecraft server version 1.20.1
+[107月2026 22:16:51.489] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Generating keypair
+[107月2026 22:16:51.739] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[107月2026 22:16:53.043] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
+[107月2026 22:16:53.043] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
+[107月2026 22:16:53.043] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
+[107月2026 22:16:53.260] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：12%
+[107月2026 22:16:53.521] [Server thread/INFO] [net.minecraftforge.server.permission.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
+[107月2026 22:16:53.524] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Loaded 762 block absorption values (default=3)
+[107月2026 22:16:53.524] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Absorption values loaded: 762 entries, default 3
+[107月2026 22:16:53.530] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 1776 ms
+[107月2026 22:16:53.651] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing view distance to 12, from 10
+[107月2026 22:16:53.653] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing simulation distance to 12, from 0
+[107月2026 22:16:53.718] [Render thread/WARN] [io.netty.util.internal.SystemPropertyUtil/]: Unable to parse the boolean system property 'java.net.preferIPv6Addresses':system - using the default value: false
+[107月2026 22:16:54.140] [Netty Local Client IO #0/INFO] [net.minecraftforge.network.NetworkHooks/]: Connected to a modded server.
+[107月2026 22:16:54.179] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: Dev[local:E:99688b70] logged in with entity id 24 at (-64.60444985777916, -60.0, 16.563323680012456)
+[107月2026 22:16:54.229] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev加入了游戏
+[107月2026 22:16:54.550] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 131 advancements
+[107月2026 22:16:54.776] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
+[107月2026 22:16:54.823] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
+[107月2026 22:16:55.185] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
+[107月2026 22:16:55.187] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
+[107月2026 22:17:16.675] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
+[107月2026 22:17:16.681] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
+[107月2026 22:17:16.684] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
+[107月2026 22:17:16.684] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
+[107月2026 22:17:17.851] [Render thread/INFO] [net.minecraft.server.network.ServerConnectionListener/]: Using default channel type
+[107月2026 22:17:17.860] [Render thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Started serving on 52910
+[107月2026 22:17:17.872] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 本地游戏已在端口[52910]上开启
+[107月2026 22:17:49.881] [Server thread/INFO] [net.minecraft.server.network.ServerLoginPacketListenerImpl/]: com.mojang.authlib.GameProfile@4e6f19d1[id=<null>,name=DDbox_awa,properties={},legacy=false] (/[240e:351:5042:d7f0:34aa:ea4a:f8f8:2f5f]:52917) lost connection: 连接中断
+[107月2026 22:17:54.900] [User Authenticator #1/INFO] [net.minecraft.server.network.ServerLoginPacketListenerImpl/]: UUID of player DDbox_awa is 636608e7-b930-4547-b683-1630fda86399
+[107月2026 22:17:56.281] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: DDbox_awa[/[240e:351:5042:d7f0:34aa:ea4a:f8f8:2f5f]:52950] logged in with entity id 49 at (-64.56636307947475, -15.519287673090355, 121.4621255126622)
+[107月2026 22:17:56.288] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: DDbox_awa加入了游戏
+[107月2026 22:17:56.306] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] DDbox_awa加入了游戏
+[107月2026 22:18:53.940] [Worker-Main-11/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 104.9 格
+  基础传播距离: 256 格
+  射线追踪步数: 525 (非空气: 5)
+  方块明细:
+    air x520 (吸收0) → 小计0.00
+    Block{minecraft:iron_block} x5 (吸收20) → 小计20.00
+  总吸收值: 20.00
+  有效传播距离: 236.00 格
+  结果: 信号到达 ✓ (236.00 >= 104.92 ? 是)
+[107月2026 22:18:53.951] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[107月2026 22:18:53.971] [Worker-Main-11/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[107月2026 22:21:17.153] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 106.3 格
+  基础传播距离: 256 格
+  射线追踪步数: 532 (非空气: 0)
+  方块明细:
+    air x532 (吸收0) → 小计0.00
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 106.32 ? 是)
+[107月2026 22:21:17.171] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[107月2026 22:21:17.182] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[107月2026 22:21:29.022] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 105.6 格
+  基础传播距离: 256 格
+  射线追踪步数: 529 (非空气: 1)
+  方块明细:
+    air x528 (吸收0) → 小计0.00
+    Block{minecraft:iron_block} x1 (吸收20) → 小计4.00
+  总吸收值: 4.00
+  有效传播距离: 252.00 格
+  结果: 信号到达 ✓ (252.00 >= 105.62 ? 是)
+[107月2026 22:21:29.037] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[107月2026 22:21:29.051] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[107月2026 22:21:32.152] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: <DDbox_awa> 1
+[107月2026 22:21:32.173] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [CHAT] <DDbox_awa> 1
+[107月2026 22:21:34.629] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 105.4 格
+  基础传播距离: 256 格
+  射线追踪步数: 528 (非空气: 4)
+  方块明细:
+    air x524 (吸收0) → 小计0.00
+    Block{minecraft:iron_block} x4 (吸收20) → 小计16.00
+  总吸收值: 16.00
+  有效传播距离: 240.00 格
+  结果: 信号到达 ✓ (240.00 >= 105.41 ? 是)
+[107月2026 22:21:34.637] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[107月2026 22:21:34.657] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[107月2026 22:22:58.763] [Worker-Main-5/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 105.2 格
+  基础传播距离: 256 格
+  射线追踪步数: 526 (非空气: 5)
+  方块明细:
+    air x521 (吸收0) → 小计0.00
+    Block{minecraft:iron_block} x5 (吸收20) → 小计20.00
+  总吸收值: 20.00
+  有效传播距离: 236.00 格
+  结果: 信号到达 ✓ (236.00 >= 105.17 ? 是)
+[107月2026 22:22:58.771] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[107月2026 22:22:58.793] [Worker-Main-5/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[107月2026 22:23:02.899] [Worker-Main-5/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 105.1 格
+  基础传播距离: 256 格
+  射线追踪步数: 526 (非空气: 5)
+  方块明细:
+    air x521 (吸收0) → 小计0.00
+    Block{minecraft:iron_block} x5 (吸收20) → 小计20.00
+  总吸收值: 20.00
+  有效传播距离: 236.00 格
+  结果: 信号到达 ✓ (236.00 >= 105.14 ? 是)
+[107月2026 22:23:02.905] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[107月2026 22:23:02.928] [Worker-Main-5/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[107月2026 22:23:06.202] [Worker-Main-5/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 105.2 格
+  基础传播距离: 256 格
+  射线追踪步数: 527 (非空气: 5)
+  方块明细:
+    air x522 (吸收0) → 小计0.00
+    Block{minecraft:iron_block} x5 (吸收20) → 小计20.00
+  总吸收值: 20.00
+  有效传播距离: 236.00 格
+  结果: 信号到达 ✓ (236.00 >= 105.23 ? 是)
+[107月2026 22:23:06.205] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[107月2026 22:23:06.229] [Worker-Main-5/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[107月2026 22:23:16.879] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 105.2 格
+  基础传播距离: 256 格
+  射线追踪步数: 527 (非空气: 3)
+  方块明细:
+    air x524 (吸收0) → 小计0.00
+    Block{minecraft:iron_block} x3 (吸收20) → 小计12.00
+  总吸收值: 12.00
+  有效传播距离: 244.00 格
+  结果: 信号到达 ✓ (244.00 >= 105.23 ? 是)
+[107月2026 22:23:16.888] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[107月2026 22:23:16.904] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[107月2026 22:23:22.098] [Worker-Main-1/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 106.1 格
+  基础传播距离: 256 格
+  射线追踪步数: 531 (非空气: 0)
+  方块明细:
+    air x531 (吸收0) → 小计0.00
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 106.14 ? 是)
+[107月2026 22:23:22.105] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[107月2026 22:23:22.128] [Worker-Main-1/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[107月2026 22:23:26.067] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 105.4 格
+  基础传播距离: 256 格
+  射线追踪步数: 528 (非空气: 2)
+  方块明细:
+    air x526 (吸收0) → 小计0.00
+    Block{minecraft:iron_block} x2 (吸收20) → 小计8.00
+  总吸收值: 8.00
+  有效传播距离: 248.00 格
+  结果: 信号到达 ✓ (248.00 >= 105.40 ? 是)
+[107月2026 22:23:26.070] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[107月2026 22:23:26.094] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[107月2026 22:24:12.121] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 94.6 格
+  基础传播距离: 256 格
+  射线追踪步数: 474 (非空气: 5)
+  方块明细:
+    air x469 (吸收0) → 小计0.00
+    Block{minecraft:stripped_birch_log} x5 (吸收3) → 小计3.00
+  总吸收值: 3.00
+  有效传播距离: 253.00 格
+  结果: 信号到达 ✓ (253.00 >= 94.61 ? 是)
+[107月2026 22:24:12.138] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[107月2026 22:24:12.149] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[107月2026 22:26:19.086] [Worker-Main-10/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 88.4 格
+  基础传播距离: 256 格
+  射线追踪步数: 442 (非空气: 1)
+  方块明细:
+    air x435 (吸收0) → 小计0.00
+    Block{minecraft:bedrock} x1 (吸收999) → 小计199.80
+  ⚠ 遇到不可穿透方块 (如基岩/屏障)，信号被完全阻挡！ 位置: (-73, -59, 24)
+  总吸收值: 257.00
+  有效传播距离: 0.00 格
+  结果: 信号未到达 ✗ (0.00 >= 88.40 ? 否)
+[107月2026 22:26:19.088] [Worker-Main-10/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家, 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)

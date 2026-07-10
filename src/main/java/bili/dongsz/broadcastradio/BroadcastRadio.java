@@ -5,7 +5,7 @@ import bili.dongsz.broadcastradio.network.UpdateRadioBaseStationPacket;
 import bili.dongsz.broadcastradio.network.UpdateEncryptedWalkieTalkiePacket;
 import bili.dongsz.broadcastradio.network.UpdateSignalJammerPacket;
 import bili.dongsz.broadcastradio.network.PlayerSignalStatusPacket;
- import bili.dongsz.broadcastradio.network.QueryPlayerValidPacket;
+import bili.dongsz.broadcastradio.network.QueryPlayerValidPacket;
 import bili.dongsz.broadcastradio.network.QueryPlayerValidResponsePacket;
 import bili.dongsz.broadcastradio.event.PlayerLoginListener;
 import bili.dongsz.broadcastradio.registry.ModBlocks;
@@ -13,7 +13,11 @@ import bili.dongsz.broadcastradio.registry.ModBlockEntities;
 import bili.dongsz.broadcastradio.registry.ModCreativeModeTabs;
 import bili.dongsz.broadcastradio.registry.ModItems;
 import bili.dongsz.broadcastradio.registry.ModMenus;
+import bili.dongsz.broadcastradio.utils.AbsorptionManager;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.server.ServerStartingEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.network.simple.SimpleChannel;
@@ -28,7 +32,7 @@ public class BroadcastRadio {
 
     // Network channel
     public static final SimpleChannel NETWORK = net.minecraftforge.network.NetworkRegistry.ChannelBuilder
-            .named(new net.minecraft.resources.ResourceLocation(MOD_ID, "network"))
+            .named(ResourceLocation.fromNamespaceAndPath(MOD_ID, "network"))
             .networkProtocolVersion(() -> "1")
             .clientAcceptedVersions(s -> true)
             .serverAcceptedVersions(s -> true)
@@ -90,5 +94,12 @@ public class BroadcastRadio {
             bili.dongsz.broadcastradio.utils.SignalSearchManager.getInstance().cleanup();
             bili.dongsz.broadcastradio.utils.RadioThreadPoolManager.getInstance().shutdown();
         }, "BroadcastRadio-ShutdownHook"));
+    }
+
+    @SubscribeEvent
+    public void onServerStarting(ServerStartingEvent event) {
+        AbsorptionManager.loadFromResources(event.getServer());
+        LOGGER.info("[BroadcastRadio] Absorption values loaded: {} entries, default {}",
+                AbsorptionManager.getAbsorptionMapSize(), AbsorptionManager.getDefaultAbsorption());
     }
 }
