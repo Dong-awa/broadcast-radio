@@ -24,7 +24,7 @@ public class ReflectionManager {
     private static final Map<Block, Integer> BLOCK_REFLECTION_MAP = new HashMap<>();
     private static int defaultReflection = 15;
     private static final ResourceLocation DATA_PATH = ResourceLocation.fromNamespaceAndPath(
-            BroadcastRadio.MOD_ID, "reflection/reflection_values.json");
+            BroadcastRadio.MOD_ID, "config/reflection_values.json");
 
     private static boolean initialized = false;
 

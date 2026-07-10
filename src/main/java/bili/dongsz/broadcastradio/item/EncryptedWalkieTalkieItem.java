@@ -300,7 +300,7 @@ public class EncryptedWalkieTalkieItem extends Item {
             for (ServerPlayer target : sender.getServer().getPlayerList().getPlayers()) {
                 if (target instanceof FakePlayer) continue;
 
-                if (!CommunicationUtils.canSignalReachEye(sender.level(), sender, target, COMMUNICATION_RANGE,
+                if (!CommunicationUtils.canSignalReachEyeWithReflection(sender.level(), sender, target, COMMUNICATION_RANGE,
                         sender.getName().getString(), target.getName().getString(), sender)) {
                     continue;
                 }

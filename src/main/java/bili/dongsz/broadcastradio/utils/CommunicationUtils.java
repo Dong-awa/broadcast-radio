@@ -4,6 +4,7 @@ import bili.dongsz.broadcastradio.BroadcastRadio;
 import bili.dongsz.broadcastradio.block.entity.SimpleRadioBlockEntity;
 import bili.dongsz.broadcastradio.block.entity.SimpleSignalJammerBlockEntity;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
 import net.minecraft.world.entity.Entity;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.WeakHashMap;
 
 public class CommunicationUtils {
     public static final int RADIO_RANGE = 8;
@@ -29,8 +31,67 @@ public class CommunicationUtils {
 
     public static final boolean DEBUG_SIGNAL_ATTENUATION = false; //信号衰减的调试开关，True为开启，False为关闭
 
+    public static final int SEARCH_RADIUS = 20;
+    public static final int MAX_CANDIDATES = 50;
+    public static final double MIN_INCIDENT_ANGLE = 30.0;
+    public static final double REFLECTION_WEIGHT_REFLECTION = 0.5;
+    public static final double REFLECTION_WEIGHT_DISTANCE = 0.3;
+    public static final double REFLECTION_WEIGHT_ANGLE = 0.2;
+
     public static double getBlockAbsorptionValue(BlockState state) {
         return (double) AbsorptionManager.getAbsorption(state);
+    }
+
+    public static double getBlockReflectionValue(BlockState state) {
+        return (double) ReflectionManager.getReflection(state);
+    }
+
+    private static final Map<Level, BlockPos> lastSuccessfulReflectionPos = new WeakHashMap<>();
+
+    public static class ReflectedPathResult {
+        public final boolean found;
+        public final BlockPos reflectionPos;
+        public final Vec3 reflectionPoint;
+        public final double totalPathLength;
+        public final double d1;
+        public final double d2;
+        public final double absorption1;
+        public final double absorption2;
+        public final double totalAbsorption;
+        public final double reflectionValue;
+        public final double incidentAngle;
+        public final double effectiveRangeAfterReflection;
+        public final double weight;
+        public final Direction normalDirection;
+        public final AttenuationResult detailedSeg1;
+        public final AttenuationResult detailedSeg2;
+        public final String blockedReason;
+
+        public ReflectedPathResult(boolean found, BlockPos reflectionPos, Vec3 reflectionPoint,
+                                   double totalPathLength, double d1, double d2,
+                                   double absorption1, double absorption2, double totalAbsorption,
+                                   double reflectionValue, double incidentAngle,
+                                   double effectiveRangeAfterReflection, double weight,
+                                   Direction normalDirection, AttenuationResult detailedSeg1,
+                                   AttenuationResult detailedSeg2, String blockedReason) {
+            this.found = found;
+            this.reflectionPos = reflectionPos;
+            this.reflectionPoint = reflectionPoint;
+            this.totalPathLength = totalPathLength;
+            this.d1 = d1;
+            this.d2 = d2;
+            this.absorption1 = absorption1;
+            this.absorption2 = absorption2;
+            this.totalAbsorption = totalAbsorption;
+            this.reflectionValue = reflectionValue;
+            this.incidentAngle = incidentAngle;
+            this.effectiveRangeAfterReflection = effectiveRangeAfterReflection;
+            this.weight = weight;
+            this.normalDirection = normalDirection;
+            this.detailedSeg1 = detailedSeg1;
+            this.detailedSeg2 = detailedSeg2;
+            this.blockedReason = blockedReason;
+        }
     }
 
     public static class AttenuationResult {
@@ -259,6 +320,333 @@ public class CommunicationUtils {
         return reached;
     }
 
+    private static boolean hasExposedFace(Level level, BlockPos pos) {
+        if (level == null || pos == null) return false;
+        for (Direction dir : Direction.values()) {
+            BlockPos neighbor = pos.relative(dir);
+            if (!level.hasChunkAt(neighbor)) continue;
+            BlockState neighborState = level.getBlockState(neighbor);
+            if (neighborState.isAir()) return true;
+        }
+        return false;
+    }
+
+    private static Direction getBestNormalDirection(Level level, BlockPos pos, Vec3 senderEye, Vec3 targetPos) {
+        Direction bestDir = Direction.UP;
+        double bestAngle = -1.0;
+        Vec3 blockCenter = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
+        Vec3 incoming = senderEye.subtract(blockCenter).normalize();
+        Vec3 outgoing = targetPos.subtract(blockCenter).normalize();
+        Vec3 bisector = incoming.add(outgoing).normalize();
+
+        for (Direction dir : Direction.values()) {
+            BlockPos neighbor = pos.relative(dir);
+            if (!level.hasChunkAt(neighbor)) continue;
+            if (!level.getBlockState(neighbor).isAir()) continue;
+
+            Vec3 normalVec = new Vec3(dir.getStepX(), dir.getStepY(), dir.getStepZ());
+            double dot = bisector.dot(normalVec);
+            double angle = Math.toDegrees(Math.acos(Math.max(-1.0, Math.min(1.0, dot))));
+            if (angle < bestAngle || bestAngle < 0) {
+                bestAngle = angle;
+                bestDir = dir;
+            }
+        }
+        return bestDir;
+    }
+
+    private static double calculateIncidentAngle(Vec3 from, Vec3 blockCenter, Direction normalDir) {
+        if (normalDir == null) return 0.0;
+        Vec3 incomingDir = from.subtract(blockCenter).normalize();
+        Vec3 normalVec = new Vec3(normalDir.getStepX(), normalDir.getStepY(), normalDir.getStepZ());
+        double dot = incomingDir.dot(normalVec);
+        if (dot > 0) {
+            normalVec = normalVec.scale(-1.0);
+            dot = incomingDir.dot(normalVec);
+        }
+        double cosAngle = Math.abs(dot);
+        double angle = Math.toDegrees(Math.acos(Math.max(-1.0, Math.min(1.0, cosAngle))));
+        return 90.0 - angle;
+    }
+
+    private static List<BlockPos> getSortedCandidatePositions(Level level, Vec3 midPoint,
+                                                               BlockPos cachedPos, int maxCandidates) {
+        List<BlockPos> candidates = new ArrayList<>();
+        int r = SEARCH_RADIUS;
+        int midX = (int) Math.floor(midPoint.x);
+        int midY = (int) Math.floor(midPoint.y);
+        int midZ = (int) Math.floor(midPoint.z);
+
+        if (cachedPos != null && level.hasChunkAt(cachedPos)) {
+            candidates.add(cachedPos);
+        }
+
+        int numClose = Math.min(maxCandidates, 20);
+        int closeR = Math.min(r, 6);
+        for (int dx = -closeR; dx <= closeR && candidates.size() < numClose; dx++) {
+            for (int dy = -closeR; dy <= closeR && candidates.size() < numClose; dy++) {
+                for (int dz = -closeR; dz <= closeR && candidates.size() < numClose; dz++) {
+                    if (dx == 0 && dy == 0 && dz == 0) continue;
+                    BlockPos p = new BlockPos(midX + dx, midY + dy, midZ + dz);
+                    if (!level.hasChunkAt(p)) continue;
+                    if (cachedPos != null && p.equals(cachedPos)) continue;
+                    candidates.add(p);
+                }
+            }
+        }
+
+        int remaining = maxCandidates - candidates.size();
+        if (remaining > 0) {
+            int step = Math.max(1, (2 * r) / (int) Math.cbrt(remaining) + 1);
+            for (int dx = -r; dx <= r && candidates.size() < maxCandidates; dx += step) {
+                for (int dy = -r; dy <= r && candidates.size() < maxCandidates; dy += step) {
+                    for (int dz = -r; dz <= r && candidates.size() < maxCandidates; dz += step) {
+                        if (Math.abs(dx) <= closeR && Math.abs(dy) <= closeR && Math.abs(dz) <= closeR) continue;
+                        BlockPos p = new BlockPos(midX + dx, midY + dy, midZ + dz);
+                        if (!level.hasChunkAt(p)) continue;
+                        if (cachedPos != null && p.equals(cachedPos)) continue;
+                        candidates.add(p);
+                    }
+                }
+            }
+        }
+
+        return candidates;
+    }
+
+    public static ReflectedPathResult searchReflectionPath(Level level, Vec3 senderEye, Vec3 targetPos,
+                                                           double baseRange, boolean detailedDebug) {
+        if (level == null || senderEye == null || targetPos == null) {
+            return new ReflectedPathResult(false, null, null, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, null, null, null, "无效参数");
+        }
+
+        double straightDistance = senderEye.distanceTo(targetPos);
+        if (straightDistance < 0.5) {
+            return new ReflectedPathResult(false, null, null, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, null, null, null, "距离过近");
+        }
+
+        Vec3 midPoint = senderEye.add(targetPos).scale(0.5);
+        BlockPos cachedPos = lastSuccessfulReflectionPos.get(level);
+
+        List<BlockPos> candidates = getSortedCandidatePositions(level, midPoint, cachedPos, MAX_CANDIDATES);
+
+        ReflectedPathResult bestResult = null;
+        double bestWeight = -1.0;
+        int maxPossibleDistance = (int) (baseRange * 2);
+
+        int evaluated = 0;
+        for (BlockPos candidate : candidates) {
+            if (evaluated >= MAX_CANDIDATES) break;
+            evaluated++;
+
+            if (!level.hasChunkAt(candidate)) continue;
+            BlockState state = level.getBlockState(candidate);
+            if (state.isAir()) continue;
+
+            double reflection = getBlockReflectionValue(state);
+            if (reflection <= 0) continue;
+
+            if (!hasExposedFace(level, candidate)) continue;
+
+            Vec3 blockCenter = new Vec3(candidate.getX() + 0.5, candidate.getY() + 0.5, candidate.getZ() + 0.5);
+            double d1 = senderEye.distanceTo(blockCenter);
+            double d2 = targetPos.distanceTo(blockCenter);
+            double totalPathLength = d1 + d2;
+
+            if (totalPathLength > baseRange * 2) continue;
+
+            Direction normalDir = getBestNormalDirection(level, candidate, senderEye, targetPos);
+            double incidentAngle = calculateIncidentAngle(senderEye, blockCenter, normalDir);
+            if (incidentAngle < MIN_INCIDENT_ANGLE) continue;
+
+            double absorption1;
+            double absorption2;
+            AttenuationResult detail1 = null;
+            AttenuationResult detail2 = null;
+
+            if (detailedDebug) {
+                detail1 = calculateSignalAttenuationDetailed(level, senderEye, blockCenter, baseRange);
+                detail2 = calculateSignalAttenuationDetailed(level, blockCenter, targetPos, baseRange);
+                absorption1 = detail1.totalAbsorption;
+                absorption2 = detail2.totalAbsorption;
+                if (detail1.blockedByImpenetrable || detail2.blockedByImpenetrable) continue;
+            } else {
+                absorption1 = calculateSignalAttenuation(level, senderEye, blockCenter, baseRange);
+                absorption2 = calculateSignalAttenuation(level, blockCenter, targetPos, baseRange);
+                if (absorption1 > baseRange || absorption2 > baseRange) continue;
+            }
+
+            double totalAbsorption = absorption1 + absorption2;
+            if (totalAbsorption >= baseRange) continue;
+
+            double effectiveRangeAfterReflection = (baseRange - totalAbsorption) * (reflection / 100.0);
+            if (effectiveRangeAfterReflection < totalPathLength) continue;
+
+            double distanceFactor = 1.0 - Math.min(1.0, totalPathLength / maxPossibleDistance);
+            double angleFactor = incidentAngle / 90.0;
+            double weight = reflection * REFLECTION_WEIGHT_REFLECTION
+                    + distanceFactor * 100.0 * REFLECTION_WEIGHT_DISTANCE
+                    + angleFactor * 100.0 * REFLECTION_WEIGHT_ANGLE;
+
+            if (weight > bestWeight) {
+                bestWeight = weight;
+                bestResult = new ReflectedPathResult(
+                        true, candidate, blockCenter,
+                        totalPathLength, d1, d2,
+                        absorption1, absorption2, totalAbsorption,
+                        reflection, incidentAngle,
+                        effectiveRangeAfterReflection, weight,
+                        normalDir, detail1, detail2, null
+                );
+            }
+        }
+
+        if (bestResult != null) {
+            lastSuccessfulReflectionPos.put(level, bestResult.reflectionPos);
+        }
+
+        if (bestResult == null) {
+            return new ReflectedPathResult(false, null, null, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, null, null, null, "未找到有效的反射点");
+        }
+        return bestResult;
+    }
+
+    public static boolean canSignalReachEyeWithReflection(Level level, Entity sender, Entity target, double baseRange,
+                                                          String senderName, String targetName,
+                                                          Player chatOutputTarget) {
+        if (sender == null || target == null) return false;
+        if (sender.level() != target.level()) return false;
+
+        Vec3 senderEye = sender.position().add(0.0, EYE_HEIGHT_OFFSET, 0.0);
+        Vec3 targetEye = target.position().add(0.0, EYE_HEIGHT_OFFSET, 0.0);
+        double straightDistance = senderEye.distanceTo(targetEye);
+
+        AttenuationResult straightResult = calculateSignalAttenuationDetailed(level, senderEye, targetEye, baseRange);
+        double straightEffective = baseRange - straightResult.totalAbsorption;
+        boolean straightReached = straightEffective >= straightDistance && straightDistance <= baseRange;
+
+        if (straightReached) {
+            if (DEBUG_SIGNAL_ATTENUATION) {
+                printAttenuationDebug(level, senderName, targetName, straightDistance, baseRange,
+                        straightResult, straightEffective, true, "玩家→玩家 (直线)", chatOutputTarget);
+            }
+            return true;
+        }
+
+        ReflectedPathResult reflectionResult = searchReflectionPath(level, senderEye, targetEye, baseRange, DEBUG_SIGNAL_ATTENUATION);
+
+        if (DEBUG_SIGNAL_ATTENUATION) {
+            printReflectionDebug(level, senderName, targetName, straightDistance, baseRange,
+                    straightResult, reflectionResult, "玩家→玩家 (反射)", chatOutputTarget);
+        }
+
+        return reflectionResult.found;
+    }
+
+    public static boolean canSignalReachEyeWithReflection(Level level, Entity sender, BlockPos blockPos, double baseRange,
+                                                          String senderName, String blockName,
+                                                          Player chatOutputTarget) {
+        if (sender == null || blockPos == null) return false;
+
+        Vec3 senderEye = sender.position().add(0.0, EYE_HEIGHT_OFFSET, 0.0);
+        Vec3 blockCenter = new Vec3(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
+        double straightDistance = senderEye.distanceTo(blockCenter);
+
+        AttenuationResult straightResult = calculateSignalAttenuationDetailed(level, senderEye, blockCenter, baseRange);
+        double straightEffective = baseRange - straightResult.totalAbsorption;
+        boolean straightReached = straightEffective >= straightDistance && straightDistance <= baseRange;
+
+        if (straightReached) {
+            if (DEBUG_SIGNAL_ATTENUATION) {
+                printAttenuationDebug(level, senderName, blockName, straightDistance, baseRange,
+                        straightResult, straightEffective, true, "玩家→收音机 (直线)", chatOutputTarget);
+            }
+            return true;
+        }
+
+        ReflectedPathResult reflectionResult = searchReflectionPath(level, senderEye, blockCenter, baseRange, DEBUG_SIGNAL_ATTENUATION);
+
+        if (DEBUG_SIGNAL_ATTENUATION) {
+            printReflectionDebug(level, senderName, blockName, straightDistance, baseRange,
+                    straightResult, reflectionResult, "玩家→收音机 (反射)", chatOutputTarget);
+        }
+
+        return reflectionResult.found;
+    }
+
+    private static void printReflectionDebug(Level level, String senderName, String targetName,
+                                             double straightDistance, double baseRange,
+                                             AttenuationResult straightResult, ReflectedPathResult reflectionResult,
+                                             String mode, Player chatTarget) {
+        StringBuilder logBuilder = new StringBuilder();
+        logBuilder.append("[SignalReflection] 模式=").append(mode);
+        logBuilder.append(", 发送者=").append(senderName);
+        logBuilder.append(", 接收者=").append(targetName);
+        logBuilder.append("\n  直线距离: ").append(String.format("%.1f", straightDistance)).append(" 格");
+        logBuilder.append("\n  基础传播距离: ").append(String.format("%.0f", baseRange)).append(" 格");
+        logBuilder.append("\n  直线总吸收: ").append(String.format("%.2f", straightResult.totalAbsorption));
+        logBuilder.append("  直线有效距离: ").append(String.format("%.2f", baseRange - straightResult.totalAbsorption));
+
+        if (reflectionResult == null || !reflectionResult.found) {
+            logBuilder.append("\n  ★ 直线被阻挡，未找到有效的反射路径 → 信号丢失 ✗");
+            if (reflectionResult != null && reflectionResult.blockedReason != null) {
+                logBuilder.append(" (原因: ").append(reflectionResult.blockedReason).append(")");
+            }
+            BroadcastRadio.LOGGER.info(logBuilder.toString());
+            if (chatTarget != null) {
+                chatTarget.sendSystemMessage(Component.literal("§6======== [信号反射调试] ========"));
+                chatTarget.sendSystemMessage(Component.literal("§7模式: §f" + mode));
+                chatTarget.sendSystemMessage(Component.literal("§7直线距离: §f" + String.format("%.1f", straightDistance) + "  §7| 直线有效: §c" + String.format("%.2f", baseRange - straightResult.totalAbsorption)));
+                chatTarget.sendSystemMessage(Component.literal("§c✗ 直线被阻挡，未找到有效的反射路径"));
+                if (reflectionResult != null && reflectionResult.blockedReason != null) {
+                    chatTarget.sendSystemMessage(Component.literal("§7  原因: " + reflectionResult.blockedReason));
+                }
+                chatTarget.sendSystemMessage(Component.literal("§6================================"));
+            }
+            return;
+        }
+
+        ReflectedPathResult r = reflectionResult;
+        logBuilder.append("\n  ★ 直线被阻挡，尝试反射路径:");
+        logBuilder.append("\n    反射点: (").append(r.reflectionPos.getX())
+                .append(", ").append(r.reflectionPos.getY())
+                .append(", ").append(r.reflectionPos.getZ()).append(")");
+        logBuilder.append("\n    反射能力: ").append(String.format("%.0f%%", r.reflectionValue));
+        logBuilder.append("\n    入射角: ").append(String.format("%.1f°", r.incidentAngle));
+        logBuilder.append("  法线方向: ").append(r.normalDirection != null ? r.normalDirection.name() : "未知");
+        logBuilder.append("\n    路径1 (发送→反射): ").append(String.format("%.1f", r.d1))
+                .append(" 格, 吸收: ").append(String.format("%.2f", r.absorption1));
+        logBuilder.append("\n    路径2 (反射→接收): ").append(String.format("%.1f", r.d2))
+                .append(" 格, 吸收: ").append(String.format("%.2f", r.absorption2));
+        logBuilder.append("\n    总路径长度: ").append(String.format("%.1f", r.totalPathLength)).append(" 格");
+        logBuilder.append("\n    反射后有效距离: ").append(String.format("%.2f", r.effectiveRangeAfterReflection))
+                .append(" 格 (权重: ").append(String.format("%.2f", r.weight)).append(")");
+        logBuilder.append("\n  结果: 信号通过反射到达 ✓");
+
+        BroadcastRadio.LOGGER.info(logBuilder.toString());
+
+        if (chatTarget != null) {
+            chatTarget.sendSystemMessage(Component.literal("§6======== [信号反射调试] ========"));
+            chatTarget.sendSystemMessage(Component.literal("§7模式: §f" + mode));
+            chatTarget.sendSystemMessage(Component.literal("§7直线距离: §f" + String.format("%.1f", straightDistance)
+                    + "  §7| 直线有效: §c" + String.format("%.2f", baseRange - straightResult.totalAbsorption)));
+            chatTarget.sendSystemMessage(Component.literal("§e★ 直线被阻挡，通过反射到达！"));
+            chatTarget.sendSystemMessage(Component.literal("§7反射点: §f(" + r.reflectionPos.getX() + ", " + r.reflectionPos.getY() + ", " + r.reflectionPos.getZ() + ")"));
+            chatTarget.sendSystemMessage(Component.literal("§7反射能力: §f" + String.format("%.0f%%", r.reflectionValue)
+                    + "  §7| 入射角: §f" + String.format("%.1f°", r.incidentAngle)
+                    + "  §7| 法线: §f" + (r.normalDirection != null ? r.normalDirection.name() : "未知")));
+            chatTarget.sendSystemMessage(Component.literal(String.format("§7发送→反射: §f%.1f格 (吸收%.2f)  §7| 反射→接收: §f%.1f格 (吸收%.2f)",
+                    r.d1, r.absorption1, r.d2, r.absorption2)));
+            chatTarget.sendSystemMessage(Component.literal(String.format("§7总路径: §f%.1f格  §7| 反射后有效: §a%.2f格  §7| 权重: §f%.2f",
+                    r.totalPathLength, r.effectiveRangeAfterReflection, r.weight)));
+            chatTarget.sendSystemMessage(Component.literal("§a结果: ✓ 信号通过反射成功到达"));
+            chatTarget.sendSystemMessage(Component.literal("§6================================"));
+        }
+    }
+
     private static void printAttenuationDebug(Level level, String senderName, String targetName,
                                               double straightDistance, double baseRange,
                                               AttenuationResult result, double effectiveRange,
@@ -481,7 +869,7 @@ public class CommunicationUtils {
                     BlockState blockState = level.getBlockState(checkPos);
                     if (!blockState.isAir()) {
                         if (blockState.getBlock() instanceof bili.dongsz.broadcastradio.block.SimpleRadioBlock) {
-                            if (!canSignalReachEyeToBlock(level, sender, checkPos, baseRange,
+                            if (!canSignalReachEyeWithReflection(level, sender, checkPos, baseRange,
                                     senderName, "收音机@(" + checkPos.getX() + "," + checkPos.getY() + "," + checkPos.getZ() + ")",
                                     chatOutputTarget)) continue;
 
