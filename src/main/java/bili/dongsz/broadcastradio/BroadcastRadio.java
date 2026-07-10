@@ -14,6 +14,7 @@ import bili.dongsz.broadcastradio.registry.ModCreativeModeTabs;
 import bili.dongsz.broadcastradio.registry.ModItems;
 import bili.dongsz.broadcastradio.registry.ModMenus;
 import bili.dongsz.broadcastradio.utils.AbsorptionManager;
+import bili.dongsz.broadcastradio.utils.ReflectionManager;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -101,5 +102,8 @@ public class BroadcastRadio {
         AbsorptionManager.loadFromResources(event.getServer());
         LOGGER.info("[BroadcastRadio] Absorption values loaded: {} entries, default {}",
                 AbsorptionManager.getAbsorptionMapSize(), AbsorptionManager.getDefaultAbsorption());
+        ReflectionManager.loadFromResources(event.getServer());
+        LOGGER.info("[BroadcastRadio] Reflection values loaded: {} entries, default {}",
+                ReflectionManager.getReflectionMapSize(), ReflectionManager.getDefaultReflection());
     }
 }
