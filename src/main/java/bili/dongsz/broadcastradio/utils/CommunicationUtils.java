@@ -5,10 +5,13 @@ import bili.dongsz.broadcastradio.block.entity.SimpleRadioBlockEntity;
 import bili.dongsz.broadcastradio.block.entity.SimpleSignalJammerBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -1168,12 +1171,14 @@ public class CommunicationUtils {
 
     public static void sendHarmonicMessageToPlayer(Player player, String senderName, float frequency,
                                                     String message, int harmonicOrder) {
-        String prefix = "[谐波" + harmonicOrder + "次] ";
+        Component prefixComponent = Component.translatable("item.broadcast_radio.harmonic.prefix", String.valueOf(harmonicOrder));
+        Component messageComponent = Component.literal(message);
+        Component combinedMessage = prefixComponent.copy().append(messageComponent);
         Component radioMessage = Component.translatable(
                 "item.broadcast_radio.walkie_talkie.message",
                 senderName,
                 String.format("%.1f", frequency),
-                prefix + message
+                combinedMessage
         ).withStyle(net.minecraft.ChatFormatting.GRAY);
         player.sendSystemMessage(radioMessage);
     }
@@ -1258,6 +1263,114 @@ public class CommunicationUtils {
             }
         }
         return sb.toString();
+    }
+
+    public static boolean checkAnyWalkieTalkieFrequency(
+            ItemStack stack, ServerPlayer target, String senderName,
+            float senderFreq, String senderPwd, String messageContent,
+            int senderInterference, Level level, int harmonicOrder, Entity sender,
+            double baseRange, boolean isEncryptedSender) {
+
+        if (stack == null || stack.isEmpty()) return false;
+
+        boolean isPortable = stack.getItem() instanceof bili.dongsz.broadcastradio.item.PortableWalkieTalkieItem;
+        boolean isEncrypted = stack.getItem() instanceof bili.dongsz.broadcastradio.item.EncryptedWalkieTalkieItem;
+
+        if (!isPortable && !isEncrypted) return false;
+
+        CompoundTag targetTag;
+        float targetFreq;
+        String targetPwd;
+        int targetNBTInterference;
+
+        if (isPortable) {
+            bili.dongsz.broadcastradio.item.PortableWalkieTalkieItem.initNBT(stack);
+            targetTag = stack.getTag();
+            targetFreq = targetTag.getFloat(bili.dongsz.broadcastradio.item.PortableWalkieTalkieItem.TAG_FREQUENCY);
+            targetPwd = targetTag.getString(bili.dongsz.broadcastradio.item.PortableWalkieTalkieItem.TAG_PASSWORD);
+            targetNBTInterference = targetTag.getInt(bili.dongsz.broadcastradio.item.PortableWalkieTalkieItem.TAG_INTERFERENCE);
+        } else {
+            bili.dongsz.broadcastradio.item.EncryptedWalkieTalkieItem.initNBT(stack);
+            targetTag = stack.getTag();
+            targetFreq = targetTag.getFloat(bili.dongsz.broadcastradio.item.EncryptedWalkieTalkieItem.TAG_FREQUENCY);
+            targetPwd = targetTag.getString(bili.dongsz.broadcastradio.item.EncryptedWalkieTalkieItem.TAG_PASSWORD);
+            targetNBTInterference = targetTag.getInt(bili.dongsz.broadcastradio.item.EncryptedWalkieTalkieItem.TAG_INTERFERENCE);
+        }
+
+        boolean freqMatch;
+        if (harmonicOrder <= 1) {
+            freqMatch = isFrequencyMatch(targetFreq, senderFreq);
+        } else {
+            float expectedFreq = senderFreq * (float) harmonicOrder;
+            freqMatch = isFrequencyMatch(targetFreq, expectedFreq);
+        }
+
+        if (!freqMatch) return false;
+
+        String displayMessage;
+        int totalInterference = Math.max(senderInterference, targetNBTInterference);
+
+        if (isEncrypted) {
+            if (targetPwd.equals(senderPwd)) {
+                displayMessage = messageContent;
+            } else {
+                int matchCount = 0;
+                int minLen = Math.min(targetPwd.length(), senderPwd.length());
+                for (int i = 0; i < minLen; i++) {
+                    if (targetPwd.charAt(i) == senderPwd.charAt(i)) {
+                        matchCount++;
+                    }
+                }
+
+                if (matchCount == 2) {
+                    displayMessage = messageContent;
+                } else if (matchCount == 1) {
+                    displayMessage = generateGarbledText(messageContent, 1.0 / 6.0);
+                } else {
+                    displayMessage = generateGarbledText(messageContent, 0.0);
+                }
+            }
+        } else {
+            if (targetPwd.equals(senderPwd)) {
+                displayMessage = messageContent;
+            } else {
+                return false;
+            }
+        }
+
+        displayMessage = applyInterference(displayMessage, totalInterference, level);
+
+        if (harmonicOrder <= 1) {
+            sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
+        } else {
+            sendHarmonicMessageToPlayer(target, senderName, targetFreq, displayMessage, harmonicOrder);
+        }
+        return true;
+    }
+
+    public static boolean checkPlayerAnyWalkieTalkie(
+            ServerPlayer target, String senderName, float senderFreq,
+            String senderPwd, String messageContent, int senderInterference,
+            Level level, int harmonicOrder, Entity sender, double baseRange, boolean isEncryptedSender) {
+
+        ItemStack mainHandStack = target.getMainHandItem();
+        if (checkAnyWalkieTalkieFrequency(mainHandStack, target, senderName, senderFreq, senderPwd,
+                messageContent, senderInterference, level, harmonicOrder, sender, baseRange, isEncryptedSender)) {
+            return true;
+        }
+        ItemStack offHandStack = target.getOffhandItem();
+        if (checkAnyWalkieTalkieFrequency(offHandStack, target, senderName, senderFreq, senderPwd,
+                messageContent, senderInterference, level, harmonicOrder, sender, baseRange, isEncryptedSender)) {
+            return true;
+        }
+        for (ItemStack targetStack : target.getInventory().items) {
+            if (checkAnyWalkieTalkieFrequency(targetStack, target, senderName, senderFreq, senderPwd,
+                    messageContent, senderInterference, level, harmonicOrder, sender, baseRange, isEncryptedSender)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public static int getWeatherInterference(Level level) {

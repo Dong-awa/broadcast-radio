@@ -297,32 +297,37 @@ public class EncryptedWalkieTalkieItem extends Item {
             ).withStyle(ChatFormatting.GREEN);
             sender.sendSystemMessage(selfMessage);
 
+            // ============ 谐波功能 ============
+            boolean harmonicEnabled = bili.dongsz.broadcastradio.utils.ReflectionManager.isHarmonicEnabled();
+            int maxOrder = bili.dongsz.broadcastradio.utils.ReflectionManager.getMaxHarmonicOrder();
+
             for (ServerPlayer target : sender.getServer().getPlayerList().getPlayers()) {
                 if (target instanceof FakePlayer) continue;
 
-                if (!CommunicationUtils.canSignalReachEyeWithReflection(sender.level(), sender, target, COMMUNICATION_RANGE,
+                // ---------- 主频率检查 ----------
+                if (CommunicationUtils.canSignalReachEyeWithReflection(sender.level(), sender, target, COMMUNICATION_RANGE,
                         sender.getName().getString(), target.getName().getString(), sender)) {
-                    continue;
+                    if (target != sender) {
+                        CommunicationUtils.checkPlayerAnyWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender.level(), 1, sender, COMMUNICATION_RANGE, true);
+                    }
+
+                    CommunicationUtils.checkPlayerNearRadio(target, sender, COMMUNICATION_RANGE, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender);
                 }
 
-                if (target != sender) {
-                    checkPlayerEncryptedWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender.level(), 1);
-                }
-
-                CommunicationUtils.checkPlayerNearRadio(target, sender, COMMUNICATION_RANGE, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender);
-
-                if (bili.dongsz.broadcastradio.utils.ReflectionManager.isHarmonicEnabled()) {
-                    int maxOrder = bili.dongsz.broadcastradio.utils.ReflectionManager.getMaxHarmonicOrder();
+                // ---------- 谐波检查 ----------
+                if (harmonicEnabled) {
                     for (int n = 2; n <= maxOrder; n++) {
                         float harmonicFreq = CommunicationUtils.getHarmonicFrequency(senderFreq, n);
                         double harmonicRange = CommunicationUtils.getHarmonicRange(COMMUNICATION_RANGE, n);
+
                         if (!CommunicationUtils.canSignalReachEyeWithReflection(sender.level(), sender, target, harmonicRange,
                                 sender.getName().getString(), target.getName().getString(), sender)) {
                             continue;
                         }
+
                         int harmonicInterference = Math.min(100, senderEffectiveInterference + (n - 1) * 5);
                         if (target != sender) {
-                            checkPlayerEncryptedWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, harmonicInterference, sender.level(), n);
+                            CommunicationUtils.checkPlayerAnyWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, harmonicInterference, sender.level(), n, sender, COMMUNICATION_RANGE, true);
                         }
                         CommunicationUtils.checkPlayerNearRadioHarmonic(target, sender, harmonicRange, sender.getName().getString(), senderFreq, senderPwd, messageContent, harmonicInterference, sender, n);
                     }
@@ -331,83 +336,6 @@ public class EncryptedWalkieTalkieItem extends Item {
 
             event.setCanceled(true);
             sender.getPersistentData().remove(BroadcastRadio.MOD_ID + "_using_encrypted_walkie");
-        }
-
-        private static boolean checkPlayerEncryptedWalkieTalkie(ServerPlayer target, String senderName, float senderFreq, String senderPwd, String messageContent, int senderInterference, Level level, int harmonicOrder) {
-            int jammerAtTarget = CommunicationUtils.getJammerInterference(target.level(), target.blockPosition(), senderFreq);
-            int effectiveSenderInterference = Math.max(senderInterference, jammerAtTarget);
-
-            ItemStack mainHandStack = target.getMainHandItem();
-            if (checkEncryptedWalkieTalkieFrequency(mainHandStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level, harmonicOrder)) {
-                return true;
-            }
-
-            ItemStack offHandStack = target.getOffhandItem();
-            if (checkEncryptedWalkieTalkieFrequency(offHandStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level, harmonicOrder)) {
-                return true;
-            }
-
-            for (ItemStack targetStack : target.getInventory().items) {
-                if (checkEncryptedWalkieTalkieFrequency(targetStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level, harmonicOrder)) {
-                    return true;
-                }
-            }
-            
-            return false;
-        }
-        
-        private static boolean checkEncryptedWalkieTalkieFrequency(ItemStack stack, ServerPlayer target, String senderName, float senderFreq, String senderPwd, String messageContent, int senderInterference, Level level, int harmonicOrder) {
-            if (stack.getItem() instanceof EncryptedWalkieTalkieItem) {
-                initNBT(stack);
-                CompoundTag targetTag = stack.getTag();
-                float targetFreq = targetTag.getFloat(TAG_FREQUENCY);
-                String targetPwd = targetTag.getString(TAG_PASSWORD);
-                int targetInterference = targetTag.getInt(TAG_INTERFERENCE);
-
-                boolean freqMatch;
-                float displayFreq;
-                int displayHarmonic = harmonicOrder;
-                if (harmonicOrder <= 1) {
-                    freqMatch = CommunicationUtils.isFrequencyMatch(targetFreq, senderFreq);
-                    displayFreq = senderFreq;
-                } else {
-                    float expectedFreq = senderFreq * (float) harmonicOrder;
-                    freqMatch = CommunicationUtils.isFrequencyMatch(targetFreq, expectedFreq);
-                    displayFreq = targetFreq;
-                }
-
-                if (freqMatch) {
-                    String displayMessage;
-                    if (targetPwd.equals(senderPwd)) {
-                        displayMessage = messageContent;
-                    } else {
-                        int matchCount = 0;
-                        int minLen = Math.min(targetPwd.length(), senderPwd.length());
-                        for (int i = 0; i < minLen; i++) {
-                            if (targetPwd.charAt(i) == senderPwd.charAt(i)) {
-                                matchCount++;
-                            }
-                        }
-                        
-                        if (matchCount == 2) {
-                            displayMessage = messageContent;
-                        } else if (matchCount == 1) {
-                            displayMessage = CommunicationUtils.generateGarbledText(messageContent, 1.0 / 6.0);
-                        } else {
-                            displayMessage = CommunicationUtils.generateGarbledText(messageContent, 0.0);
-                        }
-                    }
-                    int totalInterference = Math.max(senderInterference, targetInterference);
-                    displayMessage = CommunicationUtils.applyInterference(displayMessage, totalInterference, level);
-                    if (displayHarmonic <= 1) {
-                        CommunicationUtils.sendMessageToPlayer(target, senderName, displayFreq, displayMessage);
-                    } else {
-                        CommunicationUtils.sendHarmonicMessageToPlayer(target, senderName, displayFreq, displayMessage, displayHarmonic);
-                    }
-                    return true;
-                }
-            }
-            return false;
         }
     }
 }
