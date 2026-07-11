@@ -1,120 +1,362 @@
-[107月2026 23:45:59.134] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeclientuserdev, --version, MOD_DEV, --assetIndex, 5, --assetsDir, H:\MCMOD\Hexcolorblocks\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.4.18, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412]
-[107月2026 23:45:59.137] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.18 by Microsoft; OS Windows 10 arch amd64 version 10.0
-[107月2026 23:45:59.217] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: Loading ImmediateWindowProvider fmlearlywindow
-[107月2026 23:45:59.281] [main/INFO] [EARLYDISPLAY/]: Trying GL version 4.6
-[107月2026 23:45:59.449] [main/INFO] [EARLYDISPLAY/]: Requested GL version 4.6 got version 4.6
-[107月2026 23:45:59.516] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/H:/MCMOD/Hexcolorblocks/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
-[107月2026 23:45:59.560] [pool-2-thread-1/INFO] [EARLYDISPLAY/]: GL info: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2 GL version 4.6.0 NVIDIA 596.36, NVIDIA Corporation
-[107月2026 23:45:59.760] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.4.18\b526bd87f2544dda5b1348fb2a5047f230e5e679\javafmllanguage-1.20.1-47.4.18.jar is missing mods.toml file
-[107月2026 23:45:59.762] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.4.18\312c78291744fbc826551ff8431a9c42e26493f3\lowcodelanguage-1.20.1-47.4.18.jar is missing mods.toml file
-[107月2026 23:45:59.764] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.4.18\f6a2d32cb3b5b54788432adafe8b11c99abaf7bd\mclanguage-1.20.1-47.4.18.jar is missing mods.toml file
-[107月2026 23:45:59.767] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.4.18\942bd5bf4be190a3681fa76f09d9c14e2434adf9\fmlcore-1.20.1-47.4.18.jar is missing mods.toml file
-[107月2026 23:45:59.820] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
-[107月2026 23:46:00.702] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeclientuserdev' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, H:\MCMOD\Hexcolorblocks\caches\forge_gradle\assets, --assetIndex, 5]
-[107月2026 23:46:03.103] [Datafixer Bootstrap/INFO] [com.mojang.datafixers.DataFixerBuilder/]: 188 Datafixer optimizations took 72 milliseconds
-[107月2026 23:46:04.205] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/H:/MCMOD/Hexcolorblocks/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.18_mapped_official_1.20.1/forge-1.20.1-47.4.18_mapped_official_1.20.1.jar%23191!/assets/.mcassetsroot' uses unexpected schema
-[107月2026 23:46:04.205] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/H:/MCMOD/Hexcolorblocks/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.18_mapped_official_1.20.1/forge-1.20.1-47.4.18_mapped_official_1.20.1.jar%23191!/data/.mcassetsroot' uses unexpected schema
-[107月2026 23:46:04.214] [Render thread/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
-[107月2026 23:46:04.218] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
-[107月2026 23:46:04.269] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.3.1 build 7
-[107月2026 23:46:04.456] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.4.18, for MC 1.20.1 with MCP 20230612.114412
-[107月2026 23:46:04.459] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.4.18 Initialized
-[107月2026 23:46:04.982] [Render thread/INFO] [net.minecraftforge.gametest.ForgeGameTestHooks/]: Enabled Gametest Namespaces: [broadcast_radio]
-[107月2026 23:46:05.049] [Render thread/INFO] [net.minecraft.server.packs.resources.ReloadableResourceManager/]: Reloading ResourceManager: vanilla, mod_resources
-[107月2026 23:46:05.111] [Worker-Main-3/INFO] [net.minecraft.client.gui.font.providers.UnihexProvider/]: Found unifont_all_no_pua-15.0.06.hex, loading
-[107月2026 23:46:05.152] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
-[107月2026 23:46:05.159] [Worker-Main-7/ERROR] [net.minecraft.Util/]: Invalid path in pack: broadcast_radio:textures/block/simple_radio_block/WHY.txt, ignoring
-[107月2026 23:46:05.299] [Worker-Main-8/WARN] [net.minecraft.client.renderer.texture.SpriteLoader/]: Texture broadcast_radio:item/circuit_board with size 157x157 limits mip level from 4 to 0
-[107月2026 23:46:06.019] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: OUTDATED Current: 47.4.18 Target: 47.4.21
-[107月2026 23:46:06.756] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:item.goat_horn.play
-[107月2026 23:46:06.756] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:entity.goat.screaming.horn_break
-[107月2026 23:46:06.803] [Render thread/INFO] [com.mojang.blaze3d.audio.Library/]: OpenAL initialized on device OpenAL Soft on 扬声器 (High Definition Audio Device)
-[107月2026 23:46:06.803] [Render thread/INFO] [net.minecraft.client.sounds.SoundEngine/SOUNDS]: Sound engine started
-[107月2026 23:46:06.867] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/blocks.png-atlas
-[107月2026 23:46:06.872] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/signs.png-atlas
-[107月2026 23:46:06.873] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
-[107月2026 23:46:06.873] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
-[107月2026 23:46:06.873] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/armor_trims.png-atlas
-[107月2026 23:46:06.875] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
-[107月2026 23:46:06.876] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x64x4 minecraft:textures/atlas/decorated_pot.png-atlas
-[107月2026 23:46:06.876] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
-[107月2026 23:46:06.876] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
-[107月2026 23:46:07.050] [Render thread/WARN] [net.minecraft.client.renderer.ShaderInstance/]: Shader rendertype_entity_translucent_emissive could not find sampler named Sampler2 in the specified shader program.
-[107月2026 23:46:07.082] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
-[107月2026 23:46:07.083] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
-[107月2026 23:46:07.083] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
-[107月2026 23:46:08.615] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: java.lang.RuntimeException: Failed to parse into SignedJWT: 0
-[107月2026 23:46:10.749] [Render thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this CLIENT instance
-[107月2026 23:46:11.720] [Render thread/INFO] [net.minecraft.world.item.crafting.RecipeManager/]: Loaded 7 recipes
-[107月2026 23:46:11.792] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 1271 advancements
-[107月2026 23:46:12.077] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Starting integrated minecraft server version 1.20.1
-[107月2026 23:46:12.077] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Generating keypair
-[107月2026 23:46:12.273] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
-[107月2026 23:46:13.432] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
-[107月2026 23:46:13.432] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
-[107月2026 23:46:13.432] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
-[107月2026 23:46:13.792] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：33%
-[107月2026 23:46:13.883] [Server thread/INFO] [net.minecraftforge.server.permission.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
-[107月2026 23:46:13.886] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Loaded 762 block absorption values (default=3)
-[107月2026 23:46:13.886] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Absorption values loaded: 762 entries, default 3
-[107月2026 23:46:13.888] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Loaded 762 block reflection values (default=15)
-[107月2026 23:46:13.888] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Reflection values loaded: 762 entries, default 15
-[107月2026 23:46:13.898] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 1606 ms
-[107月2026 23:46:13.975] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing view distance to 12, from 10
-[107月2026 23:46:13.977] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing simulation distance to 12, from 0
-[107月2026 23:46:14.046] [Render thread/WARN] [io.netty.util.internal.SystemPropertyUtil/]: Unable to parse the boolean system property 'java.net.preferIPv6Addresses':system - using the default value: false
-[107月2026 23:46:14.407] [Netty Local Client IO #0/INFO] [net.minecraftforge.network.NetworkHooks/]: Connected to a modded server.
-[107月2026 23:46:14.443] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: Dev[local:E:4f7113e6] logged in with entity id 24 at (-72.51943507603168, -60.0, 23.69999998807907)
-[107月2026 23:46:14.488] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev加入了游戏
-[107月2026 23:46:15.147] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 131 advancements
-[107月2026 23:46:40.439] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
-[107月2026 23:46:40.469] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
-[107月2026 23:46:40.484] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
-[107月2026 23:46:40.485] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
-[107月2026 23:46:43.539] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
-[107月2026 23:46:43.556] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
-[107月2026 23:46:43.566] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
-[107月2026 23:46:43.567] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
-[107月2026 23:47:54.235] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
-[107月2026 23:47:55.969] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [88.5 MHz] 我：1
-[107月2026 23:47:59.539] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
-[107月2026 23:47:59.567] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
-[107月2026 23:47:59.573] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
-[107月2026 23:47:59.575] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
-[107月2026 23:48:47.338] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
-[107月2026 23:48:47.344] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
-[107月2026 23:48:47.353] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
-[107月2026 23:48:47.354] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
-[107月2026 23:49:34.138] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
-[107月2026 23:49:34.147] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
-[107月2026 23:49:34.159] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
-[107月2026 23:49:34.160] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
-[107月2026 23:49:44.419] [Render thread/INFO] [net.minecraft.server.network.ServerConnectionListener/]: Using default channel type
-[107月2026 23:49:44.434] [Render thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Started serving on 60505
-[107月2026 23:49:44.448] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 本地游戏已在端口[60505]上开启
-[107月2026 23:49:48.665] [User Authenticator #1/INFO] [net.minecraft.server.network.ServerLoginPacketListenerImpl/]: UUID of player DDbox_awa is 636608e7-b930-4547-b683-1630fda86399
-[107月2026 23:49:50.050] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: DDbox_awa[/[240e:351:5042:d7f0:34aa:ea4a:f8f8:2f5f]:60514] logged in with entity id 56 at (-75.56817138785301, -42.51236613800301, 110.29782612943151)
-[107月2026 23:49:50.058] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: DDbox_awa加入了游戏
-[107月2026 23:49:50.063] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] DDbox_awa加入了游戏
-[107月2026 23:52:58.071] [IO-Worker-17/INFO] [net.minecraft.client.sounds.SoundEngine/]: System default audio device has changed!
-[107月2026 23:52:58.120] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:item.goat_horn.play
-[107月2026 23:52:58.120] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:entity.goat.screaming.horn_break
-[107月2026 23:52:58.296] [Render thread/INFO] [com.mojang.blaze3d.audio.Library/]: OpenAL initialized on device OpenAL Soft on 扬声器 (USB PnP Audio Device)
-[107月2026 23:52:58.296] [Render thread/INFO] [net.minecraft.client.sounds.SoundEngine/SOUNDS]: Sound engine started
-[107月2026 23:57:22.491] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: DDbox_awa lost connection: 连接中断
-[107月2026 23:57:22.491] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: DDbox_awa退出了游戏
-[107月2026 23:57:22.504] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] DDbox_awa退出了游戏
-[107月2026 23:57:25.941] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev lost connection: 连接中断
-[107月2026 23:57:25.941] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev退出了游戏
-[107月2026 23:57:25.947] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Stopping singleplayer server as player logged out
-[107月2026 23:57:25.989] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
-[107月2026 23:57:25.989] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
-[107月2026 23:57:25.989] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
-[107月2026 23:57:26.066] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
-[107月2026 23:57:26.082] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
-[107月2026 23:57:26.083] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
-[107月2026 23:57:26.094] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (test): All chunks are saved
-[107月2026 23:57:26.094] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
-[107月2026 23:57:26.094] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
-[107月2026 23:57:26.094] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
-[107月2026 23:57:27.032] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+[117月2026 13:53:43.717] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeclientuserdev, --version, MOD_DEV, --assetIndex, 5, --assetsDir, H:\MCMOD\Hexcolorblocks\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.4.18, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412]
+[117月2026 13:53:43.721] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.18 by Microsoft; OS Windows 10 arch amd64 version 10.0
+[117月2026 13:53:43.821] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: Loading ImmediateWindowProvider fmlearlywindow
+[117月2026 13:53:43.890] [main/INFO] [EARLYDISPLAY/]: Trying GL version 4.6
+[117月2026 13:53:44.064] [main/INFO] [EARLYDISPLAY/]: Requested GL version 4.6 got version 4.6
+[117月2026 13:53:44.134] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/H:/MCMOD/Hexcolorblocks/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
+[117月2026 13:53:44.166] [pool-2-thread-1/INFO] [EARLYDISPLAY/]: GL info: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2 GL version 4.6.0 NVIDIA 596.36, NVIDIA Corporation
+[117月2026 13:53:44.421] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.4.18\b526bd87f2544dda5b1348fb2a5047f230e5e679\javafmllanguage-1.20.1-47.4.18.jar is missing mods.toml file
+[117月2026 13:53:44.424] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.4.18\312c78291744fbc826551ff8431a9c42e26493f3\lowcodelanguage-1.20.1-47.4.18.jar is missing mods.toml file
+[117月2026 13:53:44.425] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.4.18\f6a2d32cb3b5b54788432adafe8b11c99abaf7bd\mclanguage-1.20.1-47.4.18.jar is missing mods.toml file
+[117月2026 13:53:44.427] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.4.18\942bd5bf4be190a3681fa76f09d9c14e2434adf9\fmlcore-1.20.1-47.4.18.jar is missing mods.toml file
+[117月2026 13:53:44.480] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
+[117月2026 13:53:45.545] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeclientuserdev' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, H:\MCMOD\Hexcolorblocks\caches\forge_gradle\assets, --assetIndex, 5]
+[117月2026 13:53:48.168] [Datafixer Bootstrap/INFO] [com.mojang.datafixers.DataFixerBuilder/]: 188 Datafixer optimizations took 95 milliseconds
+[117月2026 13:53:49.534] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/H:/MCMOD/Hexcolorblocks/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.18_mapped_official_1.20.1/forge-1.20.1-47.4.18_mapped_official_1.20.1.jar%23191!/assets/.mcassetsroot' uses unexpected schema
+[117月2026 13:53:49.535] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/H:/MCMOD/Hexcolorblocks/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.18_mapped_official_1.20.1/forge-1.20.1-47.4.18_mapped_official_1.20.1.jar%23191!/data/.mcassetsroot' uses unexpected schema
+[117月2026 13:53:49.546] [Render thread/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[117月2026 13:53:49.550] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
+[117月2026 13:53:49.608] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.3.1 build 7
+[117月2026 13:53:49.797] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.4.18, for MC 1.20.1 with MCP 20230612.114412
+[117月2026 13:53:49.799] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.4.18 Initialized
+[117月2026 13:53:50.483] [Render thread/INFO] [net.minecraftforge.gametest.ForgeGameTestHooks/]: Enabled Gametest Namespaces: [broadcast_radio]
+[117月2026 13:53:50.594] [Render thread/INFO] [net.minecraft.server.packs.resources.ReloadableResourceManager/]: Reloading ResourceManager: vanilla, mod_resources
+[117月2026 13:53:50.716] [Worker-Main-9/INFO] [net.minecraft.client.gui.font.providers.UnihexProvider/]: Found unifont_all_no_pua-15.0.06.hex, loading
+[117月2026 13:53:50.755] [Worker-Main-2/ERROR] [net.minecraft.Util/]: Invalid path in pack: broadcast_radio:textures/block/simple_radio_block/WHY.txt, ignoring
+[117月2026 13:53:50.804] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
+[117月2026 13:53:50.887] [Worker-Main-6/WARN] [net.minecraft.client.renderer.texture.SpriteLoader/]: Texture broadcast_radio:item/circuit_board with size 157x157 limits mip level from 4 to 0
+[117月2026 13:53:51.920] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: OUTDATED Current: 47.4.18 Target: 47.4.21
+[117月2026 13:53:52.597] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:item.goat_horn.play
+[117月2026 13:53:52.597] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:entity.goat.screaming.horn_break
+[117月2026 13:53:52.732] [Render thread/INFO] [com.mojang.blaze3d.audio.Library/]: OpenAL initialized on device OpenAL Soft on 扬声器 (USB PnP Audio Device)
+[117月2026 13:53:52.732] [Render thread/INFO] [net.minecraft.client.sounds.SoundEngine/SOUNDS]: Sound engine started
+[117月2026 13:53:52.853] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/blocks.png-atlas
+[117月2026 13:53:52.862] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/signs.png-atlas
+[117月2026 13:53:52.862] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[117月2026 13:53:52.863] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[117月2026 13:53:52.863] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/armor_trims.png-atlas
+[117月2026 13:53:52.865] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x64x4 minecraft:textures/atlas/decorated_pot.png-atlas
+[117月2026 13:53:52.866] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[117月2026 13:53:52.866] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[117月2026 13:53:52.866] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[117月2026 13:53:53.067] [Render thread/WARN] [net.minecraft.client.renderer.ShaderInstance/]: Shader rendertype_entity_translucent_emissive could not find sampler named Sampler2 in the specified shader program.
+[117月2026 13:53:53.111] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[117月2026 13:53:53.112] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[117月2026 13:53:53.113] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[117月2026 13:53:53.727] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: java.lang.RuntimeException: Failed to parse into SignedJWT: 0
+[117月2026 13:54:01.751] [Render thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this CLIENT instance
+[117月2026 13:54:02.980] [Render thread/INFO] [net.minecraft.world.item.crafting.RecipeManager/]: Loaded 7 recipes
+[117月2026 13:54:03.081] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 1271 advancements
+[117月2026 13:54:03.420] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Starting integrated minecraft server version 1.20.1
+[117月2026 13:54:03.420] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Generating keypair
+[117月2026 13:54:03.674] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[117月2026 13:54:05.304] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
+[117月2026 13:54:05.304] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
+[117月2026 13:54:05.304] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
+[117月2026 13:54:05.304] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
+[117月2026 13:54:05.697] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：55%
+[117月2026 13:54:05.928] [Server thread/INFO] [net.minecraftforge.server.permission.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
+[117月2026 13:54:05.930] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Loaded 762 block absorption values (default=3)
+[117月2026 13:54:05.930] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Absorption values loaded: 762 entries, default 3
+[117月2026 13:54:05.936] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 2256 ms
+[117月2026 13:54:05.936] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Loaded 762 block reflection values (default=15), search: maxCandidates=512, axialStep=3, radialStep=3, numRadialDirections=12
+[117月2026 13:54:05.936] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Reflection values loaded: 762 entries, default 15
+[117月2026 13:54:06.088] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing view distance to 12, from 10
+[117月2026 13:54:06.090] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing simulation distance to 12, from 0
+[117月2026 13:54:06.181] [Render thread/WARN] [io.netty.util.internal.SystemPropertyUtil/]: Unable to parse the boolean system property 'java.net.preferIPv6Addresses':system - using the default value: false
+[117月2026 13:54:06.612] [Netty Local Client IO #0/INFO] [net.minecraftforge.network.NetworkHooks/]: Connected to a modded server.
+[117月2026 13:54:06.649] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: Dev[local:E:304ad6ae] logged in with entity id 27 at (-63.223652980320225, -33.0, 16.661536176486127)
+[117月2026 13:54:06.716] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev加入了游戏
+[117月2026 13:54:07.143] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 131 advancements
+[117月2026 13:54:07.350] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
+[117月2026 13:54:07.370] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
+[117月2026 13:54:07.881] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
+[117月2026 13:54:07.882] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
+[117月2026 13:54:08.802] [Render thread/INFO] [net.minecraft.server.network.ServerConnectionListener/]: Using default channel type
+[117月2026 13:54:08.813] [Render thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Started serving on 57464
+[117月2026 13:54:08.830] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 本地游戏已在端口[57464]上开启
+[117月2026 13:54:18.716] [User Authenticator #1/INFO] [net.minecraft.server.network.ServerLoginPacketListenerImpl/]: UUID of player DDbox_awa is 636608e7-b930-4547-b683-1630fda86399
+[117月2026 13:54:20.098] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: DDbox_awa[/[240e:351:5042:d7f0:785c:516:17cb:5fc3]:57474] logged in with entity id 54 at (-62.14411202423128, 7.738292453440733, 42.59747624741758)
+[117月2026 13:54:20.106] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: DDbox_awa加入了游戏
+[117月2026 13:54:20.119] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] DDbox_awa加入了游戏
+[117月2026 13:55:11.704] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [DDbox_awa: 已将Dev传送至DDbox_awa]
+[117月2026 13:55:11.706] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [DDbox_awa: 已将Dev传送至DDbox_awa]
+[117月2026 13:55:46.054] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 距离过滤: 靠近路径=139, 远离路径=1841
+[117月2026 13:55:46.054] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] === Step 1: 搜索范围 ===
+[117月2026 13:55:46.054] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] A(sender)=(-134.30,-58.38,-17.30)
+[117月2026 13:55:46.054] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] B(target)=(-138.08,-58.38,-19.87)
+[117月2026 13:55:46.055] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] AB距离=4.6格, 基础传播距离=256.0格
+[117月2026 13:55:46.055] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 包围盒搜索半径=64, 步长=3
+[117月2026 13:55:46.055] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 检测位置=47520, 表面方块=1980, 候选反射方块=139
+[117月2026 13:55:46.056] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 基岩反射值=0% (默认=15)
+[117月2026 13:55:46.058] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#1 pos=(-152,-61,-27) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-151.000,-60.000,-26.000)
+[117月2026 13:55:46.060] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=true, PB阻挡=false, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:55:46.060] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#2 pos=(-152,-61,-24) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-151.000,-60.000,-23.000)
+[117月2026 13:55:46.061] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=true, PB阻挡=false, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:55:46.061] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#3 pos=(-152,-61,-21) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-151.000,-60.000,-20.000)
+[117月2026 13:55:46.061] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=true, PB阻挡=false, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:55:46.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#4 pos=(-152,-61,-18) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-151.000,-60.000,-18.000)
+[117月2026 13:55:46.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=true, PB阻挡=false, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:55:46.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#5 pos=(-152,-61,-15) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-151.000,-60.000,-15.000)
+[117月2026 13:55:46.063] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=true, PB阻挡=false, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:55:46.063] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#6 pos=(-152,-61,-12) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-151.000,-60.000,-12.000)
+[117月2026 13:55:46.063] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=true, PB阻挡=false, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:55:46.064] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#7 pos=(-152,-61,-9) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-151.000,-60.000,-9.000)
+[117月2026 13:55:46.064] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=true, PB阻挡=false, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:55:46.064] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#8 pos=(-149,-61,-30) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-148.000,-60.000,-29.000)
+[117月2026 13:55:46.067] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   验证: AP=18.1, PB=13.6, Total=31.7, Absorption=1.00, Effective=63.75, Pass=YES
+[117月2026 13:55:46.068] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#9 pos=(-149,-61,-27) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-148.000,-60.000,-26.000)
+[117月2026 13:55:46.068] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=true, PB阻挡=false, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:55:46.068] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#10 pos=(-149,-61,-24) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-148.000,-60.000,-23.000)
+[117月2026 13:55:46.069] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=true, PB阻挡=false, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:55:46.146] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] === Step 2: 汇总结果 ===
+[ReflectionSearch] 候选方块=139, 评估暴露面=139
+[ReflectionSearch] 将军饮马有效=139, 路径太长=0, 吸收超标=0, 路径阻挡=133, 有效距离不足=0, 最终通过=6
+[ReflectionSearch] ★ 最佳反射点: (-131.00,-60.00,-26.00)
+[ReflectionSearch]   方块位置=(-131,-61,-27) 类型=Block{minecraft:grass_block}
+[ReflectionSearch]   反射面=UP, 反射能力=25%
+[ReflectionSearch]   路径: AP=9.4(吸收1.00) + PB=9.5(吸收0.00) = 18.9格
+[ReflectionSearch]   总吸收=1.00, 反射后有效距离=63.75, 权重=41.39
+[ReflectionSearch]   信号通过反射到达 ✓
+[ReflectionSearch]   PB路径追踪(从反射点到B): (-132,-60,-26)Block{minecraft:air} (-133,-60,-26)Block{minecraft:air} (-133,-60,-25)Block{minecraft:air} (-134,-60,-25)Block{minecraft:air} (-134,-60,-24)Block{minecraft:air} (-135,-60,-24)Block{minecraft:air} (-135,-60,-23)Block{minecraft:air} (-136,-60,-23)Block{minecraft:air} (-136,-59,-23)Block{minecraft:air} (-136,-59,-22)Block{minecraft:air} (-137,-59,-22)Block{minecraft:air} (-137,-59,-21)Block{minecraft:air} (-138,-59,-21)Block{minecraft:air} (-139,-59,-20)Block{minecraft:air}
+[117月2026 13:55:46.147] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalReflection] 模式=玩家→玩家 (反射), 发送者=DDbox_awa, 接收者=Dev
+  直线距离: 4.6 格
+  基础传播距离: 256 格
+  直线总吸收: 257.00  直线有效距离: -1.00
+  ★ 直线被阻挡，尝试反射路径:
+    反射点: (-131, -61, -27)
+    反射能力: 25%
+    入射角: 0.0°  法线方向: UP
+    路径1 (发送→反射): 9.4 格, 吸收: 1.00
+    路径2 (反射→接收): 9.5 格, 吸收: 0.00
+    总路径长度: 18.9 格
+    反射后有效距离: 63.75 格 (权重: 41.39)
+  结果: 信号通过反射到达 ✓
+[117月2026 13:55:46.152] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 88.5：1
+[117月2026 13:55:46.174] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家 (直线), 发送者=DDbox_awa, 接收者=DDbox_awa
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[117月2026 13:56:14.132] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: 已将Dev传送至-130.500000, -61.000000, -26.500000]
+[117月2026 13:56:14.142] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 已将Dev传送至-130.500000, -61.000000, -26.500000
+[117月2026 13:56:32.557] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
+[117月2026 13:56:37.982] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: 已将Dev传送至-130.500000, -61.000000, -26.500000]
+[117月2026 13:56:37.995] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 已将Dev传送至-130.500000, -61.000000, -26.500000
+[117月2026 13:56:39.882] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家 (直线), 发送者=Dev, 接收者=Dev
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[117月2026 13:56:39.897] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [88.5 MHz] 我：1
+[117月2026 13:56:39.897] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ======== [信号衰减调试] ========
+[117月2026 13:56:39.897] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 模式: 玩家→玩家 (直线)  | 发送: Dev → 接收: Dev
+[117月2026 13:56:39.897] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 直线距离: 0.0 格  | 基础距离: 256 格
+[117月2026 13:56:39.897] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 总吸收: 0.00  | 有效距离: 256.00 格
+[117月2026 13:56:39.897] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] --- 方块明细 (0 种) ---
+[117月2026 13:56:39.897] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 结果: ✓ 信号成功到达
+[117月2026 13:56:39.897] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ================================
+[117月2026 13:56:40.291] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 距离过滤: 靠近路径=138, 远离路径=1972
+[117月2026 13:56:40.291] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] === Step 1: 搜索范围 ===
+[117月2026 13:56:40.291] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] A(sender)=(-130.50,-59.38,-26.50)
+[117月2026 13:56:40.291] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] B(target)=(-134.30,-58.38,-17.30)
+[117月2026 13:56:40.291] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] AB距离=10.0格, 基础传播距离=256.0格
+[117月2026 13:56:40.291] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 包围盒搜索半径=64, 步长=3
+[117月2026 13:56:40.291] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 检测位置=50760, 表面方块=2110, 候选反射方块=138
+[117月2026 13:56:40.291] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 基岩反射值=0% (默认=15)
+[117月2026 13:56:40.291] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#1 pos=(-148,-61,-37) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-147.000,-60.000,-36.000)
+[117月2026 13:56:40.293] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:40.293] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#2 pos=(-148,-61,-34) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-147.000,-60.000,-33.000)
+[117月2026 13:56:40.294] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:40.294] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#3 pos=(-148,-61,-31) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-147.000,-60.000,-30.000)
+[117月2026 13:56:40.295] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:40.295] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#4 pos=(-148,-61,-28) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-147.000,-60.000,-27.000)
+[117月2026 13:56:40.297] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:40.297] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#5 pos=(-148,-61,-25) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-147.000,-60.000,-24.000)
+[117月2026 13:56:40.298] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:40.298] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#6 pos=(-148,-61,-22) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-147.000,-60.000,-22.000)
+[117月2026 13:56:40.299] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:40.299] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#7 pos=(-148,-61,-19) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-147.000,-60.000,-19.000)
+[117月2026 13:56:40.300] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:40.301] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#8 pos=(-145,-61,-40) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-144.000,-60.000,-39.000)
+[117月2026 13:56:40.301] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:40.301] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#9 pos=(-145,-61,-37) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-144.000,-60.000,-36.000)
+[117月2026 13:56:40.302] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:40.302] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#10 pos=(-145,-61,-34) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-144.000,-60.000,-33.000)
+[117月2026 13:56:40.304] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:40.426] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] === Step 2: 汇总结果 ===
+[ReflectionSearch] 候选方块=138, 评估暴露面=138
+[ReflectionSearch] 将军饮马有效=138, 路径太长=0, 吸收超标=0, 路径阻挡=138, 有效距离不足=0, 最终通过=0
+[ReflectionSearch] ★ 未找到有效的反射路径 → 信号丢失 ✗
+[117月2026 13:56:40.426] [Worker-Main-3/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalReflection] 模式=玩家→玩家 (反射), 发送者=Dev, 接收者=DDbox_awa
+  直线距离: 10.0 格
+  基础传播距离: 256 格
+  直线总吸收: 257.00  直线有效距离: -1.00
+  ★ 直线被阻挡，未找到有效的反射路径 → 信号丢失 ✗ (原因: 未找到有效的反射点)
+[117月2026 13:56:40.430] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ======== [信号反射调试] ========
+[117月2026 13:56:40.430] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 模式: 玩家→玩家 (反射)
+[117月2026 13:56:40.430] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 直线距离: 10.0  | 直线有效: -1.00
+[117月2026 13:56:40.431] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ✗ 直线被阻挡，未找到有效的反射路径
+[117月2026 13:56:40.431] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT]   原因: 未找到有效的反射点
+[117月2026 13:56:40.431] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ================================
+[117月2026 13:56:50.405] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
+[117月2026 13:56:51.558] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家 (直线), 发送者=Dev, 接收者=Dev
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[117月2026 13:56:51.572] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [88.5 MHz] 我：1
+[117月2026 13:56:51.573] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ======== [信号衰减调试] ========
+[117月2026 13:56:51.573] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 模式: 玩家→玩家 (直线)  | 发送: Dev → 接收: Dev
+[117月2026 13:56:51.573] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 直线距离: 0.0 格  | 基础距离: 256 格
+[117月2026 13:56:51.573] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 总吸收: 0.00  | 有效距离: 256.00 格
+[117月2026 13:56:51.574] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] --- 方块明细 (0 种) ---
+[117月2026 13:56:51.574] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 结果: ✓ 信号成功到达
+[117月2026 13:56:51.574] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ================================
+[117月2026 13:56:51.926] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 距离过滤: 靠近路径=138, 远离路径=1842
+[117月2026 13:56:51.926] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] === Step 1: 搜索范围 ===
+[117月2026 13:56:51.926] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] A(sender)=(-134.82,-58.38,-22.89)
+[117月2026 13:56:51.926] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] B(target)=(-134.30,-58.38,-17.30)
+[117月2026 13:56:51.926] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] AB距离=5.6格, 基础传播距离=256.0格
+[117月2026 13:56:51.926] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 包围盒搜索半径=64, 步长=3
+[117月2026 13:56:51.926] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 检测位置=47520, 表面方块=1980, 候选反射方块=138
+[117月2026 13:56:51.926] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 基岩反射值=0% (默认=15)
+[117月2026 13:56:51.926] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#1 pos=(-154,-61,-30) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-153.000,-60.000,-29.000)
+[117月2026 13:56:51.928] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:51.928] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#2 pos=(-154,-61,-27) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-153.000,-60.000,-26.000)
+[117月2026 13:56:51.929] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:51.929] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#3 pos=(-154,-61,-24) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-153.000,-60.000,-23.000)
+[117月2026 13:56:51.930] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:51.930] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#4 pos=(-154,-61,-21) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-153.000,-60.000,-20.094)
+[117月2026 13:56:51.931] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:51.931] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#5 pos=(-154,-61,-18) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-153.000,-60.000,-18.000)
+[117月2026 13:56:51.932] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:51.932] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#6 pos=(-151,-61,-33) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-150.000,-60.000,-32.000)
+[117月2026 13:56:51.933] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:51.933] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#7 pos=(-151,-61,-30) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-150.000,-60.000,-29.000)
+[117月2026 13:56:51.935] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:51.935] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#8 pos=(-151,-61,-27) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-150.000,-60.000,-26.000)
+[117月2026 13:56:51.936] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:51.936] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#9 pos=(-151,-61,-24) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-150.000,-60.000,-23.000)
+[117月2026 13:56:51.940] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:51.940] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#10 pos=(-151,-61,-21) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-150.000,-60.000,-20.094)
+[117月2026 13:56:51.941] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:52.040] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] === Step 2: 汇总结果 ===
+[ReflectionSearch] 候选方块=138, 评估暴露面=138
+[ReflectionSearch] 将军饮马有效=138, 路径太长=0, 吸收超标=0, 路径阻挡=138, 有效距离不足=0, 最终通过=0
+[ReflectionSearch] ★ 未找到有效的反射路径 → 信号丢失 ✗
+[117月2026 13:56:52.041] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalReflection] 模式=玩家→玩家 (反射), 发送者=Dev, 接收者=DDbox_awa
+  直线距离: 5.6 格
+  基础传播距离: 256 格
+  直线总吸收: 257.00  直线有效距离: -1.00
+  ★ 直线被阻挡，未找到有效的反射路径 → 信号丢失 ✗ (原因: 未找到有效的反射点)
+[117月2026 13:56:52.057] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ======== [信号反射调试] ========
+[117月2026 13:56:52.057] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 模式: 玩家→玩家 (反射)
+[117月2026 13:56:52.057] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 直线距离: 5.6  | 直线有效: -1.00
+[117月2026 13:56:52.057] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ✗ 直线被阻挡，未找到有效的反射路径
+[117月2026 13:56:52.057] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT]   原因: 未找到有效的反射点
+[117月2026 13:56:52.057] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ================================
+[117月2026 13:56:55.109] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
+[117月2026 13:56:56.679] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalAttenuation] 模式=玩家→玩家 (直线), 发送者=Dev, 接收者=Dev
+  直线距离: 0.0 格
+  基础传播距离: 256 格
+  射线追踪步数: 0 (非空气: 0)
+  方块明细:
+  总吸收值: 0.00
+  有效传播距离: 256.00 格
+  结果: 信号到达 ✓ (256.00 >= 0.00 ? 是)
+[117月2026 13:56:56.693] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [88.5 MHz] 我：1
+[117月2026 13:56:56.694] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ======== [信号衰减调试] ========
+[117月2026 13:56:56.694] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 模式: 玩家→玩家 (直线)  | 发送: Dev → 接收: Dev
+[117月2026 13:56:56.694] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 直线距离: 0.0 格  | 基础距离: 256 格
+[117月2026 13:56:56.694] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 总吸收: 0.00  | 有效距离: 256.00 格
+[117月2026 13:56:56.694] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] --- 方块明细 (0 种) ---
+[117月2026 13:56:56.694] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 结果: ✓ 信号成功到达
+[117月2026 13:56:56.694] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ================================
+[117月2026 13:56:57.063] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 距离过滤: 靠近路径=137, 远离路径=1883
+[117月2026 13:56:57.063] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] === Step 1: 搜索范围 ===
+[117月2026 13:56:57.063] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] A(sender)=(-134.64,-58.38,-23.26)
+[117月2026 13:56:57.063] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] B(target)=(-134.30,-58.38,-17.30)
+[117月2026 13:56:57.063] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] AB距离=6.0格, 基础传播距离=256.0格
+[117月2026 13:56:57.063] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 包围盒搜索半径=64, 步长=3
+[117月2026 13:56:57.063] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 检测位置=48576, 表面方块=2020, 候选反射方块=137
+[117月2026 13:56:57.063] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] 基岩反射值=0% (默认=15)
+[117月2026 13:56:57.063] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#1 pos=(-154,-61,-28) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-153.000,-60.000,-27.000)
+[117月2026 13:56:57.065] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:57.065] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#2 pos=(-154,-61,-25) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-153.000,-60.000,-24.000)
+[117月2026 13:56:57.066] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:57.066] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#3 pos=(-154,-61,-22) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-153.000,-60.000,-21.000)
+[117月2026 13:56:57.067] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:57.067] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#4 pos=(-154,-61,-19) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-153.000,-60.000,-19.000)
+[117月2026 13:56:57.068] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:57.068] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#5 pos=(-151,-61,-34) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-150.000,-60.000,-33.000)
+[117月2026 13:56:57.069] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:57.069] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#6 pos=(-151,-61,-31) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-150.000,-60.000,-30.000)
+[117月2026 13:56:57.070] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:57.070] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#7 pos=(-151,-61,-28) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-150.000,-60.000,-27.000)
+[117月2026 13:56:57.071] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:57.071] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#8 pos=(-151,-61,-25) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-150.000,-60.000,-24.000)
+[117月2026 13:56:57.072] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:57.073] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#9 pos=(-151,-61,-22) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-150.000,-60.000,-21.000)
+[117月2026 13:56:57.074] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:57.074] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] [Block#10 pos=(-151,-61,-19) Block{minecraft:grass_block} 反射=25% up]: 反射点=(-150.000,-60.000,-19.000)
+[117月2026 13:56:57.075] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch]   路径被阻挡: AP阻挡=false, PB阻挡=true, 阻挡方块=Block{minecraft:bedrock}
+[117月2026 13:56:57.183] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [ReflectionSearch] === Step 2: 汇总结果 ===
+[ReflectionSearch] 候选方块=137, 评估暴露面=137
+[ReflectionSearch] 将军饮马有效=137, 路径太长=0, 吸收超标=0, 路径阻挡=133, 有效距离不足=0, 最终通过=4
+[ReflectionSearch] ★ 最佳反射点: (-132.50,-60.00,-21.50)
+[ReflectionSearch]   方块位置=(-133,-61,-22) 类型=Block{minecraft:grass_block}
+[ReflectionSearch]   反射面=UP, 反射能力=25%
+[ReflectionSearch]   路径: AP=3.2(吸收1.00) + PB=4.8(吸收0.00) = 8.1格
+[ReflectionSearch]   总吸收=1.00, 反射后有效距离=63.75, 权重=42.03
+[ReflectionSearch]   信号通过反射到达 ✓
+[ReflectionSearch]   PB路径追踪(从反射点到B): (-133,-60,-22)Block{minecraft:air} (-133,-60,-21)Block{minecraft:air} (-134,-60,-21)Block{minecraft:air} (-134,-60,-20)Block{minecraft:air} (-134,-60,-19)Block{minecraft:air} (-134,-59,-19)Block{minecraft:air} (-135,-59,-18)Block{minecraft:air}
+[117月2026 13:56:57.183] [Worker-Main-4/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [SignalReflection] 模式=玩家→玩家 (反射), 发送者=Dev, 接收者=DDbox_awa
+  直线距离: 6.0 格
+  基础传播距离: 256 格
+  直线总吸收: 257.00  直线有效距离: -1.00
+  ★ 直线被阻挡，尝试反射路径:
+    反射点: (-133, -61, -22)
+    反射能力: 25%
+    入射角: 0.0°  法线方向: UP
+    路径1 (发送→反射): 3.2 格, 吸收: 1.00
+    路径2 (反射→接收): 4.8 格, 吸收: 0.00
+    总路径长度: 8.1 格
+    反射后有效距离: 63.75 格 (权重: 42.03)
+  结果: 信号通过反射到达 ✓
+[117月2026 13:56:57.194] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ======== [信号反射调试] ========
+[117月2026 13:56:57.195] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 模式: 玩家→玩家 (反射)
+[117月2026 13:56:57.195] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 直线距离: 6.0  | 直线有效: -1.00
+[117月2026 13:56:57.195] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ★ 直线被阻挡，通过反射到达！
+[117月2026 13:56:57.195] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 反射点: (-133, -61, -22)
+[117月2026 13:56:57.195] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 反射能力: 25%  | 入射角: 0.0°  | 法线: UP
+[117月2026 13:56:57.195] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 发送→反射: 3.2格 (吸收1.00)  | 反射→接收: 4.8格 (吸收0.00)
+[117月2026 13:56:57.195] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 总路径: 8.1格  | 反射后有效: 63.75格  | 权重: 42.03
+[117月2026 13:56:57.195] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 结果: ✓ 信号通过反射成功到达
+[117月2026 13:56:57.195] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] ================================
+[117月2026 13:57:05.140] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: DDbox_awa lost connection: 连接中断
+[117月2026 13:57:05.140] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: DDbox_awa退出了游戏
+[117月2026 13:57:05.151] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] DDbox_awa退出了游戏
+[117月2026 13:57:06.035] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+[117月2026 13:57:06.039] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev lost connection: 连接中断
+[117月2026 13:57:06.039] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev退出了游戏
+[117月2026 13:57:06.045] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Stopping singleplayer server as player logged out
+[117月2026 13:57:06.088] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[117月2026 13:57:06.088] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[117月2026 13:57:06.088] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[117月2026 13:57:06.250] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
+[117月2026 13:57:06.347] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
+[117月2026 13:57:06.348] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
+[117月2026 13:57:06.361] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (test): All chunks are saved
+[117月2026 13:57:06.362] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[117月2026 13:57:06.362] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[117月2026 13:57:06.362] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved

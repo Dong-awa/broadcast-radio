@@ -1,5 +1,12 @@
 {
   "defaultReflection": 15,
+  "searchConfig": {
+    "maxCandidates": 512,
+    "axialStep": 3,
+    "radialStep": 3,
+    "angleStepDegrees": 30,
+    "numRadialDirections": 12
+  },
   "blocks": {
     "minecraft:air": 0,
     "minecraft:cave_air": 0,
@@ -153,16 +160,16 @@
     "minecraft:warped_hanging_sign": 10,
     "minecraft:bamboo": 5,
 
-    "minecraft:bedrock": 90,
-    "minecraft:barrier": 90,
-    "minecraft:command_block": 90,
-    "minecraft:chain_command_block": 90,
-    "minecraft:repeating_command_block": 90,
-    "minecraft:structure_block": 90,
-    "minecraft:structure_void": 90,
-    "minecraft:jigsaw": 90,
-    "minecraft:end_portal_frame": 90,
-    "minecraft:end_portal": 90,
+    "minecraft:bedrock": 0,
+    "minecraft:barrier": 0,
+    "minecraft:command_block": 0,
+    "minecraft:chain_command_block": 0,
+    "minecraft:repeating_command_block": 0,
+    "minecraft:structure_block": 0,
+    "minecraft:structure_void": 0,
+    "minecraft:jigsaw": 0,
+    "minecraft:end_portal_frame": 0,
+    "minecraft:end_portal": 0,
     "minecraft:light": 0,
 
     "minecraft:iron_block": 95,

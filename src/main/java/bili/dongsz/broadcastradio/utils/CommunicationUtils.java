@@ -29,14 +29,45 @@ public class CommunicationUtils {
     public static final double RAY_TRACE_STEP_SIZE = 0.2;
     public static final double EYE_HEIGHT_OFFSET = 1.62;
 
-    public static final boolean DEBUG_SIGNAL_ATTENUATION = false; //信号衰减的调试开关，True为开启，False为关闭
+    public static final boolean DEBUG_SIGNAL_ATTENUATION = false;//调试信息开关，true为开启，false为关闭
 
-    public static final int SEARCH_RADIUS = 20;
-    public static final int MAX_CANDIDATES = 50;
-    public static final double MIN_INCIDENT_ANGLE = 30.0;
+    private static final Map<Level, List<Vec3>> debugCandidatePoints = new java.util.concurrent.ConcurrentHashMap<>();
+    private static final Map<Level, List<Vec3>> debugValidPoints = new java.util.concurrent.ConcurrentHashMap<>();
+    private static final Map<Level, Vec3> debugBestPoint = new java.util.concurrent.ConcurrentHashMap<>();
+    private static boolean debugVisualizationEnabled = false;
+
+    public static void setDebugVisualizationEnabled(boolean enabled) {
+        debugVisualizationEnabled = enabled;
+    }
+
+    public static void clearDebugVisualization(Level level) {
+        debugCandidatePoints.remove(level);
+        debugValidPoints.remove(level);
+        debugBestPoint.remove(level);
+    }
+
+    public static java.util.Map<Level, List<Vec3>> getDebugCandidatePoints() {
+        return debugCandidatePoints;
+    }
+
+    public static java.util.Map<Level, List<Vec3>> getDebugValidPoints() {
+        return debugValidPoints;
+    }
+
+    public static java.util.Map<Level, Vec3> getDebugBestPoint() {
+        return debugBestPoint;
+    }
+
+    public static final int SEARCH_RADIUS = 64;
+    public static final int BOX_STEP = 3;
+    public static int MAX_CANDIDATES = 512;
     public static final double REFLECTION_WEIGHT_REFLECTION = 0.5;
     public static final double REFLECTION_WEIGHT_DISTANCE = 0.3;
     public static final double REFLECTION_WEIGHT_ANGLE = 0.2;
+
+    public static void setReflectionSearchConfig(int maxCandidates, int axialStep, int radialStep, int numRadialDirections) {
+        if (maxCandidates > 0) MAX_CANDIDATES = maxCandidates;
+    }
 
     public static double getBlockAbsorptionValue(BlockState state) {
         return (double) AbsorptionManager.getAbsorption(state);
@@ -331,87 +362,243 @@ public class CommunicationUtils {
         return false;
     }
 
-    private static Direction getBestNormalDirection(Level level, BlockPos pos, Vec3 senderEye, Vec3 targetPos) {
-        Direction bestDir = Direction.UP;
-        double bestAngle = -1.0;
-        Vec3 blockCenter = new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5);
-        Vec3 incoming = senderEye.subtract(blockCenter).normalize();
-        Vec3 outgoing = targetPos.subtract(blockCenter).normalize();
-        Vec3 bisector = incoming.add(outgoing).normalize();
-
-        for (Direction dir : Direction.values()) {
-            BlockPos neighbor = pos.relative(dir);
-            if (!level.hasChunkAt(neighbor)) continue;
-            if (!level.getBlockState(neighbor).isAir()) continue;
-
-            Vec3 normalVec = new Vec3(dir.getStepX(), dir.getStepY(), dir.getStepZ());
-            double dot = bisector.dot(normalVec);
-            double angle = Math.toDegrees(Math.acos(Math.max(-1.0, Math.min(1.0, dot))));
-            if (angle < bestAngle || bestAngle < 0) {
-                bestAngle = angle;
-                bestDir = dir;
-            }
-        }
-        return bestDir;
-    }
-
-    private static double calculateIncidentAngle(Vec3 from, Vec3 blockCenter, Direction normalDir) {
-        if (normalDir == null) return 0.0;
-        Vec3 incomingDir = from.subtract(blockCenter).normalize();
-        Vec3 normalVec = new Vec3(normalDir.getStepX(), normalDir.getStepY(), normalDir.getStepZ());
-        double dot = incomingDir.dot(normalVec);
-        if (dot > 0) {
-            normalVec = normalVec.scale(-1.0);
-            dot = incomingDir.dot(normalVec);
-        }
-        double cosAngle = Math.abs(dot);
-        double angle = Math.toDegrees(Math.acos(Math.max(-1.0, Math.min(1.0, cosAngle))));
-        return 90.0 - angle;
-    }
-
-    private static List<BlockPos> getSortedCandidatePositions(Level level, Vec3 midPoint,
-                                                               BlockPos cachedPos, int maxCandidates) {
+    private static List<BlockPos> getBoxCandidates(Level level, Vec3 senderEye, Vec3 targetPos, int[] sampleCounts) {
         List<BlockPos> candidates = new ArrayList<>();
-        int r = SEARCH_RADIUS;
-        int midX = (int) Math.floor(midPoint.x);
-        int midY = (int) Math.floor(midPoint.y);
-        int midZ = (int) Math.floor(midPoint.z);
+        java.util.HashSet<BlockPos> seen = new java.util.HashSet<>();
 
-        if (cachedPos != null && level.hasChunkAt(cachedPos)) {
-            candidates.add(cachedPos);
-        }
+        int minX = (int) Math.floor(Math.min(senderEye.x, targetPos.x) - SEARCH_RADIUS);
+        int maxX = (int) Math.ceil(Math.max(senderEye.x, targetPos.x) + SEARCH_RADIUS);
+        int minY = (int) Math.floor(Math.min(senderEye.y, targetPos.y) - SEARCH_RADIUS);
+        int maxY = (int) Math.ceil(Math.max(senderEye.y, targetPos.y) + SEARCH_RADIUS);
+        int minZ = (int) Math.floor(Math.min(senderEye.z, targetPos.z) - SEARCH_RADIUS);
+        int maxZ = (int) Math.ceil(Math.max(senderEye.z, targetPos.z) + SEARCH_RADIUS);
 
-        int numClose = Math.min(maxCandidates, 20);
-        int closeR = Math.min(r, 6);
-        for (int dx = -closeR; dx <= closeR && candidates.size() < numClose; dx++) {
-            for (int dy = -closeR; dy <= closeR && candidates.size() < numClose; dy++) {
-                for (int dz = -closeR; dz <= closeR && candidates.size() < numClose; dz++) {
-                    if (dx == 0 && dy == 0 && dz == 0) continue;
-                    BlockPos p = new BlockPos(midX + dx, midY + dy, midZ + dz);
-                    if (!level.hasChunkAt(p)) continue;
-                    if (cachedPos != null && p.equals(cachedPos)) continue;
-                    candidates.add(p);
-                }
-            }
-        }
+        minY = Math.max(minY, level.getMinBuildHeight());
+        maxY = Math.min(maxY, level.getMaxBuildHeight() - 1);
 
-        int remaining = maxCandidates - candidates.size();
-        if (remaining > 0) {
-            int step = Math.max(1, (2 * r) / (int) Math.cbrt(remaining) + 1);
-            for (int dx = -r; dx <= r && candidates.size() < maxCandidates; dx += step) {
-                for (int dy = -r; dy <= r && candidates.size() < maxCandidates; dy += step) {
-                    for (int dz = -r; dz <= r && candidates.size() < maxCandidates; dz += step) {
-                        if (Math.abs(dx) <= closeR && Math.abs(dy) <= closeR && Math.abs(dz) <= closeR) continue;
-                        BlockPos p = new BlockPos(midX + dx, midY + dy, midZ + dz);
-                        if (!level.hasChunkAt(p)) continue;
-                        if (cachedPos != null && p.equals(cachedPos)) continue;
-                        candidates.add(p);
+        int totalChecked = 0;
+        int totalSurface = 0;
+        int totalNearPath = 0;
+        int totalFarFromPath = 0;
+
+        Vec3 ab = targetPos.subtract(senderEye);
+        double abLenSq = ab.x * ab.x + ab.y * ab.y + ab.z * ab.z;
+        double maxDistFromPath = Math.max(20.0, Math.sqrt(abLenSq) * 1.5);
+
+        for (int x = minX; x <= maxX; x += BOX_STEP) {
+            for (int y = minY; y <= maxY; y += BOX_STEP) {
+                for (int z = minZ; z <= maxZ; z += BOX_STEP) {
+                    BlockPos pos = new BlockPos(x, y, z);
+                    totalChecked++;
+
+                    if (!level.hasChunkAt(pos)) continue;
+
+                    BlockState state = level.getBlockState(pos);
+                    if (state.isAir()) continue;
+
+                    double reflection = getBlockReflectionValue(state);
+                    if (reflection <= 0) continue;
+
+                    if (!hasExposedFace(level, pos)) continue;
+                    totalSurface++;
+
+                    Vec3 blockCenter = new Vec3(x + 0.5, y + 0.5, z + 0.5);
+                    double distFromPath = distanceFromLineSegment(senderEye, targetPos, blockCenter);
+
+                    if (distFromPath > maxDistFromPath) {
+                        totalFarFromPath++;
+                        continue;
+                    }
+                    totalNearPath++;
+
+                    if (!seen.add(pos)) continue;
+
+                    candidates.add(pos);
+
+                    if (candidates.size() >= MAX_CANDIDATES) {
+                        sampleCounts[0] = totalChecked;
+                        sampleCounts[1] = totalSurface;
+                        sampleCounts[2] = candidates.size();
+                        BroadcastRadio.LOGGER.info("[ReflectionSearch] 距离过滤: 靠近路径=" + totalNearPath + ", 远离路径=" + totalFarFromPath);
+                        return candidates;
                     }
                 }
             }
         }
 
+        sampleCounts[0] = totalChecked;
+        sampleCounts[1] = totalSurface;
+        sampleCounts[2] = candidates.size();
+        BroadcastRadio.LOGGER.info("[ReflectionSearch] 距离过滤: 靠近路径=" + totalNearPath + ", 远离路径=" + totalFarFromPath);
         return candidates;
+    }
+
+    private static double distanceFromLineSegment(Vec3 a, Vec3 b, Vec3 point) {
+        Vec3 ab = b.subtract(a);
+        double abLenSq = ab.x * ab.x + ab.y * ab.y + ab.z * ab.z;
+
+        if (abLenSq < 0.0001) {
+            return point.distanceTo(a);
+        }
+
+        double t = Math.max(0.0, Math.min(1.0,
+                (point.x - a.x) * ab.x + (point.y - a.y) * ab.y + (point.z - a.z) * ab.z) / abLenSq);
+
+        Vec3 closest = new Vec3(
+                a.x + t * ab.x,
+                a.y + t * ab.y,
+                a.z + t * ab.z
+        );
+
+        return point.distanceTo(closest);
+    }
+
+    private static Vec3 calculateReflectionPointForFace(Level level, BlockPos blockPos, Direction faceDir,
+                                                        Vec3 senderEye, Vec3 targetPos) {
+        Vec3 blockCenter = new Vec3(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
+        Vec3 normalVec = new Vec3(faceDir.getStepX(), faceDir.getStepY(), faceDir.getStepZ());
+        Vec3 faceCenter = blockCenter.add(normalVec.scale(0.5));
+
+        Vec3 toSender = senderEye.subtract(faceCenter);
+        double d = normalVec.dot(toSender);
+        Vec3 reflectedSender = senderEye.subtract(normalVec.scale(2.0 * d));
+
+        Vec3 lineDir = targetPos.subtract(reflectedSender);
+        double denominator = normalVec.dot(lineDir);
+
+        if (Math.abs(denominator) < 0.0001) {
+            return faceCenter;
+        }
+
+        double t = normalVec.dot(faceCenter.subtract(reflectedSender)) / denominator;
+
+        Vec3 intersection = reflectedSender.add(lineDir.scale(t));
+
+        double minX = blockPos.getX();
+        double maxX = blockPos.getX() + 1.0;
+        double minY = blockPos.getY();
+        double maxY = blockPos.getY() + 1.0;
+        double minZ = blockPos.getZ();
+        double maxZ = blockPos.getZ() + 1.0;
+
+        final double EPS = 0.01;
+        boolean inRange = true;
+
+        switch (faceDir) {
+            case DOWN:
+                if (Math.abs(intersection.y - minY) > EPS) inRange = false;
+                else if (intersection.x < minX - EPS || intersection.x > maxX + EPS) inRange = false;
+                else if (intersection.z < minZ - EPS || intersection.z > maxZ + EPS) inRange = false;
+                break;
+            case UP:
+                if (Math.abs(intersection.y - maxY) > EPS) inRange = false;
+                else if (intersection.x < minX - EPS || intersection.x > maxX + EPS) inRange = false;
+                else if (intersection.z < minZ - EPS || intersection.z > maxZ + EPS) inRange = false;
+                break;
+            case NORTH:
+                if (Math.abs(intersection.z - minZ) > EPS) inRange = false;
+                else if (intersection.x < minX - EPS || intersection.x > maxX + EPS) inRange = false;
+                else if (intersection.y < minY - EPS || intersection.y > maxY + EPS) inRange = false;
+                break;
+            case SOUTH:
+                if (Math.abs(intersection.z - maxZ) > EPS) inRange = false;
+                else if (intersection.x < minX - EPS || intersection.x > maxX + EPS) inRange = false;
+                else if (intersection.y < minY - EPS || intersection.y > maxY + EPS) inRange = false;
+                break;
+            case WEST:
+                if (Math.abs(intersection.x - minX) > EPS) inRange = false;
+                else if (intersection.y < minY - EPS || intersection.y > maxY + EPS) inRange = false;
+                else if (intersection.z < minZ - EPS || intersection.z > maxZ + EPS) inRange = false;
+                break;
+            case EAST:
+                if (Math.abs(intersection.x - maxX) > EPS) inRange = false;
+                else if (intersection.y < minY - EPS || intersection.y > maxY + EPS) inRange = false;
+                else if (intersection.z < minZ - EPS || intersection.z > maxZ + EPS) inRange = false;
+                break;
+        }
+
+        if (inRange) {
+            return intersection;
+        }
+
+        double bestDist = Double.MAX_VALUE;
+        Vec3 bestPoint = faceCenter;
+
+        double cx = Math.max(minX, Math.min(maxX, intersection.x));
+        double cy = Math.max(minY, Math.min(maxY, intersection.y));
+        double cz = Math.max(minZ, Math.min(maxZ, intersection.z));
+
+        switch (faceDir) {
+            case DOWN:
+            case UP:
+                bestPoint = new Vec3(cx, faceCenter.y, cz);
+                break;
+            case NORTH:
+            case SOUTH:
+                bestPoint = new Vec3(cx, Math.max(minY, Math.min(maxY, intersection.y)), faceCenter.z);
+                break;
+            case WEST:
+            case EAST:
+                bestPoint = new Vec3(faceCenter.x, Math.max(minY, Math.min(maxY, intersection.y)), cz);
+                break;
+        }
+
+        double dist = reflectedSender.distanceTo(bestPoint);
+        if (dist < bestDist) {
+            bestDist = dist;
+        }
+
+        Vec3 cornerCandidate = faceCenter;
+        switch (faceDir) {
+            case DOWN:
+            case UP:
+                cornerCandidate = new Vec3(
+                        Math.abs(intersection.x - minX) < Math.abs(intersection.x - maxX) ? minX + 0.5 : maxX - 0.5,
+                        faceCenter.y,
+                        Math.abs(intersection.z - minZ) < Math.abs(intersection.z - maxZ) ? minZ + 0.5 : maxZ - 0.5
+                );
+                break;
+            case NORTH:
+            case SOUTH:
+                cornerCandidate = new Vec3(
+                        Math.abs(intersection.x - minX) < Math.abs(intersection.x - maxX) ? minX + 0.5 : maxX - 0.5,
+                        Math.max(minY, Math.min(maxY, intersection.y)),
+                        faceCenter.z
+                );
+                break;
+            case WEST:
+            case EAST:
+                cornerCandidate = new Vec3(
+                        faceCenter.x,
+                        Math.max(minY, Math.min(maxY, intersection.y)),
+                        Math.abs(intersection.z - minZ) < Math.abs(intersection.z - maxZ) ? minZ + 0.5 : maxZ - 0.5
+                );
+                break;
+        }
+
+        double cornerDist = reflectedSender.distanceTo(cornerCandidate);
+        if (cornerDist < bestDist) {
+            bestDist = cornerDist;
+            bestPoint = cornerCandidate;
+        }
+
+        if (bestDist < Double.MAX_VALUE) {
+            return bestPoint;
+        }
+
+        return faceCenter;
+    }
+
+    private static List<Direction> getExposedFaces(Level level, BlockPos blockPos) {
+        List<Direction> faces = new ArrayList<>();
+        for (Direction dir : Direction.values()) {
+            BlockPos neighbor = blockPos.relative(dir);
+            if (!level.hasChunkAt(neighbor)) continue;
+            if (level.getBlockState(neighbor).isAir()) {
+                faces.add(dir);
+            }
+        }
+        return faces;
     }
 
     public static ReflectedPathResult searchReflectionPath(Level level, Vec3 senderEye, Vec3 targetPos,
@@ -427,19 +614,49 @@ public class CommunicationUtils {
                     0, 0, 0, 0, 0, null, null, null, "距离过近");
         }
 
-        Vec3 midPoint = senderEye.add(targetPos).scale(0.5);
-        BlockPos cachedPos = lastSuccessfulReflectionPos.get(level);
+        int[] sampleCounts = new int[3];
+        List<BlockPos> candidates = getBoxCandidates(level, senderEye, targetPos, sampleCounts);
 
-        List<BlockPos> candidates = getSortedCandidatePositions(level, midPoint, cachedPos, MAX_CANDIDATES);
+        if (debugVisualizationEnabled) {
+            List<Vec3> candidatePoints = new ArrayList<>();
+            for (BlockPos pos : candidates) {
+                candidatePoints.add(new Vec3(pos.getX() + 0.5, pos.getY() + 0.5, pos.getZ() + 0.5));
+            }
+            debugCandidatePoints.put(level, candidatePoints);
+            debugValidPoints.put(level, new ArrayList<>());
+            debugBestPoint.remove(level);
+        }
+
+        if (detailedDebug) {
+            BroadcastRadio.LOGGER.info("[ReflectionSearch] === Step 1: 搜索范围 ===");
+            BroadcastRadio.LOGGER.info("[ReflectionSearch] A(sender)=" + String.format("(%.2f,%.2f,%.2f)", senderEye.x, senderEye.y, senderEye.z));
+            BroadcastRadio.LOGGER.info("[ReflectionSearch] B(target)=" + String.format("(%.2f,%.2f,%.2f)", targetPos.x, targetPos.y, targetPos.z));
+            BroadcastRadio.LOGGER.info("[ReflectionSearch] AB距离=" + String.format("%.1f", straightDistance) + "格, 基础传播距离=" + baseRange + "格");
+            BroadcastRadio.LOGGER.info("[ReflectionSearch] 包围盒搜索半径=" + SEARCH_RADIUS + ", 步长=" + BOX_STEP);
+            BroadcastRadio.LOGGER.info("[ReflectionSearch] 检测位置=" + sampleCounts[0] + ", 表面方块=" + sampleCounts[1] + ", 候选反射方块=" + candidates.size());
+            // 输出基岩反射值，确认配置加载
+            double bedrockReflection = ReflectionManager.getDefaultReflection();
+            net.minecraft.world.level.block.Block bedrock = net.minecraftforge.registries.ForgeRegistries.BLOCKS.getValue(net.minecraft.resources.ResourceLocation.withDefaultNamespace("bedrock"));
+            if (bedrock != null) {
+                bedrockReflection = ReflectionManager.getReflection(bedrock);
+            }
+            BroadcastRadio.LOGGER.info("[ReflectionSearch] 基岩反射值=" + String.format("%.0f%%", bedrockReflection) + " (默认=" + ReflectionManager.getDefaultReflection() + ")");
+        }
 
         ReflectedPathResult bestResult = null;
         double bestWeight = -1.0;
         int maxPossibleDistance = (int) (baseRange * 2);
+        int totalBlocksEvaluated = 0;
+        int totalFacesEvaluated = 0;
+        int totalValidReflections = 0;
+        int totalPathLengthFailed = 0;
+        int totalAbsorptionFailed = 0;
+        int totalBlockedFailed = 0;
+        int totalEffectiveFailed = 0;
+        int totalPassedValidation = 0;
 
-        int evaluated = 0;
         for (BlockPos candidate : candidates) {
-            if (evaluated >= MAX_CANDIDATES) break;
-            evaluated++;
+            totalBlocksEvaluated++;
 
             if (!level.hasChunkAt(candidate)) continue;
             BlockState state = level.getBlockState(candidate);
@@ -448,63 +665,185 @@ public class CommunicationUtils {
             double reflection = getBlockReflectionValue(state);
             if (reflection <= 0) continue;
 
-            if (!hasExposedFace(level, candidate)) continue;
+            List<Direction> exposedFaces = getExposedFaces(level, candidate);
+            if (exposedFaces.isEmpty()) continue;
 
-            Vec3 blockCenter = new Vec3(candidate.getX() + 0.5, candidate.getY() + 0.5, candidate.getZ() + 0.5);
-            double d1 = senderEye.distanceTo(blockCenter);
-            double d2 = targetPos.distanceTo(blockCenter);
-            double totalPathLength = d1 + d2;
+            for (Direction faceDir : exposedFaces) {
+                totalFacesEvaluated++;
 
-            if (totalPathLength > baseRange * 2) continue;
+                Vec3 reflectionPoint = calculateReflectionPointForFace(level, candidate, faceDir, senderEye, targetPos);
 
-            Direction normalDir = getBestNormalDirection(level, candidate, senderEye, targetPos);
-            double incidentAngle = calculateIncidentAngle(senderEye, blockCenter, normalDir);
-            if (incidentAngle < MIN_INCIDENT_ANGLE) continue;
+                if (detailedDebug && totalBlocksEvaluated <= 10) {
+                    BroadcastRadio.LOGGER.info("[ReflectionSearch] [Block#" + totalBlocksEvaluated
+                            + " pos=(" + candidate.getX() + "," + candidate.getY() + "," + candidate.getZ()
+                            + ") " + state.getBlock().toString() + " 反射=" + String.format("%.0f%%", reflection)
+                            + " " + faceDir + "]: 反射点="
+                            + String.format("(%.3f,%.3f,%.3f)", reflectionPoint.x, reflectionPoint.y, reflectionPoint.z));
+                }
 
-            double absorption1;
-            double absorption2;
-            AttenuationResult detail1 = null;
-            AttenuationResult detail2 = null;
+                if (reflectionPoint == null) continue;
+                totalValidReflections++;
 
-            if (detailedDebug) {
-                detail1 = calculateSignalAttenuationDetailed(level, senderEye, blockCenter, baseRange);
-                detail2 = calculateSignalAttenuationDetailed(level, blockCenter, targetPos, baseRange);
-                absorption1 = detail1.totalAbsorption;
-                absorption2 = detail2.totalAbsorption;
-                if (detail1.blockedByImpenetrable || detail2.blockedByImpenetrable) continue;
-            } else {
-                absorption1 = calculateSignalAttenuation(level, senderEye, blockCenter, baseRange);
-                absorption2 = calculateSignalAttenuation(level, blockCenter, targetPos, baseRange);
-                if (absorption1 > baseRange || absorption2 > baseRange) continue;
-            }
+                double d1 = senderEye.distanceTo(reflectionPoint);
+                double d2 = targetPos.distanceTo(reflectionPoint);
+                double totalPathLength = d1 + d2;
 
-            double totalAbsorption = absorption1 + absorption2;
-            if (totalAbsorption >= baseRange) continue;
+                if (totalPathLength > baseRange * 2) {
+                    totalPathLengthFailed++;
+                    continue;
+                }
 
-            double effectiveRangeAfterReflection = (baseRange - totalAbsorption) * (reflection / 100.0);
-            if (effectiveRangeAfterReflection < totalPathLength) continue;
+                double absorption1;
+                double absorption2;
+                AttenuationResult detail1 = null;
+                AttenuationResult detail2 = null;
 
-            double distanceFactor = 1.0 - Math.min(1.0, totalPathLength / maxPossibleDistance);
-            double angleFactor = incidentAngle / 90.0;
-            double weight = reflection * REFLECTION_WEIGHT_REFLECTION
-                    + distanceFactor * 100.0 * REFLECTION_WEIGHT_DISTANCE
-                    + angleFactor * 100.0 * REFLECTION_WEIGHT_ANGLE;
+                if (detailedDebug) {
+                    detail1 = calculateSignalAttenuationDetailed(level, senderEye, reflectionPoint, baseRange);
+                    detail2 = calculateSignalAttenuationDetailed(level, reflectionPoint, targetPos, baseRange);
+                    absorption1 = detail1.totalAbsorption;
+                    absorption2 = detail2.totalAbsorption;
 
-            if (weight > bestWeight) {
-                bestWeight = weight;
-                bestResult = new ReflectedPathResult(
-                        true, candidate, blockCenter,
-                        totalPathLength, d1, d2,
-                        absorption1, absorption2, totalAbsorption,
-                        reflection, incidentAngle,
-                        effectiveRangeAfterReflection, weight,
-                        normalDir, detail1, detail2, null
-                );
+                    if (detail1.blockedByImpenetrable || detail2.blockedByImpenetrable) {
+                        String blocker = "unknown";
+                        if (detail1.blockedByImpenetrable && detail1.impenetrablePos != null) {
+                            blocker = level.getBlockState(detail1.impenetrablePos).getBlock().toString();
+                        } else if (detail2.blockedByImpenetrable && detail2.impenetrablePos != null) {
+                            blocker = level.getBlockState(detail2.impenetrablePos).getBlock().toString();
+                        }
+                        if (totalBlocksEvaluated <= 10) {
+                            BroadcastRadio.LOGGER.info("[ReflectionSearch]   路径被阻挡: AP阻挡="
+                                    + detail1.blockedByImpenetrable + ", PB阻挡=" + detail2.blockedByImpenetrable
+                                    + ", 阻挡方块=" + blocker);
+                        }
+                        totalBlockedFailed++;
+                        continue;
+                    }
+                } else {
+                    absorption1 = calculateSignalAttenuation(level, senderEye, reflectionPoint, baseRange);
+                    absorption2 = calculateSignalAttenuation(level, reflectionPoint, targetPos, baseRange);
+                }
+
+                if (absorption1 > baseRange || absorption2 > baseRange) {
+                    if (detailedDebug && totalBlocksEvaluated <= 10) {
+                        BroadcastRadio.LOGGER.info("[ReflectionSearch]   吸收超标: AP吸收="
+                                + String.format("%.2f", absorption1) + "/" + baseRange
+                                + ", PB吸收=" + String.format("%.2f", absorption2) + "/" + baseRange);
+                    }
+                    totalAbsorptionFailed++;
+                    continue;
+                }
+
+                double totalAbsorption = absorption1 + absorption2;
+                if (totalAbsorption >= baseRange) {
+                    totalAbsorptionFailed++;
+                    continue;
+                }
+
+                double effectiveRangeAfterReflection = (baseRange - totalAbsorption) * (reflection / 100.0);
+                boolean pathValid = effectiveRangeAfterReflection >= totalPathLength;
+
+                if (detailedDebug && totalBlocksEvaluated <= 10) {
+                    BroadcastRadio.LOGGER.info("[ReflectionSearch]   验证: AP=" + String.format("%.1f", d1)
+                            + ", PB=" + String.format("%.1f", d2)
+                            + ", Total=" + String.format("%.1f", totalPathLength)
+                            + ", Absorption=" + String.format("%.2f", totalAbsorption)
+                            + ", Effective=" + String.format("%.2f", effectiveRangeAfterReflection)
+                            + ", Pass=" + (pathValid ? "YES" : "NO"));
+                }
+
+                if (!pathValid) {
+                    totalEffectiveFailed++;
+                    continue;
+                }
+                totalPassedValidation++;
+
+                if (debugVisualizationEnabled) {
+                    List<Vec3> valid = debugValidPoints.get(level);
+                    if (valid != null) valid.add(reflectionPoint);
+                }
+
+                double distanceFactor = 1.0 - Math.min(1.0, totalPathLength / maxPossibleDistance);
+                double weight = reflection * REFLECTION_WEIGHT_REFLECTION
+                        + distanceFactor * 100.0 * REFLECTION_WEIGHT_DISTANCE;
+
+                if (weight > bestWeight) {
+                    bestWeight = weight;
+                    bestResult = new ReflectedPathResult(
+                            true, candidate, reflectionPoint,
+                            totalPathLength, d1, d2,
+                            absorption1, absorption2, totalAbsorption,
+                            reflection, 0.0,
+                            effectiveRangeAfterReflection, weight,
+                            faceDir, detail1, detail2, null
+                    );
+                }
             }
         }
 
         if (bestResult != null) {
             lastSuccessfulReflectionPos.put(level, bestResult.reflectionPos);
+            if (debugVisualizationEnabled) {
+                debugBestPoint.put(level, bestResult.reflectionPoint);
+            }
+        }
+
+        if (detailedDebug) {
+            StringBuilder log = new StringBuilder();
+            log.append("[ReflectionSearch] === Step 2: 汇总结果 ===\n");
+            log.append("[ReflectionSearch] 候选方块=").append(candidates.size())
+                    .append(", 评估暴露面=").append(totalFacesEvaluated).append("\n");
+            log.append("[ReflectionSearch] 将军饮马有效=").append(totalValidReflections)
+                    .append(", 路径太长=").append(totalPathLengthFailed)
+                    .append(", 吸收超标=").append(totalAbsorptionFailed)
+                    .append(", 路径阻挡=").append(totalBlockedFailed)
+                    .append(", 有效距离不足=").append(totalEffectiveFailed)
+                    .append(", 最终通过=").append(totalPassedValidation).append("\n");
+
+            if (bestResult != null) {
+                log.append("[ReflectionSearch] ★ 最佳反射点: (")
+                        .append(String.format("%.2f", bestResult.reflectionPoint.x)).append(",")
+                        .append(String.format("%.2f", bestResult.reflectionPoint.y)).append(",")
+                        .append(String.format("%.2f", bestResult.reflectionPoint.z)).append(")\n");
+                log.append("[ReflectionSearch]   方块位置=(").append(bestResult.reflectionPos.getX()).append(",")
+                        .append(bestResult.reflectionPos.getY()).append(",")
+                        .append(bestResult.reflectionPos.getZ()).append(")");
+                if (level.hasChunkAt(bestResult.reflectionPos)) {
+                    log.append(" 类型=").append(level.getBlockState(bestResult.reflectionPos).getBlock().toString());
+                }
+                log.append("\n");
+                log.append("[ReflectionSearch]   反射面=").append(bestResult.normalDirection != null ? bestResult.normalDirection.name() : "UNKNOWN")
+                        .append(", 反射能力=").append(String.format("%.0f%%", bestResult.reflectionValue)).append("\n");
+                log.append("[ReflectionSearch]   路径: AP=").append(String.format("%.1f", bestResult.d1))
+                        .append("(吸收").append(String.format("%.2f", bestResult.absorption1)).append(")")
+                        .append(" + PB=").append(String.format("%.1f", bestResult.d2))
+                        .append("(吸收").append(String.format("%.2f", bestResult.absorption2)).append(")")
+                        .append(" = ").append(String.format("%.1f", bestResult.totalPathLength)).append("格\n");
+                log.append("[ReflectionSearch]   总吸收=").append(String.format("%.2f", bestResult.totalAbsorption))
+                        .append(", 反射后有效距离=").append(String.format("%.2f", bestResult.effectiveRangeAfterReflection))
+                        .append(", 权重=").append(String.format("%.2f", bestResult.weight)).append("\n");
+                log.append("[ReflectionSearch]   信号通过反射到达 ✓\n");
+                // 追踪PB路径上的方块
+                log.append("[ReflectionSearch]   PB路径追踪(从反射点到B):");
+                Vec3 pbDir = targetPos.subtract(bestResult.reflectionPoint).normalize();
+                double pbLen = bestResult.reflectionPoint.distanceTo(targetPos);
+                Vec3 pbCur = bestResult.reflectionPoint.add(pbDir.scale(RAY_TRACE_STEP_SIZE * 0.5));
+                java.util.LinkedHashSet<String> pbBlocks = new java.util.LinkedHashSet<>();
+                for (int pi = 0; pi < (int)Math.ceil(pbLen / RAY_TRACE_STEP_SIZE); pi++) {
+                    BlockPos pbPos = BlockPos.containing(pbCur);
+                    if (level.hasChunkAt(pbPos)) {
+                        pbBlocks.add("(" + pbPos.getX() + "," + pbPos.getY() + "," + pbPos.getZ() + ")"
+                                + level.getBlockState(pbPos).getBlock().toString());
+                    }
+                    pbCur = pbCur.add(pbDir.scale(RAY_TRACE_STEP_SIZE));
+                }
+                for (String s : pbBlocks) {
+                    log.append(" ").append(s);
+                }
+            } else {
+                log.append("[ReflectionSearch] ★ 未找到有效的反射路径 → 信号丢失 ✗");
+            }
+            BroadcastRadio.LOGGER.info(log.toString());
         }
 
         if (bestResult == null) {

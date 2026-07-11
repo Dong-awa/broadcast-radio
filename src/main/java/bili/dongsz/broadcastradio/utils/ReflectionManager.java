@@ -26,11 +26,22 @@ public class ReflectionManager {
     private static final ResourceLocation DATA_PATH = ResourceLocation.fromNamespaceAndPath(
             BroadcastRadio.MOD_ID, "config/reflection_values.json");
 
+    private static int maxCandidates = 512;
+    private static int axialStep = 3;
+    private static int radialStep = 3;
+    private static int angleStepDegrees = 30;
+    private static int numRadialDirections = 12;
+
     private static boolean initialized = false;
 
     public static void loadFromResources(Object resourceSource) {
         BLOCK_REFLECTION_MAP.clear();
         defaultReflection = 15;
+        maxCandidates = 512;
+        axialStep = 3;
+        radialStep = 3;
+        angleStepDegrees = 30;
+        numRadialDirections = 12;
 
         ResourceManager resourceManager = resolveResourceManager(resourceSource);
         if (resourceManager == null) {
@@ -58,6 +69,28 @@ public class ReflectionManager {
                         defaultReflection = root.get("defaultReflection").getAsInt();
                     }
 
+                    if (root.has("searchConfig") && root.get("searchConfig").isJsonObject()) {
+                        JsonObject searchConfig = root.getAsJsonObject("searchConfig");
+                        if (searchConfig.has("maxCandidates")) {
+                            maxCandidates = searchConfig.get("maxCandidates").getAsInt();
+                        }
+                        if (searchConfig.has("axialStep")) {
+                            axialStep = searchConfig.get("axialStep").getAsInt();
+                        }
+                        if (searchConfig.has("radialStep")) {
+                            radialStep = searchConfig.get("radialStep").getAsInt();
+                        }
+                        if (searchConfig.has("angleStepDegrees")) {
+                            angleStepDegrees = searchConfig.get("angleStepDegrees").getAsInt();
+                            if (angleStepDegrees > 0) {
+                                numRadialDirections = Math.max(1, 360 / angleStepDegrees);
+                            }
+                        }
+                        if (searchConfig.has("numRadialDirections")) {
+                            numRadialDirections = searchConfig.get("numRadialDirections").getAsInt();
+                        }
+                    }
+
                     if (root.has("blocks") && root.get("blocks").isJsonObject()) {
                         JsonObject blocksObj = root.getAsJsonObject("blocks");
                         for (Map.Entry<String, JsonElement> entry : blocksObj.entrySet()) {
@@ -78,8 +111,11 @@ public class ReflectionManager {
             }
 
             initialized = true;
-            BroadcastRadio.LOGGER.info("[BroadcastRadio] Loaded {} block reflection values (default={})",
-                    BLOCK_REFLECTION_MAP.size(), defaultReflection);
+            CommunicationUtils.setReflectionSearchConfig(maxCandidates, axialStep, radialStep, numRadialDirections);
+            BroadcastRadio.LOGGER.info("[BroadcastRadio] Loaded {} block reflection values (default={}), "
+                    + "search: maxCandidates={}, axialStep={}, radialStep={}, numRadialDirections={}",
+                    BLOCK_REFLECTION_MAP.size(), defaultReflection,
+                    maxCandidates, axialStep, radialStep, numRadialDirections);
         } catch (Exception e) {
             BroadcastRadio.LOGGER.error("[BroadcastRadio] Failed to load reflection data: {}", e.getMessage());
             loadFallback();
@@ -114,7 +150,33 @@ public class ReflectionManager {
     private static void loadFallback() {
         BLOCK_REFLECTION_MAP.clear();
         defaultReflection = 15;
+        maxCandidates = 512;
+        axialStep = 3;
+        radialStep = 3;
+        angleStepDegrees = 30;
+        numRadialDirections = 12;
         initialized = true;
+        CommunicationUtils.setReflectionSearchConfig(maxCandidates, axialStep, radialStep, numRadialDirections);
+    }
+
+    public static int getMaxCandidates() {
+        return maxCandidates;
+    }
+
+    public static int getAxialStep() {
+        return axialStep;
+    }
+
+    public static int getRadialStep() {
+        return radialStep;
+    }
+
+    public static int getNumRadialDirections() {
+        return numRadialDirections;
+    }
+
+    public static int getAngleStepDegrees() {
+        return angleStepDegrees;
     }
 
     public static int getReflection(Block block) {
