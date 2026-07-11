@@ -7,6 +7,10 @@
     "angleStepDegrees": 30,
     "numRadialDirections": 12
   },
+  "harmonic": {
+    "enableHarmonic": true,
+    "maxHarmonicOrder": 4
+  },
   "blocks": {
     "minecraft:air": 0,
     "minecraft:cave_air": 0,

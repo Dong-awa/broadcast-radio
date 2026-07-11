@@ -32,6 +32,9 @@ public class ReflectionManager {
     private static int angleStepDegrees = 30;
     private static int numRadialDirections = 12;
 
+    private static boolean enableHarmonic = true;
+    private static int maxHarmonicOrder = 4;
+
     private static boolean initialized = false;
 
     public static void loadFromResources(Object resourceSource) {
@@ -42,6 +45,8 @@ public class ReflectionManager {
         radialStep = 3;
         angleStepDegrees = 30;
         numRadialDirections = 12;
+        enableHarmonic = true;
+        maxHarmonicOrder = 4;
 
         ResourceManager resourceManager = resolveResourceManager(resourceSource);
         if (resourceManager == null) {
@@ -91,6 +96,16 @@ public class ReflectionManager {
                         }
                     }
 
+                    if (root.has("harmonic") && root.get("harmonic").isJsonObject()) {
+                        JsonObject harmonicConfig = root.getAsJsonObject("harmonic");
+                        if (harmonicConfig.has("enableHarmonic")) {
+                            enableHarmonic = harmonicConfig.get("enableHarmonic").getAsBoolean();
+                        }
+                        if (harmonicConfig.has("maxHarmonicOrder")) {
+                            maxHarmonicOrder = harmonicConfig.get("maxHarmonicOrder").getAsInt();
+                        }
+                    }
+
                     if (root.has("blocks") && root.get("blocks").isJsonObject()) {
                         JsonObject blocksObj = root.getAsJsonObject("blocks");
                         for (Map.Entry<String, JsonElement> entry : blocksObj.entrySet()) {
@@ -113,9 +128,11 @@ public class ReflectionManager {
             initialized = true;
             CommunicationUtils.setReflectionSearchConfig(maxCandidates, axialStep, radialStep, numRadialDirections);
             BroadcastRadio.LOGGER.info("[Broadcast Radio] Loaded {} block reflection values (default={}), "
-                    + "search: maxCandidates={}, axialStep={}, radialStep={}, numRadialDirections={}",
+                    + "search: maxCandidates={}, axialStep={}, radialStep={}, numRadialDirections={}; "
+                    + "harmonic: enabled={}, maxOrder={}",
                     BLOCK_REFLECTION_MAP.size(), defaultReflection,
-                    maxCandidates, axialStep, radialStep, numRadialDirections);
+                    maxCandidates, axialStep, radialStep, numRadialDirections,
+                    enableHarmonic, maxHarmonicOrder);
         } catch (Exception e) {
             BroadcastRadio.LOGGER.error("[Broadcast Radio] Failed to load reflection data: {}", e.getMessage());
             loadFallback();
@@ -155,6 +172,8 @@ public class ReflectionManager {
         radialStep = 3;
         angleStepDegrees = 30;
         numRadialDirections = 12;
+        enableHarmonic = true;
+        maxHarmonicOrder = 4;
         initialized = true;
         CommunicationUtils.setReflectionSearchConfig(maxCandidates, axialStep, radialStep, numRadialDirections);
     }
@@ -192,6 +211,14 @@ public class ReflectionManager {
 
     public static int getDefaultReflection() {
         return defaultReflection;
+    }
+
+    public static boolean isHarmonicEnabled() {
+        return enableHarmonic;
+    }
+
+    public static int getMaxHarmonicOrder() {
+        return maxHarmonicOrder;
     }
 
     public static boolean isInitialized() {

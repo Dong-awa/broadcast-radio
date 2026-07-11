@@ -306,32 +306,49 @@ public class EncryptedWalkieTalkieItem extends Item {
                 }
 
                 if (target != sender) {
-                    checkPlayerEncryptedWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender.level());
+                    checkPlayerEncryptedWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender.level(), 1);
                 }
 
                 CommunicationUtils.checkPlayerNearRadio(target, sender, COMMUNICATION_RANGE, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender);
+
+                if (bili.dongsz.broadcastradio.utils.ReflectionManager.isHarmonicEnabled()) {
+                    int maxOrder = bili.dongsz.broadcastradio.utils.ReflectionManager.getMaxHarmonicOrder();
+                    for (int n = 2; n <= maxOrder; n++) {
+                        float harmonicFreq = CommunicationUtils.getHarmonicFrequency(senderFreq, n);
+                        double harmonicRange = CommunicationUtils.getHarmonicRange(COMMUNICATION_RANGE, n);
+                        if (!CommunicationUtils.canSignalReachEyeWithReflection(sender.level(), sender, target, harmonicRange,
+                                sender.getName().getString(), target.getName().getString(), sender)) {
+                            continue;
+                        }
+                        int harmonicInterference = Math.min(100, senderEffectiveInterference + (n - 1) * 5);
+                        if (target != sender) {
+                            checkPlayerEncryptedWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, harmonicInterference, sender.level(), n);
+                        }
+                        CommunicationUtils.checkPlayerNearRadioHarmonic(target, sender, harmonicRange, sender.getName().getString(), senderFreq, senderPwd, messageContent, harmonicInterference, sender, n);
+                    }
+                }
             }
 
             event.setCanceled(true);
             sender.getPersistentData().remove(BroadcastRadio.MOD_ID + "_using_encrypted_walkie");
         }
 
-        private static boolean checkPlayerEncryptedWalkieTalkie(ServerPlayer target, String senderName, float senderFreq, String senderPwd, String messageContent, int senderInterference, Level level) {
+        private static boolean checkPlayerEncryptedWalkieTalkie(ServerPlayer target, String senderName, float senderFreq, String senderPwd, String messageContent, int senderInterference, Level level, int harmonicOrder) {
             int jammerAtTarget = CommunicationUtils.getJammerInterference(target.level(), target.blockPosition(), senderFreq);
             int effectiveSenderInterference = Math.max(senderInterference, jammerAtTarget);
 
             ItemStack mainHandStack = target.getMainHandItem();
-            if (checkEncryptedWalkieTalkieFrequency(mainHandStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level)) {
+            if (checkEncryptedWalkieTalkieFrequency(mainHandStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level, harmonicOrder)) {
                 return true;
             }
 
             ItemStack offHandStack = target.getOffhandItem();
-            if (checkEncryptedWalkieTalkieFrequency(offHandStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level)) {
+            if (checkEncryptedWalkieTalkieFrequency(offHandStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level, harmonicOrder)) {
                 return true;
             }
 
             for (ItemStack targetStack : target.getInventory().items) {
-                if (checkEncryptedWalkieTalkieFrequency(targetStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level)) {
+                if (checkEncryptedWalkieTalkieFrequency(targetStack, target, senderName, senderFreq, senderPwd, messageContent, effectiveSenderInterference, level, harmonicOrder)) {
                     return true;
                 }
             }
@@ -339,15 +356,27 @@ public class EncryptedWalkieTalkieItem extends Item {
             return false;
         }
         
-        private static boolean checkEncryptedWalkieTalkieFrequency(ItemStack stack, ServerPlayer target, String senderName, float senderFreq, String senderPwd, String messageContent, int senderInterference, Level level) {
+        private static boolean checkEncryptedWalkieTalkieFrequency(ItemStack stack, ServerPlayer target, String senderName, float senderFreq, String senderPwd, String messageContent, int senderInterference, Level level, int harmonicOrder) {
             if (stack.getItem() instanceof EncryptedWalkieTalkieItem) {
                 initNBT(stack);
                 CompoundTag targetTag = stack.getTag();
                 float targetFreq = targetTag.getFloat(TAG_FREQUENCY);
                 String targetPwd = targetTag.getString(TAG_PASSWORD);
                 int targetInterference = targetTag.getInt(TAG_INTERFERENCE);
-                
-                if (CommunicationUtils.isFrequencyMatch(targetFreq, senderFreq)) {
+
+                boolean freqMatch;
+                float displayFreq;
+                int displayHarmonic = harmonicOrder;
+                if (harmonicOrder <= 1) {
+                    freqMatch = CommunicationUtils.isFrequencyMatch(targetFreq, senderFreq);
+                    displayFreq = senderFreq;
+                } else {
+                    float expectedFreq = senderFreq * (float) harmonicOrder;
+                    freqMatch = CommunicationUtils.isFrequencyMatch(targetFreq, expectedFreq);
+                    displayFreq = targetFreq;
+                }
+
+                if (freqMatch) {
                     String displayMessage;
                     if (targetPwd.equals(senderPwd)) {
                         displayMessage = messageContent;
@@ -370,7 +399,11 @@ public class EncryptedWalkieTalkieItem extends Item {
                     }
                     int totalInterference = Math.max(senderInterference, targetInterference);
                     displayMessage = CommunicationUtils.applyInterference(displayMessage, totalInterference, level);
-                    CommunicationUtils.sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
+                    if (displayHarmonic <= 1) {
+                        CommunicationUtils.sendMessageToPlayer(target, senderName, displayFreq, displayMessage);
+                    } else {
+                        CommunicationUtils.sendHarmonicMessageToPlayer(target, senderName, displayFreq, displayMessage, displayHarmonic);
+                    }
                     return true;
                 }
             }

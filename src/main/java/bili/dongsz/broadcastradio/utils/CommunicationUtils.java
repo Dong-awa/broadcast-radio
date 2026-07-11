@@ -1152,6 +1152,100 @@ public class CommunicationUtils {
         return Math.abs(freq1 - freq2) < 0.01f;
     }
 
+    public static float getHarmonicFrequency(float baseFreq, int harmonicOrder) {
+        return baseFreq * (float) harmonicOrder;
+    }
+
+    public static double getHarmonicRange(double baseRange, int harmonicOrder) {
+        if (harmonicOrder <= 1) return baseRange;
+        return baseRange / (double) harmonicOrder;
+    }
+
+    public static int getHarmonicStrengthFactor(int harmonicOrder) {
+        if (harmonicOrder <= 1) return 1;
+        return harmonicOrder;
+    }
+
+    public static void sendHarmonicMessageToPlayer(Player player, String senderName, float frequency,
+                                                    String message, int harmonicOrder) {
+        String prefix = "[谐波" + harmonicOrder + "次] ";
+        Component radioMessage = Component.translatable(
+                "item.broadcast_radio.walkie_talkie.message",
+                senderName,
+                String.format("%.1f", frequency),
+                prefix + message
+        ).withStyle(net.minecraft.ChatFormatting.GRAY);
+        player.sendSystemMessage(radioMessage);
+    }
+
+    public static boolean checkHarmonicReception(float senderFreq, float receiverFreq) {
+        if (!ReflectionManager.isHarmonicEnabled()) return false;
+        int maxOrder = ReflectionManager.getMaxHarmonicOrder();
+        for (int n = 2; n <= maxOrder; n++) {
+            if (isFrequencyMatch(receiverFreq, getHarmonicFrequency(senderFreq, n))) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static int getMatchingHarmonicOrder(float senderFreq, float receiverFreq) {
+        if (!ReflectionManager.isHarmonicEnabled()) return -1;
+        int maxOrder = ReflectionManager.getMaxHarmonicOrder();
+        for (int n = 2; n <= maxOrder; n++) {
+            if (isFrequencyMatch(receiverFreq, getHarmonicFrequency(senderFreq, n))) {
+                return n;
+            }
+        }
+        return -1;
+    }
+
+    public static void checkPlayerNearRadioHarmonic(Player target, Entity sender, double baseRange,
+                                                     String senderName, float senderFreq, String senderPwd,
+                                                     String message, int senderInterference,
+                                                     Player chatOutputTarget, int harmonicOrder) {
+        Level level = target.level();
+        BlockPos playerPos = target.blockPosition();
+        float expectedFreq = senderFreq * (float) harmonicOrder;
+        for (int dx = -8; dx <= 8; dx++) {
+            for (int dy = -8; dy <= 8; dy++) {
+                for (int dz = -8; dz <= 8; dz++) {
+                    BlockPos checkPos = playerPos.offset(dx, dy, dz);
+                    BlockState blockState = level.getBlockState(checkPos);
+                    if (!blockState.isAir()) {
+                        if (blockState.getBlock() instanceof bili.dongsz.broadcastradio.block.SimpleRadioBlock) {
+                            if (!canSignalReachEyeWithReflection(level, sender, checkPos, baseRange,
+                                    senderName, "收音机@(" + checkPos.getX() + "," + checkPos.getY() + "," + checkPos.getZ() + ")",
+                                    chatOutputTarget)) continue;
+
+                            BlockEntity blockEntity = level.getBlockEntity(checkPos);
+                            if (blockEntity instanceof SimpleRadioBlockEntity radioEntity) {
+                                float radioFreq = radioEntity.getFrequency();
+                                if (isFrequencyMatch(radioFreq, expectedFreq)) {
+                                    double distance = target.distanceToSqr(checkPos.getX() + 0.5, checkPos.getY() + 0.5, checkPos.getZ() + 0.5);
+                                    if (distance <= RADIO_RANGE * RADIO_RANGE) {
+                                        int jammerAtRadio = getJammerInterference(level, checkPos, radioFreq);
+                                        int jammerCombined = Math.max(jammerAtRadio, senderInterference);
+                                        int radioBase = radioEntity.getInterference();
+                                        int totalInterference = Math.max(radioBase, jammerCombined);
+                                        String displayMessage;
+                                        if (senderPwd.isEmpty()) {
+                                            displayMessage = message;
+                                        } else {
+                                            displayMessage = generateGarbledText(message, 0.0);
+                                        }
+                                        displayMessage = applyInterference(displayMessage, totalInterference, level);
+                                        sendHarmonicMessageToPlayer(target, senderName, radioFreq, displayMessage, harmonicOrder);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     public static String generateGarbledText(String originalMessage, double originalCharProbability) {
         StringBuilder sb = new StringBuilder();
         String garbledChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+-=[]{}|;:,.<>?";
