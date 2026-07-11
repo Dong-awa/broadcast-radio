@@ -419,7 +419,6 @@ public class CommunicationUtils {
                         sampleCounts[0] = totalChecked;
                         sampleCounts[1] = totalSurface;
                         sampleCounts[2] = candidates.size();
-                        BroadcastRadio.LOGGER.info("[ReflectionSearch] 距离过滤: 靠近路径=" + totalNearPath + ", 远离路径=" + totalFarFromPath);
                         return candidates;
                     }
                 }
@@ -429,7 +428,6 @@ public class CommunicationUtils {
         sampleCounts[0] = totalChecked;
         sampleCounts[1] = totalSurface;
         sampleCounts[2] = candidates.size();
-        BroadcastRadio.LOGGER.info("[ReflectionSearch] 距离过滤: 靠近路径=" + totalNearPath + ", 远离路径=" + totalFarFromPath);
         return candidates;
     }
 
@@ -627,22 +625,6 @@ public class CommunicationUtils {
             debugBestPoint.remove(level);
         }
 
-        if (detailedDebug) {
-            BroadcastRadio.LOGGER.info("[ReflectionSearch] === Step 1: 搜索范围 ===");
-            BroadcastRadio.LOGGER.info("[ReflectionSearch] A(sender)=" + String.format("(%.2f,%.2f,%.2f)", senderEye.x, senderEye.y, senderEye.z));
-            BroadcastRadio.LOGGER.info("[ReflectionSearch] B(target)=" + String.format("(%.2f,%.2f,%.2f)", targetPos.x, targetPos.y, targetPos.z));
-            BroadcastRadio.LOGGER.info("[ReflectionSearch] AB距离=" + String.format("%.1f", straightDistance) + "格, 基础传播距离=" + baseRange + "格");
-            BroadcastRadio.LOGGER.info("[ReflectionSearch] 包围盒搜索半径=" + SEARCH_RADIUS + ", 步长=" + BOX_STEP);
-            BroadcastRadio.LOGGER.info("[ReflectionSearch] 检测位置=" + sampleCounts[0] + ", 表面方块=" + sampleCounts[1] + ", 候选反射方块=" + candidates.size());
-            // 输出基岩反射值，确认配置加载
-            double bedrockReflection = ReflectionManager.getDefaultReflection();
-            net.minecraft.world.level.block.Block bedrock = net.minecraftforge.registries.ForgeRegistries.BLOCKS.getValue(net.minecraft.resources.ResourceLocation.withDefaultNamespace("bedrock"));
-            if (bedrock != null) {
-                bedrockReflection = ReflectionManager.getReflection(bedrock);
-            }
-            BroadcastRadio.LOGGER.info("[ReflectionSearch] 基岩反射值=" + String.format("%.0f%%", bedrockReflection) + " (默认=" + ReflectionManager.getDefaultReflection() + ")");
-        }
-
         ReflectedPathResult bestResult = null;
         double bestWeight = -1.0;
         int maxPossibleDistance = (int) (baseRange * 2);
@@ -673,14 +655,6 @@ public class CommunicationUtils {
 
                 Vec3 reflectionPoint = calculateReflectionPointForFace(level, candidate, faceDir, senderEye, targetPos);
 
-                if (detailedDebug && totalBlocksEvaluated <= 10) {
-                    BroadcastRadio.LOGGER.info("[ReflectionSearch] [Block#" + totalBlocksEvaluated
-                            + " pos=(" + candidate.getX() + "," + candidate.getY() + "," + candidate.getZ()
-                            + ") " + state.getBlock().toString() + " 反射=" + String.format("%.0f%%", reflection)
-                            + " " + faceDir + "]: 反射点="
-                            + String.format("(%.3f,%.3f,%.3f)", reflectionPoint.x, reflectionPoint.y, reflectionPoint.z));
-                }
-
                 if (reflectionPoint == null) continue;
                 totalValidReflections++;
 
@@ -693,43 +667,10 @@ public class CommunicationUtils {
                     continue;
                 }
 
-                double absorption1;
-                double absorption2;
-                AttenuationResult detail1 = null;
-                AttenuationResult detail2 = null;
-
-                if (detailedDebug) {
-                    detail1 = calculateSignalAttenuationDetailed(level, senderEye, reflectionPoint, baseRange);
-                    detail2 = calculateSignalAttenuationDetailed(level, reflectionPoint, targetPos, baseRange);
-                    absorption1 = detail1.totalAbsorption;
-                    absorption2 = detail2.totalAbsorption;
-
-                    if (detail1.blockedByImpenetrable || detail2.blockedByImpenetrable) {
-                        String blocker = "unknown";
-                        if (detail1.blockedByImpenetrable && detail1.impenetrablePos != null) {
-                            blocker = level.getBlockState(detail1.impenetrablePos).getBlock().toString();
-                        } else if (detail2.blockedByImpenetrable && detail2.impenetrablePos != null) {
-                            blocker = level.getBlockState(detail2.impenetrablePos).getBlock().toString();
-                        }
-                        if (totalBlocksEvaluated <= 10) {
-                            BroadcastRadio.LOGGER.info("[ReflectionSearch]   路径被阻挡: AP阻挡="
-                                    + detail1.blockedByImpenetrable + ", PB阻挡=" + detail2.blockedByImpenetrable
-                                    + ", 阻挡方块=" + blocker);
-                        }
-                        totalBlockedFailed++;
-                        continue;
-                    }
-                } else {
-                    absorption1 = calculateSignalAttenuation(level, senderEye, reflectionPoint, baseRange);
-                    absorption2 = calculateSignalAttenuation(level, reflectionPoint, targetPos, baseRange);
-                }
+                double absorption1 = calculateSignalAttenuation(level, senderEye, reflectionPoint, baseRange);
+                double absorption2 = calculateSignalAttenuation(level, reflectionPoint, targetPos, baseRange);
 
                 if (absorption1 > baseRange || absorption2 > baseRange) {
-                    if (detailedDebug && totalBlocksEvaluated <= 10) {
-                        BroadcastRadio.LOGGER.info("[ReflectionSearch]   吸收超标: AP吸收="
-                                + String.format("%.2f", absorption1) + "/" + baseRange
-                                + ", PB吸收=" + String.format("%.2f", absorption2) + "/" + baseRange);
-                    }
                     totalAbsorptionFailed++;
                     continue;
                 }
@@ -742,15 +683,6 @@ public class CommunicationUtils {
 
                 double effectiveRangeAfterReflection = (baseRange - totalAbsorption) * (reflection / 100.0);
                 boolean pathValid = effectiveRangeAfterReflection >= totalPathLength;
-
-                if (detailedDebug && totalBlocksEvaluated <= 10) {
-                    BroadcastRadio.LOGGER.info("[ReflectionSearch]   验证: AP=" + String.format("%.1f", d1)
-                            + ", PB=" + String.format("%.1f", d2)
-                            + ", Total=" + String.format("%.1f", totalPathLength)
-                            + ", Absorption=" + String.format("%.2f", totalAbsorption)
-                            + ", Effective=" + String.format("%.2f", effectiveRangeAfterReflection)
-                            + ", Pass=" + (pathValid ? "YES" : "NO"));
-                }
 
                 if (!pathValid) {
                     totalEffectiveFailed++;
@@ -775,7 +707,7 @@ public class CommunicationUtils {
                             absorption1, absorption2, totalAbsorption,
                             reflection, 0.0,
                             effectiveRangeAfterReflection, weight,
-                            faceDir, detail1, detail2, null
+                            faceDir, null, null, null
                     );
                 }
             }
@@ -786,64 +718,6 @@ public class CommunicationUtils {
             if (debugVisualizationEnabled) {
                 debugBestPoint.put(level, bestResult.reflectionPoint);
             }
-        }
-
-        if (detailedDebug) {
-            StringBuilder log = new StringBuilder();
-            log.append("[ReflectionSearch] === Step 2: 汇总结果 ===\n");
-            log.append("[ReflectionSearch] 候选方块=").append(candidates.size())
-                    .append(", 评估暴露面=").append(totalFacesEvaluated).append("\n");
-            log.append("[ReflectionSearch] 将军饮马有效=").append(totalValidReflections)
-                    .append(", 路径太长=").append(totalPathLengthFailed)
-                    .append(", 吸收超标=").append(totalAbsorptionFailed)
-                    .append(", 路径阻挡=").append(totalBlockedFailed)
-                    .append(", 有效距离不足=").append(totalEffectiveFailed)
-                    .append(", 最终通过=").append(totalPassedValidation).append("\n");
-
-            if (bestResult != null) {
-                log.append("[ReflectionSearch] ★ 最佳反射点: (")
-                        .append(String.format("%.2f", bestResult.reflectionPoint.x)).append(",")
-                        .append(String.format("%.2f", bestResult.reflectionPoint.y)).append(",")
-                        .append(String.format("%.2f", bestResult.reflectionPoint.z)).append(")\n");
-                log.append("[ReflectionSearch]   方块位置=(").append(bestResult.reflectionPos.getX()).append(",")
-                        .append(bestResult.reflectionPos.getY()).append(",")
-                        .append(bestResult.reflectionPos.getZ()).append(")");
-                if (level.hasChunkAt(bestResult.reflectionPos)) {
-                    log.append(" 类型=").append(level.getBlockState(bestResult.reflectionPos).getBlock().toString());
-                }
-                log.append("\n");
-                log.append("[ReflectionSearch]   反射面=").append(bestResult.normalDirection != null ? bestResult.normalDirection.name() : "UNKNOWN")
-                        .append(", 反射能力=").append(String.format("%.0f%%", bestResult.reflectionValue)).append("\n");
-                log.append("[ReflectionSearch]   路径: AP=").append(String.format("%.1f", bestResult.d1))
-                        .append("(吸收").append(String.format("%.2f", bestResult.absorption1)).append(")")
-                        .append(" + PB=").append(String.format("%.1f", bestResult.d2))
-                        .append("(吸收").append(String.format("%.2f", bestResult.absorption2)).append(")")
-                        .append(" = ").append(String.format("%.1f", bestResult.totalPathLength)).append("格\n");
-                log.append("[ReflectionSearch]   总吸收=").append(String.format("%.2f", bestResult.totalAbsorption))
-                        .append(", 反射后有效距离=").append(String.format("%.2f", bestResult.effectiveRangeAfterReflection))
-                        .append(", 权重=").append(String.format("%.2f", bestResult.weight)).append("\n");
-                log.append("[ReflectionSearch]   信号通过反射到达 ✓\n");
-                // 追踪PB路径上的方块
-                log.append("[ReflectionSearch]   PB路径追踪(从反射点到B):");
-                Vec3 pbDir = targetPos.subtract(bestResult.reflectionPoint).normalize();
-                double pbLen = bestResult.reflectionPoint.distanceTo(targetPos);
-                Vec3 pbCur = bestResult.reflectionPoint.add(pbDir.scale(RAY_TRACE_STEP_SIZE * 0.5));
-                java.util.LinkedHashSet<String> pbBlocks = new java.util.LinkedHashSet<>();
-                for (int pi = 0; pi < (int)Math.ceil(pbLen / RAY_TRACE_STEP_SIZE); pi++) {
-                    BlockPos pbPos = BlockPos.containing(pbCur);
-                    if (level.hasChunkAt(pbPos)) {
-                        pbBlocks.add("(" + pbPos.getX() + "," + pbPos.getY() + "," + pbPos.getZ() + ")"
-                                + level.getBlockState(pbPos).getBlock().toString());
-                    }
-                    pbCur = pbCur.add(pbDir.scale(RAY_TRACE_STEP_SIZE));
-                }
-                for (String s : pbBlocks) {
-                    log.append(" ").append(s);
-                }
-            } else {
-                log.append("[ReflectionSearch] ★ 未找到有效的反射路径 → 信号丢失 ✗");
-            }
-            BroadcastRadio.LOGGER.info(log.toString());
         }
 
         if (bestResult == null) {

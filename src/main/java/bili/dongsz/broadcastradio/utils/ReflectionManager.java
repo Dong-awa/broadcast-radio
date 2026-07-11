@@ -45,7 +45,7 @@ public class ReflectionManager {
 
         ResourceManager resourceManager = resolveResourceManager(resourceSource);
         if (resourceManager == null) {
-            BroadcastRadio.LOGGER.warn("[BroadcastRadio] Unable to obtain ResourceManager for reflection, using default reflection values");
+            BroadcastRadio.LOGGER.warn("[Broadcast Radio] Unable to obtain ResourceManager for reflection, using default reflection values");
             loadFallback();
             return;
         }
@@ -53,7 +53,7 @@ public class ReflectionManager {
         try {
             List<Resource> resources = resourceManager.getResourceStack(DATA_PATH);
             if (resources.isEmpty()) {
-                BroadcastRadio.LOGGER.warn("[BroadcastRadio] Reflection data file not found: {}, using defaults", DATA_PATH);
+                BroadcastRadio.LOGGER.warn("[Broadcast Radio] Reflection data file not found: {}, using defaults", DATA_PATH);
                 initialized = true;
                 return;
             }
@@ -106,18 +106,18 @@ public class ReflectionManager {
                         }
                     }
                 } catch (Exception e) {
-                    BroadcastRadio.LOGGER.error("[BroadcastRadio] Failed to parse reflection data file: {}", e.getMessage());
+                    BroadcastRadio.LOGGER.error("[Broadcast Radio] Failed to parse reflection data file: {}", e.getMessage());
                 }
             }
 
             initialized = true;
             CommunicationUtils.setReflectionSearchConfig(maxCandidates, axialStep, radialStep, numRadialDirections);
-            BroadcastRadio.LOGGER.info("[BroadcastRadio] Loaded {} block reflection values (default={}), "
+            BroadcastRadio.LOGGER.info("[Broadcast Radio] Loaded {} block reflection values (default={}), "
                     + "search: maxCandidates={}, axialStep={}, radialStep={}, numRadialDirections={}",
                     BLOCK_REFLECTION_MAP.size(), defaultReflection,
                     maxCandidates, axialStep, radialStep, numRadialDirections);
         } catch (Exception e) {
-            BroadcastRadio.LOGGER.error("[BroadcastRadio] Failed to load reflection data: {}", e.getMessage());
+            BroadcastRadio.LOGGER.error("[Broadcast Radio] Failed to load reflection data: {}", e.getMessage());
             loadFallback();
         }
     }
@@ -135,7 +135,7 @@ public class ReflectionManager {
             }
         } catch (NoSuchMethodException ignored) {
         } catch (Exception e) {
-            BroadcastRadio.LOGGER.warn("[BroadcastRadio] Failed to resolve ResourceManager via reflection: {}", e.getMessage());
+            BroadcastRadio.LOGGER.warn("[Broadcast Radio] Failed to resolve ResourceManager via reflection: {}", e.getMessage());
         }
         try {
             Class<?> rmClass = Class.forName("net.minecraft.server.packs.resources.ResourceManager");
