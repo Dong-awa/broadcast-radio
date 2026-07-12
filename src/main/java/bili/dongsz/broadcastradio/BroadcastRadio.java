@@ -89,6 +89,10 @@ public class BroadcastRadio {
             UpdateSignalJammerPacket::encode,
             UpdateSignalJammerPacket::decode,
             UpdateSignalJammerPacket::handle);
+        NETWORK.registerMessage(10, bili.dongsz.broadcastradio.network.SignalStrengthIndicatorPacket.class,
+            bili.dongsz.broadcastradio.network.SignalStrengthIndicatorPacket::encode,
+            bili.dongsz.broadcastradio.network.SignalStrengthIndicatorPacket::decode,
+            bili.dongsz.broadcastradio.network.SignalStrengthIndicatorPacket::handle);
 
         // 注册 JVM 关闭钩子
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {

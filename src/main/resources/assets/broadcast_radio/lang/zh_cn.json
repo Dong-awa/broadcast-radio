@@ -61,6 +61,8 @@
   "item.broadcast_radio.radio_terminal.sms_received": "[短信] 来自 %s：%s",
   "item.broadcast_radio.radio_terminal.sms_sending": "正在发送...",
   "item.broadcast_radio.radio_terminal.sms_sent": "短信已发送至 %s",
+  "item.broadcast_radio.radio_terminal.sms_failed_signal": "信号无法抵达目标",
+  "item.broadcast_radio.radio_terminal.sms_failed_offline": "目标玩家不在线",
   "item.broadcast_radio.radio_terminal.sms_title": "短信",
   "item.broadcast_radio.radio_terminal.universal_card": "SIM卡",
   "item.broadcast_radio.radio_terminal.unknown_service": "未知服务",
@@ -107,6 +109,7 @@
   "item.broadcast_radio.walkie_talkie.increase_5": "+5",
   "item.broadcast_radio.walkie_talkie.input_hint": "输入对讲机消息（发送到当前频率）：",
   "item.broadcast_radio.walkie_talkie.message": "[来自-%.1f MHz] %s：%s",
+  "item.broadcast_radio.harmonic.prefix": "[谐波%s次] ",
   "item.broadcast_radio.walkie_talkie.new_operate_hint": "右键：发送消息 | Shift+右键：打开频率GUI",
   "item.broadcast_radio.walkie_talkie.no_power": "便携式对讲机没电了！无法使用",
   "item.broadcast_radio.walkie_talkie.password": "密码",
@@ -129,5 +132,15 @@
   "block.broadcast_radio.simple_signal_jammer.limit_radius": "最大干扰半径：%d格",
   "item.broadcast_radio.simple_signal_jammer": "简易信号干扰器",
   "item.broadcast_radio.simple_signal_jammer.desc": "可干扰特定频率的无线电信号，有效半径32格，最大50格。",
-  "itemGroup.broadcast_radio": "电波通讯"
+  "itemGroup.broadcast_radio": "电波通讯",
+  "broadcast_radio.signal.strength_high": "[信号强度 %s%] ",
+  "broadcast_radio.signal.strength_mid_high": "[信号强度 %s%] ",
+  "broadcast_radio.signal.strength_mid": "[信号强度 %s%] ",
+  "broadcast_radio.signal.strength_mid_low": "[信号强度 %s%] ",
+  "broadcast_radio.signal.strength_low": "[信号强度 %s%] ",
+  "broadcast_radio.signal.quality_excellent": "[信号质量 优]",
+  "broadcast_radio.signal.quality_good": "[信号质量 良]",
+  "broadcast_radio.signal.quality_poor": "[信号质量 差]",
+  "broadcast_radio.signal.quality_terrible": "[信号质量 极差]",
+  "broadcast_radio.signal.quality_none": "[无信号]"
 }

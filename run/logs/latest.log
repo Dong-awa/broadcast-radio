@@ -1,580 +1,92 @@
-[127月2026 00:00:00.266] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
-[127月2026 00:00:00.282] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
-[127月2026 00:00:00.283] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
-[127月2026 00:00:00.463] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：4%
-[127月2026 00:00:00.886] [Server thread/INFO] [net.minecraftforge.server.permission.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
-[127月2026 00:00:00.887] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 1942 ms
-[127月2026 00:00:00.890] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Loaded 762 block absorption values (default=3)
-[127月2026 00:00:00.890] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Absorption values loaded: 762 entries, default 3
-[127月2026 00:00:00.893] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Config] 找到 harmonic 配置节点
-[127月2026 00:00:00.893] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Config] enableHarmonic = true
-[127月2026 00:00:00.893] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Config] maxHarmonicOrder = 4
-[127月2026 00:00:00.897] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Broadcast Radio] Loaded 762 block reflection values (default=15), search: maxCandidates=512, axialStep=3, radialStep=3, numRadialDirections=12; harmonic: enabled=true, maxOrder=4
-[127月2026 00:00:00.897] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Reflection values loaded: 762 entries, default 15
-[127月2026 00:00:01.061] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing view distance to 12, from 10
-[127月2026 00:00:01.063] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing simulation distance to 12, from 0
-[127月2026 00:00:01.152] [Render thread/WARN] [io.netty.util.internal.SystemPropertyUtil/]: Unable to parse the boolean system property 'java.net.preferIPv6Addresses':system - using the default value: false
-[127月2026 00:00:01.667] [Netty Local Client IO #0/INFO] [net.minecraftforge.network.NetworkHooks/]: Connected to a modded server.
-[127月2026 00:00:01.717] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: Dev[local:E:20da6cb3] logged in with entity id 28 at (-69.46670690421013, -60.0, 38.861342537281516)
-[127月2026 00:00:01.786] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev加入了游戏
-[127月2026 00:00:02.606] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 131 advancements
-[127月2026 00:00:06.547] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
-[127月2026 00:00:06.561] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
-[127月2026 00:00:06.576] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
-[127月2026 00:00:06.578] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
-[127月2026 00:00:09.669] [Render thread/INFO] [net.minecraft.server.network.ServerConnectionListener/]: Using default channel type
-[127月2026 00:00:09.683] [Render thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Started serving on 58489
-[127月2026 00:00:09.704] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 本地游戏已在端口[58489]上开启
-[127月2026 00:00:13.789] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
-[127月2026 00:00:15.004] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [866.0 MHz] 我：1
-[127月2026 00:00:15.004] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 发送端 freq=866.00, 距离=256.0, 谐波开关=true, 最大阶数=4, 谐波列表: [2次:1732.00MHz/128格] [3次:2598.00MHz/85格] [4次:3464.00MHz/64格] 
-[127月2026 00:00:15.004] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=Dev, 距离={:.1f}格
-[127月2026 00:00:15.006] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (0.0 < 256.0)
-[127月2026 00:00:15.041] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=1732.00, 距离=128
-[127月2026 00:00:15.041] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:00:15.078] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=2598.00, 距离=85
-[127月2026 00:00:15.078] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:00:15.117] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=3464.00, 距离=64
-[127月2026 00:00:15.117] [Worker-Main-7/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:00:38.167] [User Authenticator #1/INFO] [net.minecraft.server.network.ServerLoginPacketListenerImpl/]: UUID of player DDbox_awa is 636608e7-b930-4547-b683-1630fda86399
-[127月2026 00:00:39.606] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: DDbox_awa[/[240e:351:5042:d7f0:f4e9:fee:b145:d01]:58552] logged in with entity id 57 at (-77.50440764512638, -60.0, 46.326918408436434)
-[127月2026 00:00:39.615] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: DDbox_awa加入了游戏
-[127月2026 00:00:39.624] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] DDbox_awa加入了游戏
-[127月2026 00:00:50.003] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted] 发送端 freq=433.00, 距离=256.0, 谐波开关=true, 最大阶数=4, 谐波列表: [2次:866.00MHz/128格] [3次:1299.00MHz/85格] [4次:1732.00MHz/64格] 
-[127月2026 00:00:50.003] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted] 检查玩家=Dev, 距离={:.1f}格
-[127月2026 00:00:50.007] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted] -> 主频率距离检查通过 (56.0 < 256.0)
-[127月2026 00:00:50.008] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=1, 发送源freq=433.00, 有效检查freq=433.00, 干扰值=0
-[127月2026 00:00:50.008] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:00:50.008] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=866.0000 vs senderFreq=433.0000, match=false
-[127月2026 00:00:50.008] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:00:50.008] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=88.5000 vs senderFreq=433.0000, match=false
-[127月2026 00:00:50.008] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:00:50.009] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=866.0000 vs senderFreq=433.0000, match=false
-[127月2026 00:00:50.009] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:00:50.009] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=433.0000 vs senderFreq=433.0000, match=true
-[127月2026 00:00:50.009] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 加密对讲机密码匹配
-[127月2026 00:00:50.009] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Recv] 玩家=Dev 收到主频率消息: freq=433.00, 干扰=0
-[127月2026 00:00:50.016] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 433.0：1
-[127月2026 00:00:50.082] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted] -- 谐波2次: freq=866.00, 距离=128
-[127月2026 00:00:50.085] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted]    谐波2次距离检查通过
-[127月2026 00:00:50.086] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=2, 发送源freq=433.00, 有效检查freq=866.00, 干扰值=5
-[127月2026 00:00:50.086] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:00:50.086] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=866.0000 vs senderFreq*2=866.0000 (期望866.0000), diff=0.000000, match=true
-[127月2026 00:00:50.086] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 普通对讲机密码匹配
-[127月2026 00:00:50.086] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Recv] 玩家=Dev 收到谐波2次消息: 谐波freq=866.00, 实际距离=56.0, 谐波范围=128, 干扰=5
-[127月2026 00:00:50.099] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 866.0：[谐波2次] 1
-[127月2026 00:00:50.158] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted] -- 谐波3次: freq=1299.00, 距离=85
-[127月2026 00:00:50.160] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted]    谐波3次距离检查通过
-[127月2026 00:00:50.161] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=3, 发送源freq=433.00, 有效检查freq=1299.00, 干扰值=10
-[127月2026 00:00:50.161] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:00:50.161] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=866.0000 vs senderFreq*3=1299.0000 (期望1299.0000), diff=433.000000, match=false
-[127月2026 00:00:50.161] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:00:50.161] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.5000 vs senderFreq*3=1299.0000 (期望1299.0000), diff=1210.500000, match=false
-[127月2026 00:00:50.161] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=866.0000 vs senderFreq*3=1299.0000 (期望1299.0000), diff=433.000000, match=false
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=433.0000 vs senderFreq*3=1299.0000 (期望1299.0000), diff=866.000000, match=false
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.5000 vs senderFreq*3=1299.0000 (期望1299.0000), diff=1210.500000, match=false
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=114.4999
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=114.4999 vs senderFreq*3=1299.0000 (期望1299.0000), diff=1184.500122, match=false
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=92.1001
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=92.1001 vs senderFreq*3=1299.0000 (期望1299.0000), diff=1206.899902, match=false
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.6000
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.6000 vs senderFreq*3=1299.0000 (期望1299.0000), diff=1210.400024, match=false
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=88.5000
-[127月2026 00:00:50.162] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.5000 vs senderFreq*3=1299.0000 (期望1299.0000), diff=1210.500000, match=false
-[127月2026 00:00:53.575] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted] -- 谐波4次: freq=1732.00, 距离=64
-[127月2026 00:00:53.577] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted]    谐波4次距离检查通过
-[127月2026 00:00:53.578] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=4, 发送源freq=433.00, 有效检查freq=1732.00, 干扰值=15
-[127月2026 00:00:53.578] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:00:53.578] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=866.0000 vs senderFreq*4=1732.0000 (期望1732.0000), diff=866.000000, match=false
-[127月2026 00:00:53.578] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:00:53.578] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.5000 vs senderFreq*4=1732.0000 (期望1732.0000), diff=1643.500000, match=false
-[127月2026 00:00:53.578] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:00:53.578] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=866.0000 vs senderFreq*4=1732.0000 (期望1732.0000), diff=866.000000, match=false
-[127月2026 00:00:53.579] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:00:53.579] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=433.0000 vs senderFreq*4=1732.0000 (期望1732.0000), diff=1299.000000, match=false
-[127月2026 00:00:53.579] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:00:53.579] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.5000 vs senderFreq*4=1732.0000 (期望1732.0000), diff=1643.500000, match=false
-[127月2026 00:00:53.579] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=114.4999
-[127月2026 00:00:53.579] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=114.4999 vs senderFreq*4=1732.0000 (期望1732.0000), diff=1617.500122, match=false
-[127月2026 00:00:53.579] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=92.1001
-[127月2026 00:00:53.579] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=92.1001 vs senderFreq*4=1732.0000 (期望1732.0000), diff=1639.899902, match=false
-[127月2026 00:00:53.579] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.6000
-[127月2026 00:00:53.579] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.6000 vs senderFreq*4=1732.0000 (期望1732.0000), diff=1643.400024, match=false
-[127月2026 00:00:53.579] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=88.5000
-[127月2026 00:00:53.580] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.5000 vs senderFreq*4=1732.0000 (期望1732.0000), diff=1643.500000, match=false
-[127月2026 00:00:53.609] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted] 检查玩家=DDbox_awa, 距离={:.1f}格
-[127月2026 00:00:53.609] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted] -> 主频率距离检查通过 (0.0 < 256.0)
-[127月2026 00:00:53.632] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted] -- 谐波2次: freq=866.00, 距离=128
-[127月2026 00:00:53.632] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted]    谐波2次距离检查通过
-[127月2026 00:00:53.657] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted] -- 谐波3次: freq=1299.00, 距离=85
-[127月2026 00:00:53.657] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted]    谐波3次距离检查通过
-[127月2026 00:00:53.680] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted] -- 谐波4次: freq=1732.00, 距离=64
-[127月2026 00:00:53.680] [Worker-Main-8/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Encrypted]    谐波4次距离检查通过
-[127月2026 00:02:28.988] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: 已将Dev传送至Dev]
-[127月2026 00:02:28.999] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 已将Dev传送至Dev
-[127月2026 00:02:33.903] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: [Dev: 已将DDbox_awa传送至Dev]
-[127月2026 00:02:33.903] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 已将DDbox_awa传送至Dev
-[127月2026 00:02:33.920] [Server thread/WARN] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: DDbox_awa moved too quickly! 9.044927816455257,0.0,-33.41441006174024
-[127月2026 00:02:52.527] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 发送端 freq=1.00, 距离=256.0, 谐波开关=true, 最大阶数=4, 谐波列表: [2次:2.00MHz/128格] [3次:3.00MHz/85格] [4次:4.00MHz/64格] 
-[127月2026 00:02:52.527] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=Dev, 距离={:.1f}格
-[127月2026 00:02:52.527] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (2.5 < 256.0)
-[127月2026 00:02:52.528] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=1, 发送源freq=1.00, 有效检查freq=1.00, 干扰值=0
-[127月2026 00:02:52.528] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:02:52.528] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=1.0000 vs senderFreq=1.0000, match=true
-[127月2026 00:02:52.528] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 普通对讲机密码匹配
-[127月2026 00:02:52.528] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Recv] 玩家=Dev 收到主频率消息: freq=1.00, 干扰=0
-[127月2026 00:02:52.534] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-DDbox_awa MHz] 1.0：1
-[127月2026 00:02:52.558] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=2.00, 距离=128
-[127月2026 00:02:52.558] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=2, 发送源freq=1.00, 有效检查freq=2.00, 干扰值=5
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=1.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=1.000000, match=false
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=88.5000 vs senderFreq*2=2.0000 (期望2.0000), diff=86.500000, match=false
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=1.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=1.000000, match=false
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=866.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=864.000000, match=false
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=88.5000 vs senderFreq*2=2.0000 (期望2.0000), diff=86.500038, match=false
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=1.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=1.000000, match=false
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=114.4999
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=114.4999 vs senderFreq*2=2.0000 (期望2.0000), diff=112.499908, match=false
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=92.1001
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=92.1001 vs senderFreq*2=2.0000 (期望2.0000), diff=90.100060, match=false
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.6000
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=88.6000 vs senderFreq*2=2.0000 (期望2.0000), diff=86.600014, match=false
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=88.5000
-[127月2026 00:02:52.559] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=88.5000 vs senderFreq*2=2.0000 (期望2.0000), diff=86.499992, match=false
-[127月2026 00:02:52.585] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=3.00, 距离=85
-[127月2026 00:02:52.586] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=3, 发送源freq=1.00, 有效检查freq=3.00, 干扰值=10
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=1.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=2.000000, match=false
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.5000 vs senderFreq*3=3.0000 (期望3.0000), diff=85.500000, match=false
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=1.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=2.000000, match=false
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=866.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=863.000000, match=false
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.5000 vs senderFreq*3=3.0000 (期望3.0000), diff=85.500038, match=false
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=1.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=2.000000, match=false
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=114.4999
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=114.4999 vs senderFreq*3=3.0000 (期望3.0000), diff=111.499908, match=false
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=92.1001
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=92.1001 vs senderFreq*3=3.0000 (期望3.0000), diff=89.100060, match=false
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.6000
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.6000 vs senderFreq*3=3.0000 (期望3.0000), diff=85.600014, match=false
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=88.5000
-[127月2026 00:02:52.587] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.5000 vs senderFreq*3=3.0000 (期望3.0000), diff=85.499992, match=false
-[127月2026 00:02:52.614] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=4.00, 距离=64
-[127月2026 00:02:52.614] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=4, 发送源freq=1.00, 有效检查freq=4.00, 干扰值=15
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=1.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=3.000000, match=false
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.5000 vs senderFreq*4=4.0000 (期望4.0000), diff=84.500000, match=false
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=1.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=3.000000, match=false
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=866.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=862.000000, match=false
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.5000 vs senderFreq*4=4.0000 (期望4.0000), diff=84.500038, match=false
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=1.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=3.000000, match=false
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=114.4999
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=114.4999 vs senderFreq*4=4.0000 (期望4.0000), diff=110.499908, match=false
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=92.1001
-[127月2026 00:02:52.615] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=92.1001 vs senderFreq*4=4.0000 (期望4.0000), diff=88.100060, match=false
-[127月2026 00:02:52.616] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.6000
-[127月2026 00:02:52.616] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.6000 vs senderFreq*4=4.0000 (期望4.0000), diff=84.600014, match=false
-[127月2026 00:02:52.616] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=88.5000
-[127月2026 00:02:52.616] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.5000 vs senderFreq*4=4.0000 (期望4.0000), diff=84.499992, match=false
-[127月2026 00:02:52.640] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=DDbox_awa, 距离={:.1f}格
-[127月2026 00:02:52.640] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (0.0 < 256.0)
-[127月2026 00:02:52.665] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=2.00, 距离=128
-[127月2026 00:02:52.665] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:02:52.688] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=3.00, 距离=85
-[127月2026 00:02:52.689] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:02:52.711] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=4.00, 距离=64
-[127月2026 00:02:52.711] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:03:06.929] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
-[127月2026 00:03:07.902] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 发送端 freq=1.00, 距离=256.0, 谐波开关=true, 最大阶数=4, 谐波列表: [2次:2.00MHz/128格] [3次:3.00MHz/85格] [4次:4.00MHz/64格] 
-[127月2026 00:03:07.902] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=Dev, 距离={:.1f}格
-[127月2026 00:03:07.902] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (0.0 < 256.0)
-[127月2026 00:03:07.914] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [1.0 MHz] 我：1
-[127月2026 00:03:07.926] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=2.00, 距离=128
-[127月2026 00:03:07.926] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:03:07.954] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=3.00, 距离=85
-[127月2026 00:03:07.954] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:03:07.978] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=4.00, 距离=64
-[127月2026 00:03:07.979] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:03:08.005] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=DDbox_awa, 距离={:.1f}格
-[127月2026 00:03:08.005] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (2.9 < 256.0)
-[127月2026 00:03:08.006] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=1, 发送源freq=1.00, 有效检查freq=1.00, 干扰值=0
-[127月2026 00:03:08.006] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=2.0000
-[127月2026 00:03:08.006] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=2.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:08.006] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:08.006] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=84.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:08.006] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=2.0000
-[127月2026 00:03:08.006] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=2.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:08.006] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:08.006] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=433.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:08.033] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=2.00, 距离=128
-[127月2026 00:03:08.033] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:03:08.034] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=2, 发送源freq=1.00, 有效检查freq=2.00, 干扰值=5
-[127月2026 00:03:08.034] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=2.0000
-[127月2026 00:03:08.034] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=2.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=0.000000, match=true
-[127月2026 00:03:08.034] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 普通对讲机密码匹配
-[127月2026 00:03:08.034] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Recv] 玩家=DDbox_awa 收到谐波2次消息: 谐波freq=2.00, 实际距离=2.9, 谐波范围=128, 干扰=5
-[127月2026 00:03:08.061] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=3.00, 距离=85
-[127月2026 00:03:08.061] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:03:08.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=3, 发送源freq=1.00, 有效检查freq=3.00, 干扰值=10
-[127月2026 00:03:08.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=2.0000
-[127月2026 00:03:08.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=2.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=1.000000, match=false
-[127月2026 00:03:08.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:08.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=84.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=81.000038, match=false
-[127月2026 00:03:08.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=2.0000
-[127月2026 00:03:08.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=2.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=1.000000, match=false
-[127月2026 00:03:08.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:08.062] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=433.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=430.000000, match=false
-[127月2026 00:03:08.087] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=4.00, 距离=64
-[127月2026 00:03:08.087] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:03:08.087] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=4, 发送源freq=1.00, 有效检查freq=4.00, 干扰值=15
-[127月2026 00:03:08.088] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=2.0000
-[127月2026 00:03:08.088] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=2.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=2.000000, match=false
-[127月2026 00:03:08.088] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:08.088] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=84.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=80.000038, match=false
-[127月2026 00:03:08.088] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=2.0000
-[127月2026 00:03:08.088] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=2.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=2.000000, match=false
-[127月2026 00:03:08.088] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:08.088] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=433.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=429.000000, match=false
-[127月2026 00:03:19.440] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
-[127月2026 00:03:20.258] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 发送端 freq=1.00, 距离=256.0, 谐波开关=true, 最大阶数=4, 谐波列表: [2次:2.00MHz/128格] [3次:3.00MHz/85格] [4次:4.00MHz/64格] 
-[127月2026 00:03:20.258] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=Dev, 距离={:.1f}格
-[127月2026 00:03:20.258] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (0.0 < 256.0)
-[127月2026 00:03:20.274] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [1.0 MHz] 我：1
-[127月2026 00:03:20.284] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=2.00, 距离=128
-[127月2026 00:03:20.284] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:03:20.311] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=3.00, 距离=85
-[127月2026 00:03:20.311] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:03:20.334] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=4.00, 距离=64
-[127月2026 00:03:20.335] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:03:20.361] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=DDbox_awa, 距离={:.1f}格
-[127月2026 00:03:20.361] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (2.9 < 256.0)
-[127月2026 00:03:20.362] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=1, 发送源freq=1.00, 有效检查freq=1.00, 干扰值=0
-[127月2026 00:03:20.362] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=3.0000
-[127月2026 00:03:20.362] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=3.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:20.362] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:20.362] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=84.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:20.362] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=3.0000
-[127月2026 00:03:20.362] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=3.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:20.362] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:20.362] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=433.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:20.389] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=2.00, 距离=128
-[127月2026 00:03:20.389] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:03:20.390] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=2, 发送源freq=1.00, 有效检查freq=2.00, 干扰值=5
-[127月2026 00:03:20.390] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=3.0000
-[127月2026 00:03:20.390] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=3.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=1.000000, match=false
-[127月2026 00:03:20.390] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:20.390] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=84.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=82.000038, match=false
-[127月2026 00:03:20.390] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=3.0000
-[127月2026 00:03:20.390] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=3.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=1.000000, match=false
-[127月2026 00:03:20.390] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:20.390] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=433.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=431.000000, match=false
-[127月2026 00:03:20.416] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=3.00, 距离=85
-[127月2026 00:03:20.416] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:03:20.417] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=3, 发送源freq=1.00, 有效检查freq=3.00, 干扰值=10
-[127月2026 00:03:20.417] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=3.0000
-[127月2026 00:03:20.417] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=3.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=0.000000, match=true
-[127月2026 00:03:20.417] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 普通对讲机密码匹配
-[127月2026 00:03:20.417] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Recv] 玩家=DDbox_awa 收到谐波3次消息: 谐波freq=3.00, 实际距离=2.9, 谐波范围=85, 干扰=10
-[127月2026 00:03:20.440] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=4.00, 距离=64
-[127月2026 00:03:20.441] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:03:20.442] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=4, 发送源freq=1.00, 有效检查freq=4.00, 干扰值=15
-[127月2026 00:03:20.442] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=3.0000
-[127月2026 00:03:20.442] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=3.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=1.000000, match=false
-[127月2026 00:03:20.442] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:20.442] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=84.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=80.000038, match=false
-[127月2026 00:03:20.442] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=3.0000
-[127月2026 00:03:20.442] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=3.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=1.000000, match=false
-[127月2026 00:03:20.442] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:20.442] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=433.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=429.000000, match=false
-[127月2026 00:03:31.740] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 发送端 freq=3.00, 距离=256.0, 谐波开关=true, 最大阶数=4, 谐波列表: [2次:6.00MHz/128格] [3次:9.00MHz/85格] [4次:12.00MHz/64格] 
-[127月2026 00:03:31.740] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=Dev, 距离={:.1f}格
-[127月2026 00:03:31.740] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (2.9 < 256.0)
-[127月2026 00:03:31.741] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=1, 发送源freq=3.00, 有效检查freq=3.00, 干扰值=0
-[127月2026 00:03:31.741] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.741] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=1.0000 vs senderFreq=3.0000, match=false
-[127月2026 00:03:31.741] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:03:31.741] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=88.5000 vs senderFreq=3.0000, match=false
-[127月2026 00:03:31.741] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.741] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=1.0000 vs senderFreq=3.0000, match=false
-[127月2026 00:03:31.741] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:03:31.741] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=866.0000 vs senderFreq=3.0000, match=false
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=88.5000 vs senderFreq=3.0000, match=false
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=1.0000 vs senderFreq=3.0000, match=false
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=114.4999
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=114.4999 vs senderFreq=3.0000, match=false
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=92.1001
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=92.1001 vs senderFreq=3.0000, match=false
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.6000
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=88.6000 vs senderFreq=3.0000, match=false
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=88.5000
-[127月2026 00:03:31.742] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 主频率匹配: targetFreq=88.5000 vs senderFreq=3.0000, match=false
-[127月2026 00:03:31.769] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=6.00, 距离=128
-[127月2026 00:03:31.769] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=2, 发送源freq=3.00, 有效检查freq=6.00, 干扰值=5
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=1.0000 vs senderFreq*2=6.0000 (期望6.0000), diff=5.000000, match=false
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=88.5000 vs senderFreq*2=6.0000 (期望6.0000), diff=82.500000, match=false
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=1.0000 vs senderFreq*2=6.0000 (期望6.0000), diff=5.000000, match=false
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=866.0000 vs senderFreq*2=6.0000 (期望6.0000), diff=860.000000, match=false
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=88.5000 vs senderFreq*2=6.0000 (期望6.0000), diff=82.500038, match=false
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=1.0000 vs senderFreq*2=6.0000 (期望6.0000), diff=5.000000, match=false
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=114.4999
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=114.4999 vs senderFreq*2=6.0000 (期望6.0000), diff=108.499908, match=false
-[127月2026 00:03:31.770] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=92.1001
-[127月2026 00:03:31.771] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=92.1001 vs senderFreq*2=6.0000 (期望6.0000), diff=86.100060, match=false
-[127月2026 00:03:31.771] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.6000
-[127月2026 00:03:31.771] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=88.6000 vs senderFreq*2=6.0000 (期望6.0000), diff=82.600014, match=false
-[127月2026 00:03:31.771] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=88.5000
-[127月2026 00:03:31.771] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波2次匹配: targetFreq=88.5000 vs senderFreq*2=6.0000 (期望6.0000), diff=82.499992, match=false
-[127月2026 00:03:31.795] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=9.00, 距离=85
-[127月2026 00:03:31.795] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=3, 发送源freq=3.00, 有效检查freq=9.00, 干扰值=10
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=1.0000 vs senderFreq*3=9.0000 (期望9.0000), diff=8.000000, match=false
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.5000 vs senderFreq*3=9.0000 (期望9.0000), diff=79.500000, match=false
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=1.0000 vs senderFreq*3=9.0000 (期望9.0000), diff=8.000000, match=false
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=866.0000 vs senderFreq*3=9.0000 (期望9.0000), diff=857.000000, match=false
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.5000 vs senderFreq*3=9.0000 (期望9.0000), diff=79.500038, match=false
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=1.0000 vs senderFreq*3=9.0000 (期望9.0000), diff=8.000000, match=false
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=114.4999
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=114.4999 vs senderFreq*3=9.0000 (期望9.0000), diff=105.499908, match=false
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=92.1001
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=92.1001 vs senderFreq*3=9.0000 (期望9.0000), diff=83.100060, match=false
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.6000
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.6000 vs senderFreq*3=9.0000 (期望9.0000), diff=79.600014, match=false
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=88.5000
-[127月2026 00:03:31.796] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波3次匹配: targetFreq=88.5000 vs senderFreq*3=9.0000 (期望9.0000), diff=79.499992, match=false
-[127月2026 00:03:31.821] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=12.00, 距离=64
-[127月2026 00:03:31.821] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=Dev, 谐波阶数=4, 发送源freq=3.00, 有效检查freq=12.00, 干扰值=15
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=1.0000 vs senderFreq*4=12.0000 (期望12.0000), diff=11.000000, match=false
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.5000 vs senderFreq*4=12.0000 (期望12.0000), diff=76.500000, match=false
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=1.0000 vs senderFreq*4=12.0000 (期望12.0000), diff=11.000000, match=false
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=866.0000
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=866.0000 vs senderFreq*4=12.0000 (期望12.0000), diff=854.000000, match=false
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.5000
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.5000 vs senderFreq*4=12.0000 (期望12.0000), diff=76.500038, match=false
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=1.0000
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=1.0000 vs senderFreq*4=12.0000 (期望12.0000), diff=11.000000, match=false
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=114.4999
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=114.4999 vs senderFreq*4=12.0000 (期望12.0000), diff=102.499908, match=false
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=92.1001
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=92.1001 vs senderFreq*4=12.0000 (期望12.0000), diff=80.100060, match=false
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=普通对讲机, targetFreq=88.6000
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.6000 vs senderFreq*4=12.0000 (期望12.0000), diff=76.600014, match=false
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 设备=加密对讲机, targetFreq=88.5000
-[127月2026 00:03:31.822] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=Dev 谐波4次匹配: targetFreq=88.5000 vs senderFreq*4=12.0000 (期望12.0000), diff=76.499992, match=false
-[127月2026 00:03:31.845] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=DDbox_awa, 距离={:.1f}格
-[127月2026 00:03:31.845] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (0.0 < 256.0)
-[127月2026 00:03:31.871] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=6.00, 距离=128
-[127月2026 00:03:31.871] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:03:31.893] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=9.00, 距离=85
-[127月2026 00:03:31.893] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:03:31.916] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=12.00, 距离=64
-[127月2026 00:03:31.916] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:03:41.842] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
-[127月2026 00:03:42.694] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 发送端 freq=1.00, 距离=256.0, 谐波开关=true, 最大阶数=4, 谐波列表: [2次:2.00MHz/128格] [3次:3.00MHz/85格] [4次:4.00MHz/64格] 
-[127月2026 00:03:42.694] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=Dev, 距离={:.1f}格
-[127月2026 00:03:42.694] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (0.0 < 256.0)
-[127月2026 00:03:42.709] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [1.0 MHz] 我：1
-[127月2026 00:03:42.724] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=2.00, 距离=128
-[127月2026 00:03:42.725] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:03:42.752] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=3.00, 距离=85
-[127月2026 00:03:42.752] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:03:42.776] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=4.00, 距离=64
-[127月2026 00:03:42.776] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:03:42.802] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=DDbox_awa, 距离={:.1f}格
-[127月2026 00:03:42.802] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (2.9 < 256.0)
-[127月2026 00:03:42.803] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=1, 发送源freq=1.00, 有效检查freq=1.00, 干扰值=0
-[127月2026 00:03:42.803] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:42.803] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=4.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:42.803] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:42.803] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=84.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:42.803] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:42.803] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=4.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:42.803] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:42.803] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=433.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:03:42.827] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=2.00, 距离=128
-[127月2026 00:03:42.827] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:03:42.828] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=2, 发送源freq=1.00, 有效检查freq=2.00, 干扰值=5
-[127月2026 00:03:42.828] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:42.828] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=4.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=2.000000, match=false
-[127月2026 00:03:42.828] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:42.828] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=84.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=82.000038, match=false
-[127月2026 00:03:42.828] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:42.828] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=4.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=2.000000, match=false
-[127月2026 00:03:42.828] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:42.829] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=433.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=431.000000, match=false
-[127月2026 00:03:42.853] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=3.00, 距离=85
-[127月2026 00:03:42.853] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:03:42.853] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=3, 发送源freq=1.00, 有效检查freq=3.00, 干扰值=10
-[127月2026 00:03:42.854] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:42.854] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=4.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=1.000000, match=false
-[127月2026 00:03:42.854] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:42.854] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=84.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=81.000038, match=false
-[127月2026 00:03:42.854] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:42.854] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=4.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=1.000000, match=false
-[127月2026 00:03:42.854] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:42.854] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=433.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=430.000000, match=false
-[127月2026 00:03:42.875] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=4.00, 距离=64
-[127月2026 00:03:42.875] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:03:42.876] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=4, 发送源freq=1.00, 有效检查freq=4.00, 干扰值=15
-[127月2026 00:03:42.876] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:42.876] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=4.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=0.000000, match=true
-[127月2026 00:03:42.876] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 普通对讲机密码匹配
-[127月2026 00:03:42.876] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Recv] 玩家=DDbox_awa 收到谐波4次消息: 谐波freq=4.00, 实际距离=2.9, 谐波范围=64, 干扰=15
-[127月2026 00:03:47.230] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
-[127月2026 00:03:48.115] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 发送端 freq=2.00, 距离=256.0, 谐波开关=true, 最大阶数=4, 谐波列表: [2次:4.00MHz/128格] [3次:6.00MHz/85格] [4次:8.00MHz/64格] 
-[127月2026 00:03:48.115] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=Dev, 距离={:.1f}格
-[127月2026 00:03:48.116] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (0.0 < 256.0)
-[127月2026 00:03:48.131] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [2.0 MHz] 我：1
-[127月2026 00:03:48.140] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=4.00, 距离=128
-[127月2026 00:03:48.140] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:03:48.166] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=6.00, 距离=85
-[127月2026 00:03:48.167] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:03:48.191] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=8.00, 距离=64
-[127月2026 00:03:48.191] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:03:48.218] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=DDbox_awa, 距离={:.1f}格
-[127月2026 00:03:48.218] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (2.9 < 256.0)
-[127月2026 00:03:48.218] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=1, 发送源freq=2.00, 有效检查freq=2.00, 干扰值=0
-[127月2026 00:03:48.219] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:48.219] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=4.0000 vs senderFreq=2.0000, match=false
-[127月2026 00:03:48.219] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:48.219] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=84.0000 vs senderFreq=2.0000, match=false
-[127月2026 00:03:48.219] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:48.219] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=4.0000 vs senderFreq=2.0000, match=false
-[127月2026 00:03:48.219] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:48.219] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=433.0000 vs senderFreq=2.0000, match=false
-[127月2026 00:03:48.244] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=4.00, 距离=128
-[127月2026 00:03:48.244] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:03:48.245] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=2, 发送源freq=2.00, 有效检查freq=4.00, 干扰值=5
-[127月2026 00:03:48.245] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:48.245] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=4.0000 vs senderFreq*2=4.0000 (期望4.0000), diff=0.000000, match=true
-[127月2026 00:03:48.245] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 普通对讲机密码匹配
-[127月2026 00:03:48.245] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Recv] 玩家=DDbox_awa 收到谐波2次消息: 谐波freq=4.00, 实际距离=2.9, 谐波范围=128, 干扰=5
-[127月2026 00:03:48.272] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=6.00, 距离=85
-[127月2026 00:03:48.272] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:03:48.273] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=3, 发送源freq=2.00, 有效检查freq=6.00, 干扰值=10
-[127月2026 00:03:48.273] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:48.273] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=4.0000 vs senderFreq*3=6.0000 (期望6.0000), diff=2.000000, match=false
-[127月2026 00:03:48.273] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:48.273] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=84.0000 vs senderFreq*3=6.0000 (期望6.0000), diff=78.000038, match=false
-[127月2026 00:03:48.273] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:48.273] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=4.0000 vs senderFreq*3=6.0000 (期望6.0000), diff=2.000000, match=false
-[127月2026 00:03:48.274] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:48.274] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=433.0000 vs senderFreq*3=6.0000 (期望6.0000), diff=427.000000, match=false
-[127月2026 00:03:48.299] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=8.00, 距离=64
-[127月2026 00:03:48.300] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:03:48.301] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=4, 发送源freq=2.00, 有效检查freq=8.00, 干扰值=15
-[127月2026 00:03:48.301] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:48.301] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=4.0000 vs senderFreq*4=8.0000 (期望8.0000), diff=4.000000, match=false
-[127月2026 00:03:48.301] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:03:48.301] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=84.0000 vs senderFreq*4=8.0000 (期望8.0000), diff=76.000038, match=false
-[127月2026 00:03:48.301] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=4.0000
-[127月2026 00:03:48.301] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=4.0000 vs senderFreq*4=8.0000 (期望8.0000), diff=4.000000, match=false
-[127月2026 00:03:48.301] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:03:48.301] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=433.0000 vs senderFreq*4=8.0000 (期望8.0000), diff=425.000000, match=false
-[127月2026 00:03:59.289] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
-[127月2026 00:04:00.059] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 发送端 freq=1.00, 距离=256.0, 谐波开关=true, 最大阶数=4, 谐波列表: [2次:2.00MHz/128格] [3次:3.00MHz/85格] [4次:4.00MHz/64格] 
-[127月2026 00:04:00.059] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=Dev, 距离={:.1f}格
-[127月2026 00:04:00.059] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (0.0 < 256.0)
-[127月2026 00:04:00.073] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [1.0 MHz] 我：1
-[127月2026 00:04:00.082] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=2.00, 距离=128
-[127月2026 00:04:00.083] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:04:00.108] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=3.00, 距离=85
-[127月2026 00:04:00.108] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:04:00.131] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=4.00, 距离=64
-[127月2026 00:04:00.131] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:04:00.159] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] 检查玩家=DDbox_awa, 距离={:.1f}格
-[127月2026 00:04:00.159] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -> 主频率距离检查通过 (2.9 < 256.0)
-[127月2026 00:04:00.160] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=1, 发送源freq=1.00, 有效检查freq=1.00, 干扰值=0
-[127月2026 00:04:00.160] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=5.0000
-[127月2026 00:04:00.160] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=5.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:04:00.160] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:04:00.160] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=84.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:04:00.160] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=5.0000
-[127月2026 00:04:00.160] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=5.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:04:00.160] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:04:00.160] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 主频率匹配: targetFreq=433.0000 vs senderFreq=1.0000, match=false
-[127月2026 00:04:00.184] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波2次: freq=2.00, 距离=128
-[127月2026 00:04:00.184] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波2次距离检查通过
-[127月2026 00:04:00.185] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=2, 发送源freq=1.00, 有效检查freq=2.00, 干扰值=5
-[127月2026 00:04:00.185] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=5.0000
-[127月2026 00:04:00.185] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=5.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=3.000000, match=false
-[127月2026 00:04:00.185] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:04:00.185] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=84.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=82.000038, match=false
-[127月2026 00:04:00.185] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=5.0000
-[127月2026 00:04:00.185] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=5.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=3.000000, match=false
-[127月2026 00:04:00.185] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:04:00.185] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波2次匹配: targetFreq=433.0000 vs senderFreq*2=2.0000 (期望2.0000), diff=431.000000, match=false
-[127月2026 00:04:00.212] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波3次: freq=3.00, 距离=85
-[127月2026 00:04:00.212] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波3次距离检查通过
-[127月2026 00:04:00.213] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=3, 发送源freq=1.00, 有效检查freq=3.00, 干扰值=10
-[127月2026 00:04:00.213] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=5.0000
-[127月2026 00:04:00.213] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=5.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=2.000000, match=false
-[127月2026 00:04:00.213] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:04:00.213] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=84.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=81.000038, match=false
-[127月2026 00:04:00.213] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=5.0000
-[127月2026 00:04:00.213] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=5.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=2.000000, match=false
-[127月2026 00:04:00.213] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:04:00.213] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波3次匹配: targetFreq=433.0000 vs senderFreq*3=3.0000 (期望3.0000), diff=430.000000, match=false
-[127月2026 00:04:00.235] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send] -- 谐波4次: freq=4.00, 距离=64
-[127月2026 00:04:00.236] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Send]    谐波4次距离检查通过
-[127月2026 00:04:00.236] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified][Check] 玩家=DDbox_awa, 谐波阶数=4, 发送源freq=1.00, 有效检查freq=4.00, 干扰值=15
-[127月2026 00:04:00.236] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=5.0000
-[127月2026 00:04:00.236] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=5.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=1.000000, match=false
-[127月2026 00:04:00.236] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=84.0000
-[127月2026 00:04:00.237] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=84.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=80.000038, match=false
-[127月2026 00:04:00.237] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=普通对讲机, targetFreq=5.0000
-[127月2026 00:04:00.237] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=5.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=1.000000, match=false
-[127月2026 00:04:00.237] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 设备=加密对讲机, targetFreq=433.0000
-[127月2026 00:04:00.237] [Worker-Main-9/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Harmonic][Unified] 玩家=DDbox_awa 谐波4次匹配: targetFreq=433.0000 vs senderFreq*4=4.0000 (期望4.0000), diff=429.000000, match=false
-[127月2026 00:11:06.800] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev lost connection: 连接中断
-[127月2026 00:11:06.800] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev退出了游戏
-[127月2026 00:11:06.819] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Stopping singleplayer server as player logged out
-[127月2026 00:11:06.857] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
-[127月2026 00:11:06.857] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
-[127月2026 00:11:06.857] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
-[127月2026 00:11:06.936] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
-[127月2026 00:11:06.955] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
-[127月2026 00:11:06.955] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
-[127月2026 00:11:06.969] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (test): All chunks are saved
-[127月2026 00:11:06.969] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
-[127月2026 00:11:06.969] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
-[127月2026 00:11:06.969] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
-[127月2026 00:11:07.847] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!
+[127月2026 12:21:15.043] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher running: args [--launchTarget, forgeclientuserdev, --version, MOD_DEV, --assetIndex, 5, --assetsDir, H:\MCMOD\Hexcolorblocks\caches\forge_gradle\assets, --gameDir, ., --fml.forgeVersion, 47.4.18, --fml.mcVersion, 1.20.1, --fml.forgeGroup, net.minecraftforge, --fml.mcpVersion, 20230612.114412]
+[127月2026 12:21:15.047] [main/INFO] [cpw.mods.modlauncher.Launcher/MODLAUNCHER]: ModLauncher 10.0.9+10.0.9+main.dcd20f30 starting: java version 17.0.18 by Microsoft; OS Windows 10 arch amd64 version 10.0
+[127月2026 12:21:15.143] [main/INFO] [net.minecraftforge.fml.loading.ImmediateWindowHandler/]: Loading ImmediateWindowProvider fmlearlywindow
+[127月2026 12:21:15.214] [main/INFO] [EARLYDISPLAY/]: Trying GL version 4.6
+[127月2026 12:21:15.384] [main/INFO] [EARLYDISPLAY/]: Requested GL version 4.6 got version 4.6
+[127月2026 12:21:15.443] [main/INFO] [mixin/]: SpongePowered MIXIN Subsystem Version=0.8.5 Source=union:/H:/MCMOD/Hexcolorblocks/caches/modules-2/files-2.1/org.spongepowered/mixin/0.8.5/9d1c0c3a304ae6697ecd477218fa61b850bf57fc/mixin-0.8.5.jar%23128!/ Service=ModLauncher Env=CLIENT
+[127月2026 12:21:15.496] [pool-2-thread-1/INFO] [EARLYDISPLAY/]: GL info: NVIDIA GeForce RTX 3060 Ti/PCIe/SSE2 GL version 4.6.0 NVIDIA 596.36, NVIDIA Corporation
+[127月2026 12:21:15.746] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\javafmllanguage\1.20.1-47.4.18\b526bd87f2544dda5b1348fb2a5047f230e5e679\javafmllanguage-1.20.1-47.4.18.jar is missing mods.toml file
+[127月2026 12:21:15.749] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\lowcodelanguage\1.20.1-47.4.18\312c78291744fbc826551ff8431a9c42e26493f3\lowcodelanguage-1.20.1-47.4.18.jar is missing mods.toml file
+[127月2026 12:21:15.751] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\mclanguage\1.20.1-47.4.18\f6a2d32cb3b5b54788432adafe8b11c99abaf7bd\mclanguage-1.20.1-47.4.18.jar is missing mods.toml file
+[127月2026 12:21:15.753] [main/WARN] [net.minecraftforge.fml.loading.moddiscovery.ModFileParser/LOADING]: Mod file H:\MCMOD\Hexcolorblocks\caches\modules-2\files-2.1\net.minecraftforge\fmlcore\1.20.1-47.4.18\942bd5bf4be190a3681fa76f09d9c14e2434adf9\fmlcore-1.20.1-47.4.18.jar is missing mods.toml file
+[127月2026 12:21:15.803] [main/INFO] [net.minecraftforge.fml.loading.moddiscovery.JarInJarDependencyLocator/]: No dependencies to load found. Skipping!
+[127月2026 12:21:16.805] [main/INFO] [cpw.mods.modlauncher.LaunchServiceHandler/MODLAUNCHER]: Launching target 'forgeclientuserdev' with arguments [--version, MOD_DEV, --gameDir, ., --assetsDir, H:\MCMOD\Hexcolorblocks\caches\forge_gradle\assets, --assetIndex, 5]
+[127月2026 12:21:19.550] [Datafixer Bootstrap/INFO] [com.mojang.datafixers.DataFixerBuilder/]: 188 Datafixer optimizations took 86 milliseconds
+[127月2026 12:21:20.866] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/H:/MCMOD/Hexcolorblocks/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.18_mapped_official_1.20.1/forge-1.20.1-47.4.18_mapped_official_1.20.1.jar%23191!/assets/.mcassetsroot' uses unexpected schema
+[127月2026 12:21:20.866] [Render thread/WARN] [net.minecraft.server.packs.VanillaPackResourcesBuilder/]: Assets URL 'union:/H:/MCMOD/Hexcolorblocks/caches/forge_gradle/minecraft_user_repo/net/minecraftforge/forge/1.20.1-47.4.18_mapped_official_1.20.1/forge-1.20.1-47.4.18_mapped_official_1.20.1.jar%23191!/data/.mcassetsroot' uses unexpected schema
+[127月2026 12:21:20.883] [Render thread/INFO] [com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService/]: Environment: authHost='https://authserver.mojang.com', accountsHost='https://api.mojang.com', sessionHost='https://sessionserver.mojang.com', servicesHost='https://api.minecraftservices.com', name='PROD'
+[127月2026 12:21:20.891] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Setting user: Dev
+[127月2026 12:21:20.991] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Backend library: LWJGL version 3.3.1 build 7
+[127月2026 12:21:21.276] [modloading-worker-0/INFO] [net.minecraftforge.common.ForgeMod/FORGEMOD]: Forge mod loading, version 47.4.18, for MC 1.20.1 with MCP 20230612.114412
+[127月2026 12:21:21.280] [modloading-worker-0/INFO] [net.minecraftforge.common.MinecraftForge/FORGE]: MinecraftForge v47.4.18 Initialized
+[127月2026 12:21:22.007] [Render thread/INFO] [net.minecraftforge.gametest.ForgeGameTestHooks/]: Enabled Gametest Namespaces: [broadcast_radio]
+[127月2026 12:21:22.087] [Render thread/INFO] [net.minecraft.server.packs.resources.ReloadableResourceManager/]: Reloading ResourceManager: vanilla, mod_resources
+[127月2026 12:21:22.167] [Worker-Main-5/INFO] [net.minecraft.client.gui.font.providers.UnihexProvider/]: Found unifont_all_no_pua-15.0.06.hex, loading
+[127月2026 12:21:22.193] [Worker-Main-10/ERROR] [net.minecraft.Util/]: Invalid path in pack: broadcast_radio:textures/block/simple_radio_block/WHY.txt, ignoring
+[127月2026 12:21:22.239] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Starting version check at https://files.minecraftforge.net/net/minecraftforge/forge/promotions_slim.json
+[127月2026 12:21:22.470] [Worker-Main-4/WARN] [net.minecraft.client.renderer.texture.SpriteLoader/]: Texture broadcast_radio:item/circuit_board with size 157x157 limits mip level from 4 to 0
+[127月2026 12:21:23.525] [Forge Version Check/INFO] [net.minecraftforge.fml.VersionChecker/]: [forge] Found status: OUTDATED Current: 47.4.18 Target: 47.4.21
+[127月2026 12:21:24.190] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:item.goat_horn.play
+[127月2026 12:21:24.190] [Render thread/WARN] [net.minecraft.client.sounds.SoundEngine/]: Missing sound for event: minecraft:entity.goat.screaming.horn_break
+[127月2026 12:21:24.221] [Render thread/INFO] [com.mojang.blaze3d.audio.Library/]: OpenAL initialized on device OpenAL Soft on 扬声器 (USB PnP Audio Device)
+[127月2026 12:21:24.222] [Render thread/INFO] [net.minecraft.client.sounds.SoundEngine/SOUNDS]: Sound engine started
+[127月2026 12:21:24.308] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/blocks.png-atlas
+[127月2026 12:21:24.314] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/signs.png-atlas
+[127月2026 12:21:24.314] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/banner_patterns.png-atlas
+[127月2026 12:21:24.315] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x512x4 minecraft:textures/atlas/shield_patterns.png-atlas
+[127月2026 12:21:24.315] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 1024x1024x4 minecraft:textures/atlas/armor_trims.png-atlas
+[127月2026 12:21:24.317] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x4 minecraft:textures/atlas/chest.png-atlas
+[127月2026 12:21:24.318] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x64x4 minecraft:textures/atlas/decorated_pot.png-atlas
+[127月2026 12:21:24.318] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/shulker_boxes.png-atlas
+[127月2026 12:21:24.318] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 512x256x4 minecraft:textures/atlas/beds.png-atlas
+[127月2026 12:21:24.487] [Render thread/WARN] [net.minecraft.client.renderer.ShaderInstance/]: Shader rendertype_entity_translucent_emissive could not find sampler named Sampler2 in the specified shader program.
+[127月2026 12:21:24.533] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/particles.png-atlas
+[127月2026 12:21:24.534] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 256x256x0 minecraft:textures/atlas/paintings.png-atlas
+[127月2026 12:21:24.534] [Render thread/INFO] [net.minecraft.client.renderer.texture.TextureAtlas/]: Created: 128x128x0 minecraft:textures/atlas/mob_effects.png-atlas
+[127月2026 12:21:25.048] [Realms Notification Availability checker #1/INFO] [com.mojang.realmsclient.client.RealmsClient/]: Could not authorize you against Realms server: java.lang.RuntimeException: Failed to parse into SignedJWT: 0
+[127月2026 12:22:58.630] [Render thread/INFO] [net.minecraftforge.registries.GameData/REGISTRIES]: Injecting existing registry data into this CLIENT instance
+[127月2026 12:22:59.678] [Render thread/INFO] [net.minecraft.world.item.crafting.RecipeManager/]: Loaded 7 recipes
+[127月2026 12:22:59.747] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 1271 advancements
+[127月2026 12:23:00.034] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Starting integrated minecraft server version 1.20.1
+[127月2026 12:23:00.035] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Generating keypair
+[127月2026 12:23:00.235] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Preparing start region for dimension minecraft:overworld
+[127月2026 12:23:01.544] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
+[127月2026 12:23:01.544] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
+[127月2026 12:23:01.544] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：0%
+[127月2026 12:23:01.763] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: 准备生成区域中：8%
+[127月2026 12:23:02.019] [Server thread/INFO] [net.minecraftforge.server.permission.PermissionAPI/]: Successfully initialized permission handler forge:default_handler
+[127月2026 12:23:02.022] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Loaded 762 block absorption values (default=3)
+[127月2026 12:23:02.022] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Absorption values loaded: 762 entries, default 3
+[127月2026 12:23:02.026] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [Broadcast Radio] Loaded 762 block reflection values (default=15), search: maxCandidates=512, axialStep=3, radialStep=3, numRadialDirections=12; harmonic: enabled=true, maxOrder=4
+[127月2026 12:23:02.026] [Server thread/INFO] [bili.dongsz.broadcastradio.BroadcastRadio/]: [BroadcastRadio] Reflection values loaded: 762 entries, default 15
+[127月2026 12:23:02.034] [Render thread/INFO] [net.minecraft.server.level.progress.LoggerChunkProgressListener/]: Time elapsed: 1780 ms
+[127月2026 12:23:02.174] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing view distance to 12, from 10
+[127月2026 12:23:02.176] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Changing simulation distance to 12, from 0
+[127月2026 12:23:02.309] [Render thread/WARN] [io.netty.util.internal.SystemPropertyUtil/]: Unable to parse the boolean system property 'java.net.preferIPv6Addresses':system - using the default value: false
+[127月2026 12:23:02.690] [Netty Local Client IO #0/INFO] [net.minecraftforge.network.NetworkHooks/]: Connected to a modded server.
+[127月2026 12:23:02.729] [Server thread/INFO] [net.minecraft.server.players.PlayerList/]: Dev[local:E:c22df484] logged in with entity id 25 at (-60.30000001192093, -60.0, 11.026254409138506)
+[127月2026 12:23:02.764] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev加入了游戏
+[127月2026 12:23:03.163] [Render thread/INFO] [net.minecraft.advancements.AdvancementList/]: Loaded 131 advancements
+[127月2026 12:23:10.601] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
+[127月2026 12:23:11.983] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [1.0 MHz] 我：1
+[127月2026 12:23:19.155] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] 输入对讲机消息（发送到当前频率）：
+[127月2026 12:23:20.073] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [88.5 MHz] 我：1
+[127月2026 12:23:20.073] [Render thread/INFO] [net.minecraft.client.gui.components.ChatComponent/]: [System] [CHAT] [来自-Dev MHz] 88.5：1
+[127月2026 12:23:35.327] [Server thread/INFO] [net.minecraft.client.server.IntegratedServer/]: Saving and pausing game...
+[127月2026 12:23:35.338] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
+[127月2026 12:23:35.348] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
+[127月2026 12:23:35.349] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
+[127月2026 12:23:36.432] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Dev lost connection: 连接中断
+[127月2026 12:23:36.432] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Dev退出了游戏
+[127月2026 12:23:36.448] [Server thread/INFO] [net.minecraft.server.network.ServerGamePacketListenerImpl/]: Stopping singleplayer server as player logged out
+[127月2026 12:23:36.481] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Stopping server
+[127月2026 12:23:36.481] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving players
+[127月2026 12:23:36.481] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving worlds
+[127月2026 12:23:36.587] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:overworld
+[127月2026 12:23:36.604] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_end
+[127月2026 12:23:36.605] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: Saving chunks for level 'ServerLevel[test]'/minecraft:the_nether
+[127月2026 12:23:36.628] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (test): All chunks are saved
+[127月2026 12:23:36.628] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM1): All chunks are saved
+[127月2026 12:23:36.628] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage (DIM-1): All chunks are saved
+[127月2026 12:23:36.628] [Server thread/INFO] [net.minecraft.server.MinecraftServer/]: ThreadedAnvilChunkStorage: All dimensions are saved
+[127月2026 12:23:39.044] [Render thread/INFO] [net.minecraft.client.Minecraft/]: Stopping!

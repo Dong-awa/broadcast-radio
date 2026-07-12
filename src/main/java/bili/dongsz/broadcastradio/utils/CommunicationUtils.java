@@ -1030,6 +1030,11 @@ public class CommunicationUtils {
                                         }
                                         displayMessage = applyInterference(displayMessage, totalInterference, level);
                                         sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
+                                        // 信号指示（无发送者实体信息 → 使用无线电实体位置处的简化强度）
+                                        if (target instanceof ServerPlayer serverPlayer) {
+                                            int strength = Math.max(0, 100 - totalInterference);
+                                            sendSignalIndicator(serverPlayer, strength, totalInterference);
+                                        }
                                         return true;
                                     }
                                 }
@@ -1050,6 +1055,11 @@ public class CommunicationUtils {
                                         }
                                         displayMessage = applyInterference(displayMessage, totalInterference, level);
                                         sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
+                                        // 信号指示
+                                        if (target instanceof ServerPlayer serverPlayer) {
+                                            int strength = Math.max(0, 100 - totalInterference);
+                                            sendSignalIndicator(serverPlayer, strength, totalInterference);
+                                        }
                                         return true;
                                     }
                                 }
@@ -1108,6 +1118,11 @@ public class CommunicationUtils {
                                         }
                                         displayMessage = applyInterference(displayMessage, totalInterference, level);
                                         sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
+                                        // 信号指示
+                                        if (target instanceof ServerPlayer serverPlayer && sender != null && target != sender) {
+                                            int strength = calculateSignalStrengthBlock(sender, checkPos, baseRange, level);
+                                            sendSignalIndicator(serverPlayer, strength, totalInterference);
+                                        }
                                         return true;
                                     }
                                 }
@@ -1128,6 +1143,11 @@ public class CommunicationUtils {
                                         }
                                         displayMessage = applyInterference(displayMessage, totalInterference, level);
                                         sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
+                                        // 信号指示
+                                        if (target instanceof ServerPlayer serverPlayer && sender != null && target != sender) {
+                                            int strength = calculateSignalStrengthBlock(sender, checkPos, baseRange, level);
+                                            sendSignalIndicator(serverPlayer, strength, totalInterference);
+                                        }
                                         return true;
                                     }
                                 }
@@ -1241,6 +1261,11 @@ public class CommunicationUtils {
                                         }
                                         displayMessage = applyInterference(displayMessage, totalInterference, level);
                                         sendHarmonicMessageToPlayer(target, senderName, radioFreq, displayMessage, harmonicOrder);
+                                        // 信号指示
+                                        if (target instanceof ServerPlayer serverPlayer && sender != null && target != sender) {
+                                            int strength = calculateSignalStrengthBlock(sender, checkPos, baseRange, level);
+                                            sendSignalIndicator(serverPlayer, strength, totalInterference);
+                                        }
                                     }
                                 }
                             }
@@ -1340,6 +1365,12 @@ public class CommunicationUtils {
 
         displayMessage = applyInterference(displayMessage, totalInterference, level);
 
+        // 显示信号指示（仅接收端显示，发送端不显示）
+        if (target != null && sender != null && target != sender) {
+            int strength = calculateSignalStrength(sender, target, baseRange, level);
+            sendSignalIndicator(target, strength, totalInterference);
+        }
+
         if (harmonicOrder <= 1) {
             sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
         } else {
@@ -1385,6 +1416,76 @@ public class CommunicationUtils {
         if (value < 0) return 0;
         if (value > 100) return 100;
         return value;
+    }
+
+    /**
+     * 根据发送者与接收者的距离、基础传播距离以及沿途吸收值，
+     * 计算信号强度 (0-100)。
+     */
+    public static int calculateSignalStrength(Entity sender, Entity target, double baseRange, Level level) {
+        if (sender == null || target == null || level == null || baseRange <= 0.0) return 0;
+
+        Vec3 senderEye = sender.position().add(0.0, EYE_HEIGHT_OFFSET, 0.0);
+        Vec3 targetEye = target.position().add(0.0, EYE_HEIGHT_OFFSET, 0.0);
+        double straightDistance = senderEye.distanceTo(targetEye);
+        if (straightDistance <= 0.0) return 100;
+
+        double totalAbsorption;
+        try {
+            totalAbsorption = calculateSignalAttenuation(level, senderEye, targetEye, baseRange);
+        } catch (Throwable ignored) {
+            totalAbsorption = 0.0;
+        }
+        if (totalAbsorption < 0.0) totalAbsorption = 0.0;
+
+        double maxEffectiveDistance = baseRange - totalAbsorption;
+        if (maxEffectiveDistance <= 0.0) return 0;
+
+        double rawStrength = (1.0 - straightDistance / maxEffectiveDistance) * 100.0;
+        int strength = (int) Math.round(rawStrength);
+        if (strength < 0) strength = 0;
+        if (strength > 100) strength = 100;
+        return strength;
+    }
+
+    // 发送者为方块位置（例如收音机）时的信号强度计算。
+
+    public static int calculateSignalStrengthBlock(Entity sender, BlockPos blockPos, double baseRange, Level level) {
+        if (sender == null || blockPos == null || level == null || baseRange <= 0.0) return 0;
+
+        Vec3 senderEye = sender.position().add(0.0, EYE_HEIGHT_OFFSET, 0.0);
+        Vec3 blockCenter = new Vec3(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
+        double straightDistance = senderEye.distanceTo(blockCenter);
+        if (straightDistance <= 0.0) return 100;
+
+        double totalAbsorption;
+        try {
+            totalAbsorption = calculateSignalAttenuation(level, senderEye, blockCenter, baseRange);
+        } catch (Throwable ignored) {
+            totalAbsorption = 0.0;
+        }
+        if (totalAbsorption < 0.0) totalAbsorption = 0.0;
+
+        double maxEffectiveDistance = baseRange - totalAbsorption;
+        if (maxEffectiveDistance <= 0.0) return 0;
+
+        double rawStrength = (1.0 - straightDistance / maxEffectiveDistance) * 100.0;
+        int strength = (int) Math.round(rawStrength);
+        if (strength < 0) strength = 0;
+        if (strength > 100) strength = 100;
+        return strength;
+    }
+
+
+     //向目标玩家发送信号指示包（仅在服务端可用时发送）
+
+    public static void sendSignalIndicator(ServerPlayer target, int signalStrength, int interference) {
+        if (target == null) return;
+        int s = Math.max(0, Math.min(100, signalStrength));
+        int i = Math.max(0, Math.min(100, interference));
+        bili.dongsz.broadcastradio.BroadcastRadio.NETWORK.send(
+                net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> target),
+                new bili.dongsz.broadcastradio.network.SignalStrengthIndicatorPacket(s, i));
     }
 
     public static int calculateCombinedInterference(Level level, BlockPos pos, float frequency, int extraBase) {

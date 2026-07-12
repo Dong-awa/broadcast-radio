@@ -11,37 +11,46 @@ import java.util.function.Supplier;
 public class ReceiveSMSPacket {
     private final UUID senderUUID;
     private final String message;
-    
+    private final int signalStrength;
+    private final int interference;
+
     public ReceiveSMSPacket(UUID senderUUID, String message) {
+        this(senderUUID, message, 100, 0);
+    }
+
+    public ReceiveSMSPacket(UUID senderUUID, String message, int signalStrength, int interference) {
         this.senderUUID = senderUUID;
         this.message = message;
+        this.signalStrength = signalStrength;
+        this.interference = interference;
     }
-    
+
     public ReceiveSMSPacket(FriendlyByteBuf buf) {
         this.senderUUID = buf.readUUID();
         this.message = buf.readUtf(100);
+        this.signalStrength = buf.readInt();
+        this.interference = buf.readInt();
     }
-    
+
     public void encode(FriendlyByteBuf buf) {
         buf.writeUUID(senderUUID);
         buf.writeUtf(message, 100);
+        buf.writeInt(signalStrength);
+        buf.writeInt(interference);
     }
-    
+
     public static ReceiveSMSPacket decode(FriendlyByteBuf buf) {
         return new ReceiveSMSPacket(buf);
     }
+
     public static void handle(ReceiveSMSPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            // 发送端已完成前置过滤，直接处理消息
-            if (net.minecraft.client.Minecraft.getInstance().player != null) {
-                // 获取当前网络频段延迟
+            if (Minecraft.getInstance().player != null) {
                 int delay = bili.dongsz.broadcastradio.utils.SMSDelayUtils.getPlayerCurrentNetworkDelay();
-                
-                // 获取发送者名称
+
                 final String senderName = getSenderName(packet.senderUUID);
                 final String finalMessage = packet.message;
-                
-                // 启动客户端定时器，延迟显示
+
                 new Thread(() -> {
                     try {
                         Thread.sleep(delay);
@@ -50,26 +59,28 @@ public class ReceiveSMSPacket {
                         return;
                     }
 
-                    net.minecraft.client.Minecraft.getInstance().execute(() -> {
+                    Minecraft.getInstance().execute(() -> {
                         // 显示短信
-                        net.minecraft.client.Minecraft.getInstance().player.sendSystemMessage(
-                            net.minecraft.network.chat.Component.translatable(
+                        Minecraft.getInstance().player.sendSystemMessage(
+                            Component.translatable(
                                 "item.broadcast_radio.radio_terminal.sms_received",
                                 senderName,
                                 finalMessage
                             )
                         );
+                        // 显示信号指示
+                        bili.dongsz.broadcastradio.client.SignalStrengthHUD.updateSignal(
+                            packet.signalStrength, packet.interference);
                     });
                 }).start();
             }
         });
         ctx.get().setPacketHandled(true);
     }
-    
-    //获取发送者名称
+
     private static String getSenderName(UUID senderUUID) {
-        if (net.minecraft.client.Minecraft.getInstance().level != null) {
-            var senderPlayer = net.minecraft.client.Minecraft.getInstance().level.getPlayerByUUID(senderUUID);
+        if (Minecraft.getInstance().level != null) {
+            var senderPlayer = Minecraft.getInstance().level.getPlayerByUUID(senderUUID);
             if (senderPlayer != null) {
                 return senderPlayer.getScoreboardName();
             }

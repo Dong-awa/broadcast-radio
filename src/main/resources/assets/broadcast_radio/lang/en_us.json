@@ -66,6 +66,8 @@
   "item.broadcast_radio.radio_terminal.sms_received": "[SMS] From %s: %s",
   "item.broadcast_radio.radio_terminal.sms_sending": "Sending...",
   "item.broadcast_radio.radio_terminal.sms_sent": "SMS sent to %s",
+  "item.broadcast_radio.radio_terminal.sms_failed_signal": "Signal cannot reach target",
+  "item.broadcast_radio.radio_terminal.sms_failed_offline": "Target player is offline",
   "item.broadcast_radio.radio_terminal.sms_title": "SMS",
   "item.broadcast_radio.radio_terminal.universal_card": "SIM Card",
   "item.broadcast_radio.radio_terminal.unknown_service": "Unknown Service",
@@ -108,6 +110,7 @@
   "item.broadcast_radio.walkie_talkie.increase_5": "+5",
   "item.broadcast_radio.walkie_talkie.input_hint": "Enter walkie-talkie message (sent to current frequency):",
   "item.broadcast_radio.walkie_talkie.message": "[FROM-%.1f MHz] %s: %s",
+  "item.broadcast_radio.harmonic.prefix": "[Harmonic %sx] ",
   "item.broadcast_radio.walkie_talkie.new_operate_hint": "Right Click: Send Message | Shift+Right Click: Open Frequency GUI",
   "item.broadcast_radio.walkie_talkie.no_power": "Portable Walkie-Talkie is out of power! Cannot use",
   "item.broadcast_radio.walkie_talkie.password": "Password",
@@ -130,5 +133,15 @@
   "block.broadcast_radio.simple_signal_jammer.limit_radius": "Limit Radius: %d blocks",
   "item.broadcast_radio.simple_signal_jammer": "Simple Signal Jammer",
   "item.broadcast_radio.simple_signal_jammer.desc": "Jams radio signals on a specific frequency. Effective radius 32 blocks, max 50 blocks.",
-  "itemGroup.broadcast_radio": "Broadcast Radio Mod"
+  "itemGroup.broadcast_radio": "Broadcast Radio Mod",
+  "broadcast_radio.signal.strength_high": "[Signal Strength %s%] ",
+  "broadcast_radio.signal.strength_mid_high": "[Signal Strength %s%] ",
+  "broadcast_radio.signal.strength_mid": "[Signal Strength %s%] ",
+  "broadcast_radio.signal.strength_mid_low": "[Signal Strength %s%] ",
+  "broadcast_radio.signal.strength_low": "[Signal Strength %s%] ",
+  "broadcast_radio.signal.quality_excellent": "[Signal Quality Excellent]",
+  "broadcast_radio.signal.quality_good": "[Signal Quality Good]",
+  "broadcast_radio.signal.quality_poor": "[Signal Quality Poor]",
+  "broadcast_radio.signal.quality_terrible": "[Signal Quality Terrible]",
+  "broadcast_radio.signal.quality_none": "[No Signal]"
 }
