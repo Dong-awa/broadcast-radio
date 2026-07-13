@@ -143,7 +143,5 @@
   "broadcast_radio.signal.quality_good": "[Signal Quality Good]",
   "broadcast_radio.signal.quality_poor": "[Signal Quality Poor]",
   "broadcast_radio.signal.quality_terrible": "[Signal Quality Terrible]",
-  "broadcast_radio.signal.quality_none": "[No Signal]",
-  "broadcast_radio.signal.hud_strength": "Signal",
-  "broadcast_radio.signal.hud_quality": "Quality"
+  "broadcast_radio.signal.quality_none": "[No Signal]"
 }

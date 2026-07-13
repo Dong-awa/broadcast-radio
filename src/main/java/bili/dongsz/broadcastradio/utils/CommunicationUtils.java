@@ -82,37 +82,6 @@ public class CommunicationUtils {
 
     private static final Map<Level, BlockPos> lastSuccessfulReflectionPos = new WeakHashMap<>();
 
-    /**
-     * 可达性检查结果。承载：是否到达、是否通过反射路径、
-     * 实际路径长度（直线距离 或 反射路径总长度）、有效传播距离。
-     */
-    public static class ReachabilityResult {
-        public final boolean reached;
-        public final boolean isReflection;
-        public final double pathLength;
-        public final double effectiveRange;
-
-        public ReachabilityResult(boolean reached, boolean isReflection,
-                                  double pathLength, double effectiveRange) {
-            this.reached = reached;
-            this.isReflection = isReflection;
-            this.pathLength = pathLength;
-            this.effectiveRange = effectiveRange;
-        }
-
-        public static ReachabilityResult straight(boolean reached, double straightDistance, double effectiveRange) {
-            return new ReachabilityResult(reached, false, straightDistance, effectiveRange);
-        }
-
-        public static ReachabilityResult reflected(double pathLength, double effectiveRange) {
-            return new ReachabilityResult(true, true, pathLength, effectiveRange);
-        }
-
-        public static ReachabilityResult none() {
-            return new ReachabilityResult(false, false, 0.0, 0.0);
-        }
-    }
-
     public static class ReflectedPathResult {
         public final boolean found;
         public final BlockPos reflectionPos;
@@ -761,11 +730,11 @@ public class CommunicationUtils {
         return bestResult;
     }
 
-    public static ReachabilityResult canSignalReachEyeWithReflection(Level level, Entity sender, Entity target, double baseRange,
-                                                                      String senderName, String targetName,
-                                                                      Player chatOutputTarget) {
-        if (sender == null || target == null) return ReachabilityResult.none();
-        if (sender.level() != target.level()) return ReachabilityResult.none();
+    public static boolean canSignalReachEyeWithReflection(Level level, Entity sender, Entity target, double baseRange,
+                                                          String senderName, String targetName,
+                                                          Player chatOutputTarget) {
+        if (sender == null || target == null) return false;
+        if (sender.level() != target.level()) return false;
 
         Vec3 senderEye = sender.position().add(0.0, EYE_HEIGHT_OFFSET, 0.0);
         Vec3 targetEye = target.position().add(0.0, EYE_HEIGHT_OFFSET, 0.0);
@@ -780,7 +749,7 @@ public class CommunicationUtils {
                 printAttenuationDebug(level, senderName, targetName, straightDistance, baseRange,
                         straightResult, straightEffective, true, "玩家→玩家 (直线)", chatOutputTarget);
             }
-            return ReachabilityResult.straight(true, straightDistance, straightEffective);
+            return true;
         }
 
         ReflectedPathResult reflectionResult = searchReflectionPath(level, senderEye, targetEye, baseRange, DEBUG_SIGNAL_ATTENUATION);
@@ -790,17 +759,13 @@ public class CommunicationUtils {
                     straightResult, reflectionResult, "玩家→玩家 (反射)", chatOutputTarget);
         }
 
-        if (reflectionResult != null && reflectionResult.found) {
-            return ReachabilityResult.reflected(reflectionResult.totalPathLength,
-                    reflectionResult.effectiveRangeAfterReflection);
-        }
-        return ReachabilityResult.none();
+        return reflectionResult.found;
     }
 
-    public static ReachabilityResult canSignalReachEyeWithReflection(Level level, Entity sender, BlockPos blockPos, double baseRange,
-                                                                      String senderName, String blockName,
-                                                                      Player chatOutputTarget) {
-        if (sender == null || blockPos == null) return ReachabilityResult.none();
+    public static boolean canSignalReachEyeWithReflection(Level level, Entity sender, BlockPos blockPos, double baseRange,
+                                                          String senderName, String blockName,
+                                                          Player chatOutputTarget) {
+        if (sender == null || blockPos == null) return false;
 
         Vec3 senderEye = sender.position().add(0.0, EYE_HEIGHT_OFFSET, 0.0);
         Vec3 blockCenter = new Vec3(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
@@ -815,7 +780,7 @@ public class CommunicationUtils {
                 printAttenuationDebug(level, senderName, blockName, straightDistance, baseRange,
                         straightResult, straightEffective, true, "玩家→收音机 (直线)", chatOutputTarget);
             }
-            return ReachabilityResult.straight(true, straightDistance, straightEffective);
+            return true;
         }
 
         ReflectedPathResult reflectionResult = searchReflectionPath(level, senderEye, blockCenter, baseRange, DEBUG_SIGNAL_ATTENUATION);
@@ -825,11 +790,7 @@ public class CommunicationUtils {
                     straightResult, reflectionResult, "玩家→收音机 (反射)", chatOutputTarget);
         }
 
-        if (reflectionResult != null && reflectionResult.found) {
-            return ReachabilityResult.reflected(reflectionResult.totalPathLength,
-                    reflectionResult.effectiveRangeAfterReflection);
-        }
-        return ReachabilityResult.none();
+        return reflectionResult.found;
     }
 
     private static void printReflectionDebug(Level level, String senderName, String targetName,
@@ -1134,10 +1095,9 @@ public class CommunicationUtils {
                     BlockState blockState = level.getBlockState(checkPos);
                     if (!blockState.isAir()) {
                         if (blockState.getBlock() instanceof bili.dongsz.broadcastradio.block.SimpleRadioBlock) {
-                            ReachabilityResult reach = canSignalReachEyeWithReflection(level, sender, checkPos, baseRange,
+                            if (!canSignalReachEyeWithReflection(level, sender, checkPos, baseRange,
                                     senderName, "收音机@(" + checkPos.getX() + "," + checkPos.getY() + "," + checkPos.getZ() + ")",
-                                    chatOutputTarget);
-                            if (!reach.reached) continue;
+                                    chatOutputTarget)) continue;
 
                             BlockEntity blockEntity = level.getBlockEntity(checkPos);
                             if (blockEntity instanceof SimpleRadioBlockEntity radioEntity) {
@@ -1158,9 +1118,9 @@ public class CommunicationUtils {
                                         }
                                         displayMessage = applyInterference(displayMessage, totalInterference, level);
                                         sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
-                                        // 信号指示（使用可达性检查的实际路径数据）
+                                        // 信号指示
                                         if (target instanceof ServerPlayer serverPlayer && sender != null && target != sender) {
-                                            int strength = calculateSignalStrengthFromPath(reach);
+                                            int strength = calculateSignalStrengthBlock(sender, checkPos, baseRange, level);
                                             sendSignalIndicator(serverPlayer, strength, totalInterference);
                                         }
                                         return true;
@@ -1183,9 +1143,9 @@ public class CommunicationUtils {
                                         }
                                         displayMessage = applyInterference(displayMessage, totalInterference, level);
                                         sendMessageToPlayer(target, senderName, senderFreq, displayMessage);
-                                        // 信号指示（使用可达性检查的实际路径数据）
+                                        // 信号指示
                                         if (target instanceof ServerPlayer serverPlayer && sender != null && target != sender) {
-                                            int strength = calculateSignalStrengthFromPath(reach);
+                                            int strength = calculateSignalStrengthBlock(sender, checkPos, baseRange, level);
                                             sendSignalIndicator(serverPlayer, strength, totalInterference);
                                         }
                                         return true;
@@ -1204,8 +1164,8 @@ public class CommunicationUtils {
     public static void sendMessageToPlayer(Player player, String senderName, float frequency, String message) {
         Component radioMessage = Component.translatable(
                 "item.broadcast_radio.walkie_talkie.message",
-                String.format("%.1f", frequency),
                 senderName,
+                String.format("%.1f", frequency),
                 message
         ).withStyle(net.minecraft.ChatFormatting.LIGHT_PURPLE);
         player.sendSystemMessage(radioMessage);
@@ -1236,8 +1196,8 @@ public class CommunicationUtils {
         Component combinedMessage = prefixComponent.copy().append(messageComponent);
         Component radioMessage = Component.translatable(
                 "item.broadcast_radio.walkie_talkie.message",
-                String.format("%.1f", frequency),
                 senderName,
+                String.format("%.1f", frequency),
                 combinedMessage
         ).withStyle(net.minecraft.ChatFormatting.GRAY);
         player.sendSystemMessage(radioMessage);
@@ -1279,10 +1239,9 @@ public class CommunicationUtils {
                     BlockState blockState = level.getBlockState(checkPos);
                     if (!blockState.isAir()) {
                         if (blockState.getBlock() instanceof bili.dongsz.broadcastradio.block.SimpleRadioBlock) {
-                            ReachabilityResult reach = canSignalReachEyeWithReflection(level, sender, checkPos, baseRange,
+                            if (!canSignalReachEyeWithReflection(level, sender, checkPos, baseRange,
                                     senderName, "收音机@(" + checkPos.getX() + "," + checkPos.getY() + "," + checkPos.getZ() + ")",
-                                    chatOutputTarget);
-                            if (!reach.reached) continue;
+                                    chatOutputTarget)) continue;
 
                             BlockEntity blockEntity = level.getBlockEntity(checkPos);
                             if (blockEntity instanceof SimpleRadioBlockEntity radioEntity) {
@@ -1302,9 +1261,9 @@ public class CommunicationUtils {
                                         }
                                         displayMessage = applyInterference(displayMessage, totalInterference, level);
                                         sendHarmonicMessageToPlayer(target, senderName, radioFreq, displayMessage, harmonicOrder);
-                                        // 信号指示（使用可达性检查的实际路径数据）
+                                        // 信号指示
                                         if (target instanceof ServerPlayer serverPlayer && sender != null && target != sender) {
-                                            int strength = calculateSignalStrengthFromPath(reach);
+                                            int strength = calculateSignalStrengthBlock(sender, checkPos, baseRange, level);
                                             sendSignalIndicator(serverPlayer, strength, totalInterference);
                                         }
                                     }
@@ -1408,22 +1367,7 @@ public class CommunicationUtils {
 
         // 显示信号指示（仅接收端显示，发送端不显示）
         if (target != null && sender != null && target != sender) {
-            // 先尝试通过反射/直线的完整可达性检查（能提供更精确的路径数据）
-            ReachabilityResult reach = canSignalReachEyeWithReflection(level, sender, target, baseRange,
-                    senderName, target.getScoreboardName(), null);
-            int strength;
-            if (reach.reached) {
-                strength = calculateSignalStrengthFromPath(reach);
-            } else {
-                // 回退：保持旧行为（某些场景下消息仍然到达）
-                strength = calculateSignalStrength(sender, target, baseRange, level);
-            }
-            BroadcastRadio.LOGGER.info(
-                "[CommunicationUtils] checkAnyWalkieTalkieFrequency: 玩家 {} 接收消息 - 发送者={}, 频率={}, 路径类型={}, 路径长度={:.2f}, 有效距离={:.2f}, strength={}, interference={}",
-                target.getScoreboardName(), sender.getName().getString(), String.format("%.1f", senderFreq),
-                reach.reached ? (reach.isReflection ? "反射" : "直线") : "未检测",
-                reach.pathLength, reach.effectiveRange, strength, totalInterference
-            );
+            int strength = calculateSignalStrength(sender, target, baseRange, level);
             sendSignalIndicator(target, strength, totalInterference);
         }
 
@@ -1479,14 +1423,7 @@ public class CommunicationUtils {
      * 计算信号强度 (0-100)。
      */
     public static int calculateSignalStrength(Entity sender, Entity target, double baseRange, Level level) {
-        if (sender == null || target == null || level == null || baseRange <= 0.0) {
-            BroadcastRadio.LOGGER.warn("[CommunicationUtils] calculateSignalStrength: 参数无效 - sender={}, target={}, level={}, baseRange={}",
-                sender == null ? "null" : sender.getName().getString(),
-                target == null ? "null" : target.getName().getString(),
-                level == null ? "null" : level.dimension().location(),
-                baseRange);
-            return 0;
-        }
+        if (sender == null || target == null || level == null || baseRange <= 0.0) return 0;
 
         Vec3 senderEye = sender.position().add(0.0, EYE_HEIGHT_OFFSET, 0.0);
         Vec3 targetEye = target.position().add(0.0, EYE_HEIGHT_OFFSET, 0.0);
@@ -1508,44 +1445,6 @@ public class CommunicationUtils {
         int strength = (int) Math.round(rawStrength);
         if (strength < 0) strength = 0;
         if (strength > 100) strength = 100;
-
-        BroadcastRadio.LOGGER.debug(
-            "[CommunicationUtils] calculateSignalStrength: 距离={} 吸收={} 有效距离={} 强度={}",
-            String.format("%.1f", straightDistance),
-            String.format("%.1f", totalAbsorption),
-            String.format("%.1f", maxEffectiveDistance),
-            strength
-        );
-
-        return strength;
-    }
-
-    /**
-     * 根据 ReachabilityResult（承载实际路径长度和有效传播距离）计算信号强度 (0-100)。
-     * 直线到达时使用直线距离/直线有效距离，反射到达时使用 反射路径总长度/反射有效距离。
-     */
-    public static int calculateSignalStrengthFromPath(ReachabilityResult result) {
-        if (result == null || !result.reached) return 0;
-
-        double pathLength = result.pathLength;
-        double effectiveRange = result.effectiveRange;
-
-        if (pathLength <= 0.0) return 100;
-        if (effectiveRange <= 0.0) return 0;
-
-        double rawStrength = (1.0 - pathLength / effectiveRange) * 100.0;
-        int strength = (int) Math.round(rawStrength);
-        if (strength < 0) strength = 0;
-        if (strength > 100) strength = 100;
-
-        BroadcastRadio.LOGGER.debug(
-            "[CommunicationUtils] calculateSignalStrengthFromPath: 路径类型={} 路径长度={} 有效距离={} 强度={}",
-            result.isReflection ? "反射" : "直线",
-            String.format("%.1f", pathLength),
-            String.format("%.1f", effectiveRange),
-            strength
-        );
-
         return strength;
     }
 
@@ -1578,19 +1477,12 @@ public class CommunicationUtils {
     }
 
 
-     //向目标玩家发送信号指示包
+     //向目标玩家发送信号指示包（仅在服务端可用时发送）
 
     public static void sendSignalIndicator(ServerPlayer target, int signalStrength, int interference) {
-        if (target == null) {
-            BroadcastRadio.LOGGER.warn("[CommunicationUtils] sendSignalIndicator: 目标玩家为 null，跳过发送");
-            return;
-        }
+        if (target == null) return;
         int s = Math.max(0, Math.min(100, signalStrength));
         int i = Math.max(0, Math.min(100, interference));
-        BroadcastRadio.LOGGER.info(
-            "[CommunicationUtils] 发送信号指示包给玩家 {}: strength={}, interference={}",
-            target.getScoreboardName(), s, i
-        );
         bili.dongsz.broadcastradio.BroadcastRadio.NETWORK.send(
                 net.minecraftforge.network.PacketDistributor.PLAYER.with(() -> target),
                 new bili.dongsz.broadcastradio.network.SignalStrengthIndicatorPacket(s, i));

@@ -1,6 +1,5 @@
 package bili.dongsz.broadcastradio.network;
 
-import bili.dongsz.broadcastradio.BroadcastRadio;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
@@ -48,11 +47,6 @@ public class ReceiveSMSPacket {
         ctx.get().enqueueWork(() -> {
             if (Minecraft.getInstance().player != null) {
                 int delay = bili.dongsz.broadcastradio.utils.SMSDelayUtils.getPlayerCurrentNetworkDelay();
-                BroadcastRadio.LOGGER.info(
-                    "[ReceiveSMSPacket] 客户端收到SMS: 发送者UUID={}, 消息长度={}, 信号强度={}, 干扰={}, 网络延迟={}ms",
-                    packet.senderUUID, packet.message == null ? "null" : packet.message.length(),
-                    packet.signalStrength, packet.interference, delay
-                );
 
                 final String senderName = getSenderName(packet.senderUUID);
                 final String finalMessage = packet.message;
@@ -75,16 +69,10 @@ public class ReceiveSMSPacket {
                             )
                         );
                         // 显示信号指示
-                        BroadcastRadio.LOGGER.info(
-                            "[ReceiveSMSPacket] 客户端触发HUD显示: strength={}, interference={}",
-                            packet.signalStrength, packet.interference
-                        );
                         bili.dongsz.broadcastradio.client.SignalStrengthHUD.updateSignal(
                             packet.signalStrength, packet.interference);
                     });
                 }).start();
-            } else {
-                BroadcastRadio.LOGGER.warn("[ReceiveSMSPacket] 客户端玩家为null，无法处理SMS");
             }
         });
         ctx.get().setPacketHandled(true);

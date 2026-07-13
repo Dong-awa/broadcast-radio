@@ -67,17 +67,7 @@ public class SendSMSPacket {
                     int totalInterference = bili.dongsz.broadcastradio.utils.CommunicationUtils.clampInterference(
                             Math.max(jammerAtReceiver, weatherAtReceiver));
 
-                    BroadcastRadio.LOGGER.info(
-                        "[SendSMSPacket] SMS处理: 发送者={}, 接收者={}, 信号强度={}, 干扰值={} (天气={}, 干扰器={})",
-                        sender.getScoreboardName(), receiver.getScoreboardName(),
-                        signalStrength, totalInterference, weatherAtReceiver, jammerAtReceiver
-                    );
-
                     if (signalStrength <= 0 || totalInterference >= 100) {
-                        BroadcastRadio.LOGGER.info(
-                            "[SendSMSPacket] SMS被阻止: 信号强度过低或干扰过高 - strength={}, interference={}",
-                            signalStrength, totalInterference
-                        );
                         sender.sendSystemMessage(
                             net.minecraft.network.chat.Component.translatable(
                                 "item.broadcast_radio.radio_terminal.sms_failed",
@@ -100,10 +90,6 @@ public class SendSMSPacket {
                         )
                     );
                 } else {
-                    BroadcastRadio.LOGGER.warn(
-                        "[SendSMSPacket] SMS处理: 目标玩家 {} 不存在 (UUID: {})",
-                        packet.getTargetPlayerUUID(), packet.getTargetPlayerUUID()
-                    );
                     sender.sendSystemMessage(
                         net.minecraft.network.chat.Component.translatable(
                             "item.broadcast_radio.radio_terminal.sms_failed",
@@ -112,8 +98,6 @@ public class SendSMSPacket {
                         )
                     );
                 }
-            } else {
-                BroadcastRadio.LOGGER.warn("[SendSMSPacket] SMS处理: 发送者为null");
             }
         });
         ctx.get().setPacketHandled(true);

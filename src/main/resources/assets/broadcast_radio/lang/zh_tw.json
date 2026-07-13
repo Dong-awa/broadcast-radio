@@ -126,7 +126,5 @@
   "broadcast_radio.signal.quality_good": "[訊號品質 良]",
   "broadcast_radio.signal.quality_poor": "[訊號品質 差]",
   "broadcast_radio.signal.quality_terrible": "[訊號品質 極差]",
-  "broadcast_radio.signal.quality_none": "[信号质量 信号丢失]",
-  "broadcast_radio.signal.hud_strength": "信号",
-  "broadcast_radio.signal.hud_quality": "质量"
+  "broadcast_radio.signal.quality_none": "[無訊號]"
 }
