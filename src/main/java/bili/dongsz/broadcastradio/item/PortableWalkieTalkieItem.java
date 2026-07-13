@@ -335,7 +335,7 @@ public class PortableWalkieTalkieItem extends Item {
 
                 // ---------- 主频率检查 ----------
                 if (CommunicationUtils.canSignalReachEyeWithReflection(sender.level(), sender, target, COMMUNICATION_RANGE,
-                        sender.getName().getString(), target.getName().getString(), sender)) {
+                        sender.getName().getString(), target.getName().getString(), sender).reached) {
                     if (target != sender) {
                         CommunicationUtils.checkPlayerAnyWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender.level(), 1, sender, COMMUNICATION_RANGE, false);
                     }
@@ -349,7 +349,7 @@ public class PortableWalkieTalkieItem extends Item {
                         double harmonicRange = CommunicationUtils.getHarmonicRange(COMMUNICATION_RANGE, n);
 
                         if (!CommunicationUtils.canSignalReachEyeWithReflection(sender.level(), sender, target, harmonicRange,
-                                sender.getName().getString(), target.getName().getString(), sender)) {
+                                sender.getName().getString(), target.getName().getString(), sender).reached) {
                             continue;
                         }
 

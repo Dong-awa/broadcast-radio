@@ -33,7 +33,7 @@ public class ReflectionManager {
     private static int numRadialDirections = 12;
 
     private static boolean enableHarmonic = true;
-    private static int maxHarmonicOrder = 4;
+    private static int maxHarmonicOrder = 3;
 
     private static boolean initialized = false;
 
@@ -46,7 +46,7 @@ public class ReflectionManager {
         angleStepDegrees = 30;
         numRadialDirections = 12;
         enableHarmonic = true;
-        maxHarmonicOrder = 4;
+        maxHarmonicOrder = 3;
 
         ResourceManager resourceManager = resolveResourceManager(resourceSource);
         if (resourceManager == null) {
