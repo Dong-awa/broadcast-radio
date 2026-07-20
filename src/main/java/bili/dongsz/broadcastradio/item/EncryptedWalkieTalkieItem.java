@@ -304,24 +304,21 @@ public class EncryptedWalkieTalkieItem extends Item {
             for (ServerPlayer target : sender.getServer().getPlayerList().getPlayers()) {
                 if (target instanceof FakePlayer) continue;
 
-                // ---------- 主频率检查 ----------
                 if (CommunicationUtils.canSignalReachEyeWithReflection(sender.level(), sender, target, COMMUNICATION_RANGE,
-                        sender.getName().getString(), target.getName().getString(), sender).reached) {
+                        sender.getName().getString(), target.getName().getString(), sender)) {
                     if (target != sender) {
                         CommunicationUtils.checkPlayerAnyWalkieTalkie(target, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender.level(), 1, sender, COMMUNICATION_RANGE, true);
                     }
 
                     CommunicationUtils.checkPlayerNearRadio(target, sender, COMMUNICATION_RANGE, sender.getName().getString(), senderFreq, senderPwd, messageContent, senderEffectiveInterference, sender);
                 }
-
-                // ---------- 谐波检查 ----------
                 if (harmonicEnabled) {
                     for (int n = 2; n <= maxOrder; n++) {
                         float harmonicFreq = CommunicationUtils.getHarmonicFrequency(senderFreq, n);
                         double harmonicRange = CommunicationUtils.getHarmonicRange(COMMUNICATION_RANGE, n);
 
                         if (!CommunicationUtils.canSignalReachEyeWithReflection(sender.level(), sender, target, harmonicRange,
-                                sender.getName().getString(), target.getName().getString(), sender).reached) {
+                                sender.getName().getString(), target.getName().getString(), sender)) {
                             continue;
                         }
 

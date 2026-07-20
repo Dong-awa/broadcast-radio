@@ -2,15 +2,13 @@ package bili.dongsz.broadcastradio.network;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.fml.DistExecutor;
 
 import java.util.function.Supplier;
 
-/**
- * Server -> Client packet to update the client's cached per-player service flag
- */
 public class UpdateClientServiceFlagPacket {
-	private final boolean present; // whether override exists
-	private final boolean flag;    // the override value if present
+	private final boolean present;
+	private final boolean flag;
 
 	public UpdateClientServiceFlagPacket(boolean present, boolean flag) {
 		this.present = present;
@@ -33,23 +31,10 @@ public class UpdateClientServiceFlagPacket {
 
 	public static void handle(UpdateClientServiceFlagPacket packet, Supplier<NetworkEvent.Context> ctx) {
 		ctx.get().enqueueWork(() -> {
-			try {
-				// Ensure we execute on client main thread
-				net.minecraft.client.Minecraft.getInstance().execute(() -> {
-					if (net.minecraft.client.Minecraft.getInstance().player != null) {
-						net.minecraft.nbt.CompoundTag pdata = net.minecraft.client.Minecraft.getInstance().player.getPersistentData();
-						if (packet.present) {
-							pdata.putBoolean("BroadcastRadioForceValidService", packet.flag);
-						} else {
-							pdata.remove("BroadcastRadioForceValidService");
-						}
-					}
-				});
-			} catch (Exception ignored) {
-			}
+			DistExecutor.runWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+				bili.dongsz.broadcastradio.client.ClientProxy.updateClientServiceFlag(packet.present, packet.flag);
+			});
 		});
 		ctx.get().setPacketHandled(true);
 	}
 }
-
-

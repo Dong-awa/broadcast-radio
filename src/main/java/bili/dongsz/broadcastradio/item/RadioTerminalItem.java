@@ -1,10 +1,7 @@
 package bili.dongsz.broadcastradio.item;
 
 import bili.dongsz.broadcastradio.menu.RadioTerminalMenu;
-import bili.dongsz.broadcastradio.menu.RadioTerminalQuickMenu;
-import bili.dongsz.broadcastradio.screen.RadioTerminalQuickScreen;
 import bili.dongsz.broadcastradio.utils.SignalSearchManager;
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
@@ -20,15 +17,15 @@ import bili.dongsz.broadcastradio.block.entity.RadioBaseStationBlockEntity;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.ChatFormatting;
 import net.minecraft.server.level.ServerPlayer;
-
+import net.minecraftforge.fml.DistExecutor;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class RadioTerminalItem extends Item {
     public static final String TAG_BATTERY = "Battery";
     public static final String TAG_SIM_CARD = "SimCard";
     public static final String TAG_LAST_CONSUME_TIME = "LastConsumeTime";
-    public static final int STANDBY_CONSUME_INTERVAL = 60; // 60秒
-    public static final int STANDBY_CONSUME_AMOUNT = 1; // 每次消耗1点电量
+    public static final int STANDBY_CONSUME_INTERVAL = 60;
+    public static final int STANDBY_CONSUME_AMOUNT = 1;
 
     public RadioTerminalItem(Properties pProperties) {
         super(pProperties);
@@ -62,7 +59,6 @@ public class RadioTerminalItem extends Item {
             return InteractionResultHolder.fail(stack);
         }
 
-        // 对讲机的电池消耗
         CompoundTag tag = stack.getOrCreateTag();
         long currentTime = level.getGameTime();
         long lastConsumeTime = tag.getLong(TAG_LAST_CONSUME_TIME);
@@ -78,7 +74,9 @@ public class RadioTerminalItem extends Item {
             if (!searchManager.isRunning()) {
                 searchManager.startSignalSearch();
             }
-            Minecraft.getInstance().setScreen(new RadioTerminalQuickScreen());
+            DistExecutor.runWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+                bili.dongsz.broadcastradio.client.ClientProxy.openRadioTerminalQuickScreen();
+            });
         }
         return InteractionResultHolder.success(stack);
     }
@@ -101,9 +99,6 @@ public class RadioTerminalItem extends Item {
             return 0;
         }
         CompoundTag tag = terminalStack.getTag();
-        if (tag == null) {
-            return 0;
-        }
         CompoundTag batteryTag = tag.getCompound(TAG_BATTERY);
         ItemStack battery = ItemStack.of(batteryTag);
         if (!battery.isEmpty() && battery.getItem() instanceof RadioBatteryItem) {
@@ -136,7 +131,6 @@ public class RadioTerminalItem extends Item {
         long currentTime = player.level().getGameTime();
         long lastConsumeTime = tag.getLong(TAG_LAST_CONSUME_TIME);
         
-        // -1/60s
         if (currentTime - lastConsumeTime >= STANDBY_CONSUME_INTERVAL * 20) {
             consumeBattery(terminalStack, player);
             tag.putLong(TAG_LAST_CONSUME_TIME, currentTime);
@@ -153,7 +147,6 @@ public class RadioTerminalItem extends Item {
         long currentTime = player.level().getGameTime();
         long lastConsumeTime = tag.getLong(TAG_LAST_CONSUME_TIME);
         
-        // -1/60s
         if (currentTime - lastConsumeTime >= STANDBY_CONSUME_INTERVAL * 20) {
             consumeBattery(terminalStack, player);
             tag.putLong(TAG_LAST_CONSUME_TIME, currentTime);
@@ -171,8 +164,8 @@ public class RadioTerminalItem extends Item {
             RadioTerminalMenu menu = (RadioTerminalMenu) player.containerMenu;
             batteryStack = menu.getBattery();
         } else {
-            CompoundTag tag = terminalStack.getOrCreateTag();
-            if (tag.contains(TAG_BATTERY)) {
+            CompoundTag tag = terminalStack.getTag();
+            if (tag != null && tag.contains(TAG_BATTERY)) {
                 CompoundTag batteryTag = tag.getCompound(TAG_BATTERY);
                 batteryStack = ItemStack.of(batteryTag);
             }
@@ -198,13 +191,13 @@ public class RadioTerminalItem extends Item {
                     RadioTerminalMenu menu = (RadioTerminalMenu) player.containerMenu;
                     menu.getBattery().shrink(1);
                 } else {
-                    CompoundTag tag = terminalStack.getOrCreateTag();
+                    CompoundTag tag = terminalStack.getTag();
                     tag.remove(TAG_BATTERY);
                     terminalStack.setTag(tag);
                 }
             } else {
                 if (!(player.containerMenu instanceof RadioTerminalMenu)) {
-                    CompoundTag tag = terminalStack.getOrCreateTag();
+                    CompoundTag tag = terminalStack.getTag();
                     CompoundTag batteryTag = new CompoundTag();
                     batteryStack.save(batteryTag);
                     tag.put(TAG_BATTERY, batteryTag);

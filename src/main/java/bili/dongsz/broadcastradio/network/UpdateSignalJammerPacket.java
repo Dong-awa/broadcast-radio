@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.fml.DistExecutor;
 
 import java.util.function.Supplier;
 
@@ -47,13 +48,9 @@ public class UpdateSignalJammerPacket {
                     }
                 }
             } else {
-                var level = net.minecraft.client.Minecraft.getInstance().level;
-                if (level != null && level.isLoaded(packet.pos)) {
-                    var blockEntity = level.getBlockEntity(packet.pos);
-                    if (blockEntity instanceof SimpleSignalJammerBlockEntity jammerEntity) {
-                        jammerEntity.setFrequency(packet.frequency);
-                    }
-                }
+                DistExecutor.runWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+                    bili.dongsz.broadcastradio.client.ClientProxy.updateSignalJammerFrequency(packet.pos, packet.frequency);
+                });
             }
         });
         context.setPacketHandled(true);

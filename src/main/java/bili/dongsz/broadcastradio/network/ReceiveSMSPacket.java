@@ -1,9 +1,9 @@
 package bili.dongsz.broadcastradio.network;
 
-import net.minecraft.client.Minecraft;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.network.NetworkEvent;
+import net.minecraftforge.fml.DistExecutor;
 
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -45,46 +45,50 @@ public class ReceiveSMSPacket {
 
     public static void handle(ReceiveSMSPacket packet, Supplier<NetworkEvent.Context> ctx) {
         ctx.get().enqueueWork(() -> {
-            if (Minecraft.getInstance().player != null) {
-                int delay = bili.dongsz.broadcastradio.utils.SMSDelayUtils.getPlayerCurrentNetworkDelay();
+            DistExecutor.runWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+                net.minecraft.client.Minecraft minecraft = net.minecraft.client.Minecraft.getInstance();
+                if (minecraft.player != null) {
+                    int delay = bili.dongsz.broadcastradio.utils.SMSDelayUtils.getPlayerCurrentNetworkDelay();
+                    final String senderName = getSenderName(packet.senderUUID);
+                    final String finalMessage = packet.message;
 
-                final String senderName = getSenderName(packet.senderUUID);
-                final String finalMessage = packet.message;
+                    new Thread(() -> {
+                        try {
+                            Thread.sleep(delay);
+                        } catch (InterruptedException e) {
+                            Thread.currentThread().interrupt();
+                            return;
+                        }
 
-                new Thread(() -> {
-                    try {
-                        Thread.sleep(delay);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                        return;
-                    }
-
-                    Minecraft.getInstance().execute(() -> {
-                        // 显示短信
-                        Minecraft.getInstance().player.sendSystemMessage(
-                            Component.translatable(
-                                "item.broadcast_radio.radio_terminal.sms_received",
-                                senderName,
-                                finalMessage
-                            )
-                        );
-                        // 显示信号指示
-                        bili.dongsz.broadcastradio.client.SignalStrengthHUD.updateSignal(
-                            packet.signalStrength, packet.interference);
-                    });
-                }).start();
-            }
+                        minecraft.execute(() -> {
+                            minecraft.player.sendSystemMessage(
+                                Component.translatable(
+                                    "item.broadcast_radio.radio_terminal.sms_received",
+                                    senderName,
+                                    finalMessage
+                                )
+                            );
+                            bili.dongsz.broadcastradio.client.SignalStrengthHUD.updateSignal(
+                                packet.signalStrength, packet.interference);
+                        });
+                    }).start();
+                }
+            });
         });
         ctx.get().setPacketHandled(true);
     }
 
     private static String getSenderName(UUID senderUUID) {
-        if (Minecraft.getInstance().level != null) {
-            var senderPlayer = Minecraft.getInstance().level.getPlayerByUUID(senderUUID);
-            if (senderPlayer != null) {
-                return senderPlayer.getScoreboardName();
+        final String[] result = {"未知玩家"};
+        DistExecutor.unsafeRunWhenOn(net.minecraftforge.api.distmarker.Dist.CLIENT, () -> () -> {
+            net.minecraft.client.Minecraft minecraft = net.minecraft.client.Minecraft.getInstance();
+            if (minecraft.level != null) {
+                var senderPlayer = minecraft.level.getPlayerByUUID(senderUUID);
+                if (senderPlayer != null) {
+                    result[0] = senderPlayer.getScoreboardName();
+                }
             }
-        }
-        return "未知玩家";
+        });
+        return result[0];
     }
 }
