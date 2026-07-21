@@ -5,7 +5,7 @@ showAsResourcePack=false
 
 [[mods]]
 modId="broadcast_radio"
-version="0.2.2"
+version="0.2.4"
 displayName="Broadcast Radio Mod"
 authors="Dong_awa, ChiTou_TW, MOrangeSAMA"
 description='''

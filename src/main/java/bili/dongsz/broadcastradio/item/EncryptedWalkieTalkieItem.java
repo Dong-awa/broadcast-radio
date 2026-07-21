@@ -4,9 +4,9 @@ import bili.dongsz.broadcastradio.BroadcastRadio;
 import bili.dongsz.broadcastradio.menu.EncryptedWalkieTalkieMenu;
 import bili.dongsz.broadcastradio.registry.ModMenus;
 import bili.dongsz.broadcastradio.utils.CommunicationUtils;
-import com.mojang.blaze3d.platform.InputConstants;
+
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
+
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.server.level.ServerPlayer;
